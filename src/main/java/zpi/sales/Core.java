@@ -15,13 +15,21 @@ public class Core {
 			config.addStaticFiles("/public/index.html");
 		}).start(7777);
 		
-		app.post("/choose-state", ctx -> {
-			reservations.put(ctx.formParam("state"), ctx.formParam("category"));
-			ctx.html("You've choosen the state");
-		});
-
-		app.get("/check-taxes", ctx -> {
-			ctx.html(reservations.get(ctx.queryParam("state")));
+		app.get("/compute-taxes", ctx -> {
+			double amount = Double.parseDouble(ctx.queryParam("amount"));
+			String state = ctx.queryParam("state");
+			String category = ctx.queryParam("category");
+			double taxRate = 0;
+			switch (category){
+				case "Groceries":
+					taxRate = 15;
+					break;
+				case "Clothing":
+					taxRate = 10;
+					break;
+			}
+			
+			ctx.html(String.valueOf(amount + amount * taxRate));
 		});
 	}
 }
