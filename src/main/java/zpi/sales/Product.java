@@ -11,9 +11,10 @@ public class Product {
 		this.name = name;
 	}
 	
-	public Product(String name, double basePrice) {
+	public Product(String name, double basePrice, Category category) {
 		this.name = name;
 		this.basePrice = basePrice;
+		this.category = category;
 	}
 	
 	public double getBasePrice() {
