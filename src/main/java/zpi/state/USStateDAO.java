@@ -1,9 +1,11 @@
 package zpi.state;
 
+import zpi.product.Product;
 import zpi.sales.Category;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class USStateDAO {
 	private static final USStateDAO INSTANCE = new USStateDAO();
@@ -30,5 +32,11 @@ public class USStateDAO {
 	
 	public List<USState> getStates() {
 		return states;
+	}
+	
+	public Optional<USState> getUSStateByName(String name){
+		return states.stream()
+				.filter(e -> e.getName().equals(name))
+				.findAny();
 	}
 }
