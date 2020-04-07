@@ -1,4 +1,6 @@
-package zpi.sales;
+package zpi.product;
+
+import zpi.sales.Category;
 
 import java.util.Objects;
 
