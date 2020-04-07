@@ -36,4 +36,8 @@ public class USState {
 
 		return ratio * basePrice + basePrice;
 	}
+	
+	public String getName() {
+		return name;
+	}
 }

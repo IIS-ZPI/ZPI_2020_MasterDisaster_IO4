@@ -47,4 +47,8 @@ public class Product {
 	public int hashCode() {
 		return Objects.hash(name, getBasePrice(), getCategory());
 	}
+	
+	public String getName(){
+		return this.name;
+	}
 }
