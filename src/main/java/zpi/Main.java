@@ -13,5 +13,6 @@ public class Main {
 		
 		app.get(Paths.Web.INDEX, MainPageController.mainPage);
 		app.get(Paths.Web.SIMPLE_TAX, ComputeTaxController.computeTax);
+		
 	}
 }

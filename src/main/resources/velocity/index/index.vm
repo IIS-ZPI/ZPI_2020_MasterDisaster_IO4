@@ -8,7 +8,7 @@
     #end
     </select>
     Choose product
-    <select name="state">
+    <select name="product">
     #foreach($product in $products)
             <option value="$product.getName()">$product.getName()</option>
     #end
