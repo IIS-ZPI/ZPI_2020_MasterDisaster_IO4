@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class USState {
-	class NotFoundTaxForThisCategory extends Exception{}
+	public class NotFoundTaxForThisCategory extends Exception{}
 	
 	private String name;
-	private HashMap<Category, Double> taxForCategoryMap;
+	private HashMap<Category, Double> taxForCategoryMap = new HashMap<>();
 	
 	
 	public USState(String name) {
@@ -28,7 +28,12 @@ public class USState {
 			throw new NotFoundTaxForThisCategory();
 		}
 		Double ratio = this.taxForCategoryMap.get(product.getCategory());
-		
-		return ratio * product.getBasePrice() + product.getBasePrice();
+		Double basePrice = product.getBasePrice();
+
+		if(basePrice < 0.0 || ratio < 0.0){
+			throw new IllegalArgumentException("Base price and tax value should be positive.");
+		}
+
+		return ratio * basePrice + basePrice;
 	}
 }
