@@ -2,13 +2,13 @@
 #@mainLayout()
 <form method="get" action="/compute-tax">
     Choose state
-    <select name="state">
+    <select name="state" class="select-css">
     #foreach($states in $states)
         <option value="$states.getName()">$states.getName()</option>
     #end
     </select>
     Choose product
-    <select name="product">
+    <select name="product" class="select-css">
     #foreach($product in $products)
             <option value="$product.getName()">$product.getName()</option>
     #end
