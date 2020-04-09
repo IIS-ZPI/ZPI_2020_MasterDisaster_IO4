@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import zpi.product.Product;
-import zpi.product.ProductDAO;
+import zpi.product.Producttest;
 import zpi.sales.Category;
 import zpi.sales.CategoryDAO;
 import zpi.state.USState;
@@ -17,7 +17,7 @@ public class GetByNameDAOTests {
     private static final String NAME_THAT_NOT_EXISTS = "NameThatNotExistsInData";
 
     private static USStateDAO stateDAO = USStateDAO.getInstance();
-    private static ProductDAO productDAO = ProductDAO.getInstance();
+    private static Producttest productDAO = Producttest.getInstance();
     private static CategoryDAO categoryDAO = CategoryDAO.getInstance();
 
     private static USState state = new USState(NAME_THAT_EXISTS);
