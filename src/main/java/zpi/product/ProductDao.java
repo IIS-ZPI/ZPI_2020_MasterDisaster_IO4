@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProductDao {
+public class ProductDAO {
 	private final List<Product> products = new ArrayList<>();
-	private final static ProductDao INSTANCE = new ProductDao();
+	private final static ProductDAO INSTANCE = new ProductDAO();
 	
-	private ProductDao(){
+	private ProductDAO(){
 		prepareTempData();
 	}
 	
-	public static ProductDao getInstance(){
+	public static ProductDAO getInstance(){
 		return INSTANCE;
 	}
 	

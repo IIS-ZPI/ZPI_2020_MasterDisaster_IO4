@@ -1,10 +1,11 @@
-package zpi.sales;
+package test.zpi.sales;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import zpi.product.Product;
+import zpi.sales.Category;
 import zpi.state.USState;
 
 public class FinalProductPriceTests {
