@@ -1,8 +1,9 @@
-package zpi.sales;
+package zpi.state;
 
-import java.util.ArrayList;
+import zpi.product.Product;
+import zpi.sales.Category;
+
 import java.util.HashMap;
-import java.util.List;
 
 public class USState {
 	public class NotFoundTaxForThisCategory extends Exception{}
@@ -35,5 +36,9 @@ public class USState {
 		}
 
 		return ratio * basePrice + basePrice;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }

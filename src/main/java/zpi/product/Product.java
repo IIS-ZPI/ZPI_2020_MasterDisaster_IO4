@@ -1,4 +1,6 @@
-package zpi.sales;
+package zpi.product;
+
+import zpi.sales.Category;
 
 import java.util.Objects;
 
@@ -46,5 +48,9 @@ public class Product {
 	@Override
 	public int hashCode() {
 		return Objects.hash(name, getBasePrice(), getCategory());
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 }

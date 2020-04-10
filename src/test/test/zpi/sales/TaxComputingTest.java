@@ -1,4 +1,4 @@
-package zpi.sales;
+package test.zpi.sales;
 
 import io.javalin.Javalin;
 import org.junit.Test;

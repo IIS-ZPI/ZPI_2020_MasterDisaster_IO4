@@ -1,0 +1,22 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+<form method="get" action="/compute-tax">
+    Choose state
+    <select name="state">
+    #foreach($states in $states)
+        <option value="$states.getName()">$states.getName()</option>
+    #end
+    </select>
+    Choose product
+    <select name="product">
+    #foreach($product in $products)
+            <option value="$product.getName()">$product.getName()</option>
+    #end
+    </select>
+    Amount of product
+    <input type="number" id="amount" name="amount" min="1">
+    <br>
+    <button>Submit</button>
+</form>
+
+#end
