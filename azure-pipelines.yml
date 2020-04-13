@@ -45,12 +45,17 @@ stages:
         goals: 'package'
 
     - task: CopyFiles@2
-      displayName: 'Copy Files to artifact staging directory'
+      displayName: 'Copy jar file to artifact staging directory'
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: |
-          '**/target/*.?(war|jar)'
-          '**/resources**'
+        Contents: '**/target/*.?(war|jar)'
+        TargetFolder: $(Build.ArtifactStagingDirectory)
+
+    - task: CopyFiles@2
+      displayName: 'Copy resources to artifact staging directory'
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: '**/resources**'
         TargetFolder: $(Build.ArtifactStagingDirectory)
 
     - upload: $(Build.ArtifactStagingDirectory)
