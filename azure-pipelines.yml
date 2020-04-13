@@ -8,10 +8,11 @@ trigger:
   branches:
     include:
       - CI_CD-modyfications&tests
+      
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: '2c8a0160-a95f-4e89-ab7a-65f6d9d937fd'
+  azureSubscription: '9bbf1f1f-a9e6-453a-9449-0ad670cb10c8'
   
   # Web app name
   webAppName: 'masterdisaster-tax-calculator'
