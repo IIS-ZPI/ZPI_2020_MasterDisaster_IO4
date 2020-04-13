@@ -55,7 +55,9 @@ stages:
       displayName: 'Copy resources to artifact staging directory'
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: '**/resources**'
+        Contents: |
+          '**/target/**/velocity**'
+          '**/target/**/public**'
         TargetFolder: $(Build.ArtifactStagingDirectory)
 
     - upload: $(Build.ArtifactStagingDirectory)
