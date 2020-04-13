@@ -8,11 +8,10 @@ trigger:
   branches:
     include:
       - CI_CD-modyfications&tests
-      
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: '9bbf1f1f-a9e6-453a-9449-0ad670cb10c8'
+  azureSubscription: '3c312e5e-a322-48ae-b67b-5963ebad9ea8'
   
   # Web app name
   webAppName: 'masterdisaster-tax-calculator'
@@ -37,6 +36,13 @@ stages:
       displayName: 'Maven Package'
       inputs:
         mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.11'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        goals: 'package'
 
     - task: CopyFiles@2
       displayName: 'Copy Files to artifact staging directory'
