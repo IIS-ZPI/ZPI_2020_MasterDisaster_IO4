@@ -49,8 +49,8 @@ stages:
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
         Contents: |
-        '**/target/*.?(war|jar)'
-        'src/main/resources'
+          '**\target\*.?(war|jar)'
+          '**\resources**'
         TargetFolder: $(Build.ArtifactStagingDirectory)
 
     - upload: $(Build.ArtifactStagingDirectory)
