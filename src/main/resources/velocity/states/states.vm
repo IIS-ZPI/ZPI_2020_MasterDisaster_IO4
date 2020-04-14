@@ -1,0 +1,27 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+    <table class="tg">
+        <th>State name</th>
+        #foreach($category in $categories)
+            <th>$categoriesTranslator.tr($category)</th>
+        #end
+        <th></th>
+
+        #foreach($state in $states)
+        <tr>
+            <td class="state-name">$state.getName()</td>
+            <!--<td class="base-tax">$state.getName()</td>---!>
+            #foreach($category in $categories)
+                #set( $tax = $state.getTaxForCategory($category))
+                #if(!$tax)
+                    #set( $tax = "-")
+                #end
+                <td>$tax</td>
+            #end
+            <th class="edit-category">
+                <button type="button" onclick="alert('You want to edit $state.getName()')">Edit</button>
+            </th>
+        </tr>
+        #end
+    </table>
+#end

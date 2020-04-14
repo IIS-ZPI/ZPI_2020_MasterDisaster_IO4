@@ -1,9 +1,10 @@
 package zpi.category;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class CategoryTransalator {
-	private CategoryTransalator() {
-	}
-	
 	public static String tr(Category category) {
 		switch (category) {
 			case GROCERIES:
@@ -20,5 +21,11 @@ public class CategoryTransalator {
 				return "Intangibles";
 		}
 		return "";
+	}
+	
+	static public List<String> getPrettyNamesOfCategories(){
+		return Arrays.stream(Category.values())
+				.map(CategoryTransalator::tr)
+				.collect(Collectors.toList());
 	}
 }
