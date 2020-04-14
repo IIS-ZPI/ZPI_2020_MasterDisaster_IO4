@@ -4,13 +4,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import zpi.category.Category;
 import zpi.product.Product;
-import zpi.sales.Category;
 import zpi.state.USState;
 
 public class FinalProductPriceTests {
     private USState state;
-    private static Category category;
     private static Product productPositivePrice;
     private static Product productNegativePrice;
     private static Product productMaxDoublePrice;
@@ -20,12 +19,11 @@ public class FinalProductPriceTests {
 
     @BeforeClass
     public static void init(){
-        category = new Category("TestCategoryName");
-        productPositivePrice = new Product("TestProductName", 20.0, category);
-        productNegativePrice = new Product("TestProductName", -20.0, category);
-        productMaxDoublePrice = new Product("TestProductName", Double.MAX_VALUE, category);
+        productPositivePrice = new Product("TestProductName", 20.0, Category.GROCERIES);
+        productNegativePrice = new Product("TestProductName", -20.0, Category.GROCERIES);
+        productMaxDoublePrice = new Product("TestProductName", Double.MAX_VALUE, Category.GROCERIES);
         productCategoryNull = new Product("TestProductName", 20, null);
-        productOtherCategory = new Product("TestProductName", 20, new Category("TestCategoryName2"));
+        productOtherCategory = new Product("TestProductName", 20,Category.CLOTHING);
     }
 
     @Before
@@ -35,19 +33,19 @@ public class FinalProductPriceTests {
 
     @Test
     public void checkIfBasePriceIsPositive() throws Exception {
-        state.addCategoryWithTax(category, BASIC_TAX);
+        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
         Assert.assertEquals(Double.valueOf(21.0), state.computeFinalPriceOfProduct(productPositivePrice));
     }
 
     @Test
     public void checkIfBasePriceIsNegative() throws Exception {
-        state.addCategoryWithTax(category, BASIC_TAX);
+        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
         Assert.assertThrows(IllegalArgumentException.class, () -> state.computeFinalPriceOfProduct(productNegativePrice));
     }
 
     @Test
     public void checkIfTaxIsNegative() throws Exception {
-        state.addCategoryWithTax(category, -BASIC_TAX);
+        state.addCategoryWithTax(Category.GROCERIES, -BASIC_TAX);
         Assert.assertThrows(IllegalArgumentException.class, () -> state.computeFinalPriceOfProduct(productNegativePrice));
     }
 
@@ -58,31 +56,31 @@ public class FinalProductPriceTests {
 
     @Test
     public void checkIfNoCategoryInTaxMap() {
-        state.addCategoryWithTax(category, BASIC_TAX);
+        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
         Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeFinalPriceOfProduct(productOtherCategory));
     }
 
     @Test
     public void checkIfBasePriceIsMaxDouble() throws Exception {
-        state.addCategoryWithTax(category, BASIC_TAX);
+        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
         Assert.assertEquals(Double.valueOf(Double.POSITIVE_INFINITY), state.computeFinalPriceOfProduct(productMaxDoublePrice));
     }
 
     @Test
     public void checkIfProductIsNull() {
-        state.addCategoryWithTax(category, BASIC_TAX);
+        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
         Assert.assertThrows(NullPointerException.class, () -> state.computeFinalPriceOfProduct(null));
     }
 
     @Test
     public void checkIfTaxIsNull() {
-        state.addCategoryWithTax(category, null);
+        state.addCategoryWithTax(Category.GROCERIES, null);
         Assert.assertThrows(NullPointerException.class, () -> state.computeFinalPriceOfProduct(productPositivePrice));
     }
 
     @Test
     public void checkIfCategoryInProductIsNull() {
-        state.addCategoryWithTax(category, BASIC_TAX);
+        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
         Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeFinalPriceOfProduct(productCategoryNull));
     }
 

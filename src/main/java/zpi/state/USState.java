@@ -1,7 +1,7 @@
 package zpi.state;
 
+import zpi.category.Category;
 import zpi.product.Product;
-import zpi.sales.Category;
 
 import java.util.HashMap;
 

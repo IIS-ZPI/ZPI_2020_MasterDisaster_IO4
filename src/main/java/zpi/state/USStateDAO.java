@@ -1,7 +1,6 @@
 package zpi.state;
 
-import zpi.product.Product;
-import zpi.sales.Category;
+import zpi.category.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +10,16 @@ public class USStateDAO {
 	private static final USStateDAO INSTANCE = new USStateDAO();
 	List<USState> states = new ArrayList<>();
 	void prepareTempData() {
-		Category groceries = new Category("Groceries");
-		Category preparedFood = new Category("Prepared food");
-		
 		USState alabamaState = new USState("Alabama");
+		USState alaskaState = new USState("Alaska");
+		USState arizonaState = new USState("Arizona");
 		
-		alabamaState.addCategoryWithTax(groceries, Double.valueOf(4));
-		alabamaState.addCategoryWithTax(preparedFood, Double.valueOf(5));
+		alabamaState.addCategoryWithTax(Category.GROCERIES, Double.valueOf(4));
+		alabamaState.addCategoryWithTax(Category.PREPARED_FOOD, Double.valueOf(5));
 		
 		states.add(alabamaState);
+		states.add(alaskaState);
+		states.add(arizonaState);
 	}
 	
 	private USStateDAO(){

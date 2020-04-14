@@ -1,6 +1,6 @@
 package zpi.product;
 
-import zpi.sales.Category;
+import zpi.category.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +19,9 @@ public class ProductDAO {
 	}
 	
 	void prepareTempData() {
-		Category groceries = new Category("Groceries");
-		Category preparedFood = new Category("Prepared food");
-		
-		products.add(new Product("Chocolate bar", 15, preparedFood));
-		products.add(new Product("Milk", 10, preparedFood));
-		products.add(new Product("Tomato", 3, groceries));
+		products.add(new Product("Chocolate bar", 15, Category.PREPARED_FOOD));
+		products.add(new Product("Milk", 10, Category.PREPARED_FOOD));
+		products.add(new Product("Tomato", 3, Category.GROCERIES));
 	}
 	
 	public List<Product> getProducts() {
