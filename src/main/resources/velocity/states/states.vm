@@ -19,7 +19,9 @@
                 <td>$tax</td>
             #end
             <th class="edit-category">
-                <button type="button" onclick="alert('You want to edit $state.getName()')">Edit</button>
+                <a href="/state/$state.getName()">
+                   <button>Edit</button>
+                </a>
             </th>
         </tr>
         #end

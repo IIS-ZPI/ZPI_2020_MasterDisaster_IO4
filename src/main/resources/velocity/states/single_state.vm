@@ -1,0 +1,19 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+    <form method="post" action="/update-tax-in-state">
+        <label>State name: $state.getName()</label>
+        </br>
+        <label>Taxes:</label>
+        </br>
+        #foreach($category in $categories)
+            #set( $tax = $state.getTaxForCategory($category))
+            <label>$categoriesTranslator.tr($category)</label>
+            #if(!$tax)
+                #set($tax = "")
+            #end
+            <input type="number" id="tax_$category" name="tax_$category" min="0" value="$tax"/>
+            </br>
+        #end
+        <button>Update</button>
+    </form>
+#end

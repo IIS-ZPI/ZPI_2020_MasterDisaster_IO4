@@ -36,7 +36,7 @@ public class USStateDAO {
 	
 	public Optional<USState> getUSStateByName(String name){
 		return states.stream()
-				.filter(e -> e.getName().equals(name))
+				.filter(e -> e.getName().toLowerCase().equals(name.toLowerCase()))
 				.findAny();
 	}
 }
