@@ -3,10 +3,10 @@
     <a href="/states">
        <button>Back</button>
     </a>
-    #if($edit_failed)
-    <div>Check your input, edit taxes failed!</div>
-    #else
-    <div>Edit taxes was successful!</div>
+    #if($edit_failed == true)
+        <div>Check your input, edit taxes failed!</div>
+    #elseif($edit_failed == false)
+        <div>Edit taxes was successful!</div>
     #end
     <form method="post">
         <label>State name: $state.getName()</label>
