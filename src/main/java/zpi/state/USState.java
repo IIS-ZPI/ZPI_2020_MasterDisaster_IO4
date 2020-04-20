@@ -6,28 +6,27 @@ import zpi.product.Product;
 import java.util.HashMap;
 
 public class USState {
-	public class NotFoundTaxForThisCategory extends Exception{}
-	
 	private String name;
 	private HashMap<Category, Double> taxForCategoryMap = new HashMap<>();
 	
 	
 	public USState(String name) {
 		this.name = name;
+		for(var c : Category.values()){
+			this.taxForCategoryMap.put(c, 0.);
+		}
 	}
 	
 	public Double getTaxForCategory(Category category) {
 		return this.taxForCategoryMap.get(category);
 	}
 	
-	public void addCategoryWithTax(Category category, Double tax) {
+	void editCategoryTax(Category category, Double tax) {
 		this.taxForCategoryMap.put(category, tax);
 	}
 	
-	public Double computeFinalPriceOfProduct(Product product) throws NotFoundTaxForThisCategory {
-		if(!this.taxForCategoryMap.containsKey(product.getCategory())){
-			throw new NotFoundTaxForThisCategory();
-		}
+	public Double computeFinalPriceOfProduct(Product product){
+
 		Double ratio = this.taxForCategoryMap.get(product.getCategory());
 		Double basePrice = product.getBasePrice();
 

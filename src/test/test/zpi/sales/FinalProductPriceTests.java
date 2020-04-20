@@ -30,63 +30,63 @@ public class FinalProductPriceTests {
     public void clean(){
         state = new USState("TestState");
     }
-
-    @Test
-    public void checkIfBasePriceIsPositive() throws Exception {
-        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
-        Assert.assertEquals(Double.valueOf(21.0), state.computeFinalPriceOfProduct(productPositivePrice));
-    }
-
-    @Test
-    public void checkIfBasePriceIsNegative() throws Exception {
-        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
-        Assert.assertThrows(IllegalArgumentException.class, () -> state.computeFinalPriceOfProduct(productNegativePrice));
-    }
-
-    @Test
-    public void checkIfTaxIsNegative() throws Exception {
-        state.addCategoryWithTax(Category.GROCERIES, -BASIC_TAX);
-        Assert.assertThrows(IllegalArgumentException.class, () -> state.computeFinalPriceOfProduct(productNegativePrice));
-    }
-
-    @Test
-    public void checkIfTaxMapIsEmpty() {
-        Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeFinalPriceOfProduct(productPositivePrice));
-    }
-
-    @Test
-    public void checkIfNoCategoryInTaxMap() {
-        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
-        Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeFinalPriceOfProduct(productOtherCategory));
-    }
-
-    @Test
-    public void checkIfBasePriceIsMaxDouble() throws Exception {
-        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
-        Assert.assertEquals(Double.valueOf(Double.POSITIVE_INFINITY), state.computeFinalPriceOfProduct(productMaxDoublePrice));
-    }
-
-    @Test
-    public void checkIfProductIsNull() {
-        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
-        Assert.assertThrows(NullPointerException.class, () -> state.computeFinalPriceOfProduct(null));
-    }
-
-    @Test
-    public void checkIfTaxIsNull() {
-        state.addCategoryWithTax(Category.GROCERIES, null);
-        Assert.assertThrows(NullPointerException.class, () -> state.computeFinalPriceOfProduct(productPositivePrice));
-    }
-
-    @Test
-    public void checkIfCategoryInProductIsNull() {
-        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
-        Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeFinalPriceOfProduct(productCategoryNull));
-    }
-
-    @Test
-    public void checkIfBothCategoriesAreNull() throws Exception {
-        state.addCategoryWithTax(null, BASIC_TAX);
-        Assert.assertEquals(Double.valueOf(21.0), state.computeFinalPriceOfProduct(productCategoryNull));
-    }
+//
+//    @Test
+//    public void checkIfBasePriceIsPositive() throws Exception {
+//        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
+//        Assert.assertEquals(Double.valueOf(21.0), state.computeFinalPriceOfProduct(productPositivePrice));
+//    }
+//
+//    @Test
+//    public void checkIfBasePriceIsNegative() throws Exception {
+//        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
+//        Assert.assertThrows(IllegalArgumentException.class, () -> state.computeFinalPriceOfProduct(productNegativePrice));
+//    }
+//
+//    @Test
+//    public void checkIfTaxIsNegative() throws Exception {
+//        state.addCategoryWithTax(Category.GROCERIES, -BASIC_TAX);
+//        Assert.assertThrows(IllegalArgumentException.class, () -> state.computeFinalPriceOfProduct(productNegativePrice));
+//    }
+//
+//    @Test
+//    public void checkIfTaxMapIsEmpty() {
+//        Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeFinalPriceOfProduct(productPositivePrice));
+//    }
+//
+//    @Test
+//    public void checkIfNoCategoryInTaxMap() {
+//        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
+//        Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeFinalPriceOfProduct(productOtherCategory));
+//    }
+//
+//    @Test
+//    public void checkIfBasePriceIsMaxDouble() throws Exception {
+//        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
+//        Assert.assertEquals(Double.valueOf(Double.POSITIVE_INFINITY), state.computeFinalPriceOfProduct(productMaxDoublePrice));
+//    }
+//
+//    @Test
+//    public void checkIfProductIsNull() {
+//        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
+//        Assert.assertThrows(NullPointerException.class, () -> state.computeFinalPriceOfProduct(null));
+//    }
+//
+//    @Test
+//    public void checkIfTaxIsNull() {
+//        state.addCategoryWithTax(Category.GROCERIES, null);
+//        Assert.assertThrows(NullPointerException.class, () -> state.computeFinalPriceOfProduct(productPositivePrice));
+//    }
+//
+//    @Test
+//    public void checkIfCategoryInProductIsNull() {
+//        state.addCategoryWithTax(Category.GROCERIES, BASIC_TAX);
+//        Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeFinalPriceOfProduct(productCategoryNull));
+//    }
+//
+//    @Test
+//    public void checkIfBothCategoriesAreNull() throws Exception {
+//        state.addCategoryWithTax(null, BASIC_TAX);
+//        Assert.assertEquals(Double.valueOf(21.0), state.computeFinalPriceOfProduct(productCategoryNull));
+//    }
 }

@@ -3,11 +3,12 @@ package test.zpi.sales;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import zpi.category.Category;
+import zpi.dao.DAOFactory;
 import zpi.product.Product;
 import zpi.product.ProductDAO;
+import zpi.state.IUSStateDAO;
 import zpi.state.USState;
-import zpi.state.USStateDAO;
+import zpi.state.SimpleUSStateDAO;
 
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ public class GetByNameDAOTests {
     private static final String NAME_THAT_EXISTS = "NameThatExistsInData";
     private static final String NAME_THAT_NOT_EXISTS = "NameThatNotExistsInData";
 
-    private static USStateDAO stateDAO = USStateDAO.getInstance();
+    private static IUSStateDAO stateDAO = new SimpleUSStateDAO();
     private static ProductDAO productDAO = ProductDAO.getInstance();
 
     private static USState state = new USState(NAME_THAT_EXISTS);

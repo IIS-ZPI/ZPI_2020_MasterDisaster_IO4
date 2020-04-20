@@ -1,14 +1,15 @@
 package zpi.controllers;
 
 import io.javalin.http.Handler;
+import zpi.dao.DAOFactory;
 import zpi.product.ProductDAO;
-import zpi.state.USStateDAO;
+import zpi.state.SimpleUSStateDAO;
 
 public class ComputeTaxController {
 	
 	public static Handler computeTax = ctx -> {
 		var product = ProductDAO.getInstance().getProductByName(ctx.queryParam("product"));
-		var state = USStateDAO.getInstance().getUSStateByName(ctx.queryParam("state"));
+		var state = DAOFactory.getIUSStateDAO().getUSStateByName(ctx.queryParam("state"));
 		double amount = Double.parseDouble(ctx.queryParam("amount"));
 		
 		String output = "";
