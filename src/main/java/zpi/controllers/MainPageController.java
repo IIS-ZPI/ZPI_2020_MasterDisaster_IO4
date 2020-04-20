@@ -14,6 +14,7 @@ public class MainPageController {
 		ProductDAO productDao = ProductDAO.getInstance();
 		
 		Map<String, Object> model = ViewUtil.baseModel(ctx);
+		model.put("title", "Compute tax calculator");
 		model.put("products", productDao.getProducts());
 		model.put("states", stateDAO.getStates());
 

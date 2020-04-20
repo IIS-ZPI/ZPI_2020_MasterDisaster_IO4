@@ -14,6 +14,7 @@ public class USStateController {
 		Map<String, Object> model = ViewUtil.baseModel(ctx);
 		//daos
 		USStateDAO usStateDAO = USStateDAO.getInstance();
+		model.put("title", "CTC: All states");
 		
 		model.put("categoriesTranslator", new CategoryTransalator());
 		model.put("categories", Category.values());
@@ -28,6 +29,7 @@ public class USStateController {
 		
 		var state = USStateDAO.getInstance().getUSStateByName(RequestUtil.getStateName(ctx));
 		if (state.isPresent()) {
+			model.put("title", "CTC: " + state.get() + " state");
 			model.put("state", state.get());
 			
 			model.put("categories", Category.values());
