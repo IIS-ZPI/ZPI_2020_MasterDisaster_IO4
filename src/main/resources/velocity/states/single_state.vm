@@ -1,6 +1,14 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
-    <form method="post" action="/update-tax-in-state">
+    <a href="/states">
+       <button>Back</button>
+    </a>
+    #if($edit_failed)
+    <div>Check your input, edit taxes failed!</div>
+    #else
+    <div>Edit taxes was successful!</div>
+    #end
+    <form method="post">
         <label>State name: $state.getName()</label>
         </br>
         <label>Taxes:</label>

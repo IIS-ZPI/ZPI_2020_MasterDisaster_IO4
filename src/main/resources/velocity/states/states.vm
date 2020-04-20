@@ -1,5 +1,8 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
+    <a href="/">
+       <button>Home</button>
+    </a>
     <table class="tg">
         <th>State name</th>
         #foreach($category in $categories)
@@ -16,7 +19,7 @@
                 #if(!$tax)
                     #set( $tax = "-")
                 #end
-                <td>$tax</td>
+                <td>$tax%</td>
             #end
             <th class="edit-category">
                 <a href="/state/$state.getName()">
