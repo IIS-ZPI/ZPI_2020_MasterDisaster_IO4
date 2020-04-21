@@ -9,7 +9,7 @@ import zpi.product.Product;
 import zpi.state.USState;
 
 public class FinalProductPriceTests {
-    private USState state;
+    private static USState state;
     private static Product productPositivePrice;
     private static Product productNegativePrice;
     private static Product productMaxDoublePrice;
@@ -19,16 +19,12 @@ public class FinalProductPriceTests {
 
     @BeforeClass
     public static void init(){
+        state = new USState("TestState");
         productPositivePrice = new Product("TestProductName", 20.0, Category.GROCERIES);
         productNegativePrice = new Product("TestProductName", -20.0, Category.GROCERIES);
         productMaxDoublePrice = new Product("TestProductName", Double.MAX_VALUE, Category.GROCERIES);
         productCategoryNull = new Product("TestProductName", 20, null);
         productOtherCategory = new Product("TestProductName", 20,Category.CLOTHING);
-    }
-
-    @Before
-    public void clean(){
-        state = new USState("TestState");
     }
 
     @Test
@@ -50,7 +46,8 @@ public class FinalProductPriceTests {
     }
 
     @Test
-    public void checkIfTaxMapIsEmpty() {
+    public void checkIfTaxIsZero() {
+        state.editCategoryTax(Category.GROCERIES, 0.0);
         Assert.assertEquals(Double.valueOf(20.0), state.computeFinalPriceOfProduct(productPositivePrice));
     }
 
@@ -75,7 +72,7 @@ public class FinalProductPriceTests {
     @Test
     public void checkIfTaxIsNull() {
         state.editCategoryTax(Category.GROCERIES, null);
-        Assert.assertThrows(NullPointerException.class, () -> state.computeFinalPriceOfProduct(productPositivePrice));
+        Assert.assertThrows(RuntimeException.class, () -> state.computeFinalPriceOfProduct(productPositivePrice));
     }
 
     @Test

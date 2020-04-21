@@ -26,13 +26,9 @@ public class USState {
 	}
 	
 	public Double computeFinalPriceOfProduct(Product product){
-
 		Double ratio = this.taxForCategoryMap.get(product.getCategory());
 		Double basePrice = product.getBasePrice();
-
-		if(basePrice < 0.0 || ratio < 0.0){
-			throw new IllegalArgumentException("Base price and tax value should be positive.");
-		}
+		if(basePrice < 0.0 || ratio < 0.0) throw new IllegalArgumentException("Base price and tax value should be positive.");
 
 		return ratio * basePrice + basePrice;
 	}
