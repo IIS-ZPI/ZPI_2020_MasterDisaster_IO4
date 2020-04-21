@@ -18,5 +18,7 @@
     <br>
     <button>Submit</button>
 </form>
-
+    <a href="/states">
+       <button>Browse states</button>
+    </a>
 #end

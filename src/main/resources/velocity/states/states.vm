@@ -1,0 +1,32 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+    <a href="/">
+       <button>Home</button>
+    </a>
+    <table class="tg">
+        <th>State name</th>
+        #foreach($category in $categories)
+            <th>$categoriesTranslator.tr($category)</th>
+        #end
+        <th></th>
+
+        #foreach($state in $states)
+        <tr>
+            <td class="state-name">$state.getName()</td>
+            <!--<td class="base-tax">$state.getName()</td>---!>
+            #foreach($category in $categories)
+                #set( $tax = $state.getTaxForCategory($category))
+                #if(!$tax)
+                    #set( $tax = "-")
+                #end
+                <td>$tax%</td>
+            #end
+            <th class="edit-category">
+                <a href="/state/$state.getName()">
+                   <button>Edit</button>
+                </a>
+            </th>
+        </tr>
+        #end
+    </table>
+#end
