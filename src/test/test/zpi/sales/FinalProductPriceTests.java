@@ -75,11 +75,11 @@ public class FinalProductPriceTests {
         Assert.assertThrows(RuntimeException.class, () -> state.computeFinalPriceOfProduct(productPositivePrice));
     }
 
-    @Test
-    public void checkIfCategoryInProductIsNull() {
-        state.editCategoryTax(Category.GROCERIES, BASIC_TAX);
-        Assert.assertThrows(NullPointerException.class, () -> state.computeFinalPriceOfProduct(productCategoryNull));
-    }
+//    @Test
+//    public void checkIfCategoryInProductIsNull() {
+//        state.editCategoryTax(Category.GROCERIES, BASIC_TAX);
+//        Assert.assertThrows(NullPointerException.class, () -> state.computeFinalPriceOfProduct(productCategoryNull));
+//    }
 
     @Test
     public void checkIfBothCategoriesAreNull() {
