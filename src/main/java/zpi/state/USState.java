@@ -21,7 +21,7 @@ public class USState {
 		return this.taxForCategoryMap.get(category);
 	}
 	
-	void editCategoryTax(Category category, Double tax) {
+	public void editCategoryTax(Category category, Double tax) {
 		this.taxForCategoryMap.put(category, tax);
 	}
 	
