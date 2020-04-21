@@ -22,9 +22,9 @@ public class ProductDAO {
 		Category groceries = new Category("Groceries");
 		Category preparedFood = new Category("Prepared food");
 		
-		products.add(new Product("Chocolate bar", 15, preparedFood));
-		products.add(new Product("Milk", 10, preparedFood));
-		products.add(new Product("Tomato", 3, groceries));
+		products.add(new Product("Chocolate bar", 1, preparedFood));
+		products.add(new Product("Milk", 2, preparedFood));
+		products.add(new Product("Tomato", 0.5, groceries));
 	}
 	
 	public List<Product> getProducts() {

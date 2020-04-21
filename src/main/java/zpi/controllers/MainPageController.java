@@ -8,7 +8,8 @@ import zpi.utils.ViewUtil;
 
 import java.util.Map;
 
-public class MainPageController {
+public class
+MainPageController {
 	public static Handler mainPage = ctx -> {
 		USStateDAO stateDAO = USStateDAO.getInstance();
 		ProductDAO productDao = ProductDAO.getInstance();

@@ -16,8 +16,8 @@ public class USStateDAO {
 		
 		USState alabamaState = new USState("Alabama");
 		
-		alabamaState.addCategoryWithTax(groceries, Double.valueOf(4));
-		alabamaState.addCategoryWithTax(preparedFood, Double.valueOf(5));
+		alabamaState.addCategoryWithTax(groceries, 0.05);
+		alabamaState.addCategoryWithTax(preparedFood, 0.04);
 		
 		states.add(alabamaState);
 	}

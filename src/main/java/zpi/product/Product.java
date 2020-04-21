@@ -8,6 +8,7 @@ public class Product {
 	private String name;
 	private double basePrice;
 	private Category category;
+	private double expectedPrice;
 	
 	public Product(String name) {
 		this.name = name;
@@ -17,10 +18,19 @@ public class Product {
 		this.name = name;
 		this.basePrice = basePrice;
 		this.category = category;
+		this.expectedPrice = 0.0;
 	}
 	
 	public double getBasePrice() {
 		return basePrice;
+	}
+
+	public double getExpectedPrice() {
+		return expectedPrice;
+	}
+
+	public void setExpectedPrice(double expected_price) {
+		this.expectedPrice = expected_price;
 	}
 	
 	public void setBasePrice(double basePrice) {
