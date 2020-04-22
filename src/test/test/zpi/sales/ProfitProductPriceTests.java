@@ -8,24 +8,31 @@ import zpi.product.Product;
 import zpi.sales.Category;
 import zpi.state.USState;
 
-public class FinalProductPriceTests {
+public class ProfitProductPriceTests {
     private USState state;
     private static Category category;
     private static Product productPositivePrice;
     private static Product productNegativePrice;
+    private static Product productZeroPrice;
     private static Product productMaxDoublePrice;
+    private static Product productMinDoublePrice;
     private static Product productCategoryNull;
     private static Product productOtherCategory;
-    private final double BASIC_TAX = Double.valueOf(0.05);
+    private static final double BASIC_TAX = Double.valueOf(0.05);
+    private static final double POSITIVE_BASE_PRICE = 20.0;
+    private static final double POSITIVE_EXPECTED_PRICE = 30.0;
+    private static final double ZERO = 0.0;
 
     @BeforeClass
     public static void init(){
         category = new Category("TestCategoryName");
-        productPositivePrice = new Product("TestProductName", 20.0, category);
-        productNegativePrice = new Product("TestProductName", -20.0, category);
+        productPositivePrice = new Product("TestProductName", POSITIVE_BASE_PRICE , category);
+        productNegativePrice = new Product("TestProductName", -POSITIVE_BASE_PRICE , category);
+        productZeroPrice = new Product("TestProductName", ZERO, category);
         productMaxDoublePrice = new Product("TestProductName", Double.MAX_VALUE, category);
-        productCategoryNull = new Product("TestProductName", 20, null);
-        productOtherCategory = new Product("TestProductName", 20, new Category("TestCategoryName2"));
+        productMinDoublePrice = new Product("TestProductName", Double.MIN_VALUE, category);
+        productCategoryNull = new Product("TestProductName", POSITIVE_BASE_PRICE , null);
+        productOtherCategory = new Product("TestProductName", POSITIVE_BASE_PRICE , new Category("TestCategoryName2"));
     }
 
     @Before
@@ -34,61 +41,150 @@ public class FinalProductPriceTests {
     }
 
     @Test
-    public void checkIfBasePriceIsPositive() throws Exception {
+    public void checkIfBaseAndExpectedPriceArePositive() throws Exception {
         state.addCategoryWithTax(category, BASIC_TAX);
-        Assert.assertEquals(Double.valueOf(21.0), state.computeFinalPriceOfProduct(productPositivePrice));
+        productPositivePrice.setExpectedPrice(POSITIVE_EXPECTED_PRICE);
+        Assert.assertEquals(Double.valueOf(8.5), state.computeProfit(productPositivePrice));
+    }
+    @Test
+    public void checkIfBasePriceIsPositiveAndExpectedPriceIsNegative() throws Exception {
+        state.addCategoryWithTax(category, BASIC_TAX);
+        productPositivePrice.setExpectedPrice(-POSITIVE_EXPECTED_PRICE);
+        Assert.assertEquals(Double.valueOf(-48.5), state.computeProfit(productPositivePrice));
     }
 
     @Test
-    public void checkIfBasePriceIsNegative() throws Exception {
+    public void checkIfBaseAndExpectedPriceAreNegative() throws Exception {
         state.addCategoryWithTax(category, BASIC_TAX);
-        Assert.assertThrows(IllegalArgumentException.class, () -> state.computeFinalPriceOfProduct(productNegativePrice));
+        productNegativePrice.setExpectedPrice(-POSITIVE_EXPECTED_PRICE);
+        Assert.assertThrows(IllegalArgumentException.class, () -> state.computeProfit(productNegativePrice));
+    }
+
+    @Test
+    public void checkIfBasePriceIsNegativeAndExpectedPriceIsPositive() throws Exception {
+        state.addCategoryWithTax(category, BASIC_TAX);
+        productNegativePrice.setExpectedPrice(POSITIVE_EXPECTED_PRICE);
+        Assert.assertThrows(IllegalArgumentException.class, () -> state.computeProfit(productNegativePrice));
+    }
+
+    @Test
+    public void checkIfBaseAndExpectedPriceAreZero() throws Exception {
+        state.addCategoryWithTax(category, BASIC_TAX);
+        productZeroPrice.setExpectedPrice(ZERO);
+        Assert.assertEquals(Double.valueOf(0.0), state.computeProfit(productZeroPrice));
+    }
+    @Test
+    public void checkIfBasePriceIsPositiveAndExpectedPriceIsZero() throws Exception {
+        state.addCategoryWithTax(category, BASIC_TAX);
+        productPositivePrice.setExpectedPrice(ZERO);
+        Assert.assertEquals(Double.valueOf(-20.0), state.computeProfit(productPositivePrice));
+    }
+
+    @Test
+    public void checkIfBasePriceIsZeroAndExpectedPriceIsNegative() throws Exception {
+        state.addCategoryWithTax(category, BASIC_TAX);
+        productZeroPrice.setExpectedPrice(-POSITIVE_EXPECTED_PRICE);
+        Assert.assertEquals(Double.valueOf(-28.5), state.computeProfit(productZeroPrice));
+    }
+
+    @Test
+    public void checkIfBasePriceIsZeroAndExpectedPriceIsPositive() throws Exception {
+        state.addCategoryWithTax(category, BASIC_TAX);
+        productZeroPrice.setExpectedPrice(POSITIVE_EXPECTED_PRICE);
+        Assert.assertEquals(Double.valueOf(28.5), state.computeProfit(productZeroPrice));
+    }
+
+    @Test
+    public void checkIfBasePriceIsNegativeAndExpectedPriceIsZero() throws Exception {
+        state.addCategoryWithTax(category, BASIC_TAX);
+        productNegativePrice.setExpectedPrice(ZERO);
+        Assert.assertThrows(IllegalArgumentException.class, () -> state.computeProfit(productNegativePrice));
     }
 
     @Test
     public void checkIfTaxIsNegative() throws Exception {
         state.addCategoryWithTax(category, -BASIC_TAX);
-        Assert.assertThrows(IllegalArgumentException.class, () -> state.computeFinalPriceOfProduct(productNegativePrice));
+        productNegativePrice.setExpectedPrice(-POSITIVE_EXPECTED_PRICE);
+        Assert.assertThrows(IllegalArgumentException.class, () -> state.computeProfit(productNegativePrice));
     }
 
     @Test
     public void checkIfTaxMapIsEmpty() {
-        Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeFinalPriceOfProduct(productPositivePrice));
+        productPositivePrice.setExpectedPrice(POSITIVE_EXPECTED_PRICE);
+        Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeProfit(productPositivePrice));
     }
 
     @Test
     public void checkIfNoCategoryInTaxMap() {
         state.addCategoryWithTax(category, BASIC_TAX);
-        Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeFinalPriceOfProduct(productOtherCategory));
+        productOtherCategory.setExpectedPrice(POSITIVE_EXPECTED_PRICE);
+        Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeProfit(productOtherCategory));
     }
 
     @Test
-    public void checkIfBasePriceIsMaxDouble() throws Exception {
+    public void checkIfBaseAndExpectedPriceAreMaxDouble() throws Exception {
         state.addCategoryWithTax(category, BASIC_TAX);
-        Assert.assertEquals(Double.valueOf(Double.POSITIVE_INFINITY), state.computeFinalPriceOfProduct(productMaxDoublePrice));
+        productMaxDoublePrice.setExpectedPrice(Double.MAX_VALUE);
+        Assert.assertEquals(Double.valueOf(-8.988465674311579E306), state.computeProfit(productMaxDoublePrice));
+    }
+
+    @Test
+    public void checkIfBasePriceIsMaxDoubleAndExpectedPriceIsPositive() throws Exception {
+        state.addCategoryWithTax(category, BASIC_TAX);
+        productMaxDoublePrice.setExpectedPrice(POSITIVE_EXPECTED_PRICE);
+        Assert.assertEquals(Double.valueOf(-1.7976931348623157E308), state.computeProfit(productMaxDoublePrice));
+    }
+    @Test
+    public void checkIfBasePriceIsPositiveAndExpectedPriceIsMaxDouble() throws Exception {
+        state.addCategoryWithTax(category, BASIC_TAX);
+        productPositivePrice.setExpectedPrice(Double.MAX_VALUE);
+        Assert.assertEquals(Double.valueOf(1.7078084781191998E308), state.computeProfit(productPositivePrice));
+    }
+
+    @Test
+    public void checkIfBaseAndExpectedPriceAreMinDouble() throws Exception {
+        state.addCategoryWithTax(category, BASIC_TAX);
+        productMinDoublePrice.setExpectedPrice(Double.MIN_VALUE);
+        Assert.assertEquals(Double.valueOf(0.0), state.computeProfit(productMinDoublePrice));
+    }
+
+    @Test
+    public void checkIfBasePriceIsMinDoubleAndExpectedPriceIsPositive() throws Exception {
+        state.addCategoryWithTax(category, BASIC_TAX);
+        productMinDoublePrice.setExpectedPrice(POSITIVE_EXPECTED_PRICE);
+        Assert.assertEquals(Double.valueOf(28.5), state.computeProfit(productMinDoublePrice));
+    }
+    @Test
+    public void checkIfBasePriceIsPositiveAndExpectedPriceIsMinDouble() throws Exception {
+        state.addCategoryWithTax(category, BASIC_TAX);
+        productPositivePrice.setExpectedPrice(Double.MIN_VALUE);
+        Assert.assertEquals(Double.valueOf(-20.0), state.computeProfit(productPositivePrice));
     }
 
     @Test
     public void checkIfProductIsNull() {
         state.addCategoryWithTax(category, BASIC_TAX);
-        Assert.assertThrows(NullPointerException.class, () -> state.computeFinalPriceOfProduct(null));
+        Assert.assertThrows(NullPointerException.class, () -> state.computeProfit(null));
     }
 
     @Test
     public void checkIfTaxIsNull() {
         state.addCategoryWithTax(category, null);
-        Assert.assertThrows(NullPointerException.class, () -> state.computeFinalPriceOfProduct(productPositivePrice));
+        productPositivePrice.setExpectedPrice(POSITIVE_EXPECTED_PRICE);
+        Assert.assertThrows(NullPointerException.class, () -> state.computeProfit(productPositivePrice));
     }
 
     @Test
     public void checkIfCategoryInProductIsNull() {
         state.addCategoryWithTax(category, BASIC_TAX);
-        Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeFinalPriceOfProduct(productCategoryNull));
+        productCategoryNull.setExpectedPrice(POSITIVE_EXPECTED_PRICE);
+        Assert.assertThrows(USState.NotFoundTaxForThisCategory.class, () -> state.computeProfit(productCategoryNull));
     }
 
     @Test
     public void checkIfBothCategoriesAreNull() throws Exception {
         state.addCategoryWithTax(null, BASIC_TAX);
-        Assert.assertEquals(Double.valueOf(21.0), state.computeFinalPriceOfProduct(productCategoryNull));
+        productCategoryNull.setExpectedPrice(POSITIVE_EXPECTED_PRICE);
+        Assert.assertEquals(Double.valueOf(8.5), state.computeProfit(productCategoryNull));
     }
 }
