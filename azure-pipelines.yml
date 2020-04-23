@@ -33,54 +33,43 @@ stages:
     
     steps:
     - task: Maven@3
-      displayName: 'Maven Package'
       inputs:
         mavenPomFile: 'pom.xml'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        testRunTitle: 'testy'
         mavenOptions: '-Xmx3072m'
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '1.11'
         jdkArchitectureOption: 'x64'
-        publishJUnitResults: true
-        testResultsFiles: '**/surefire-reports/TEST-*.xml'
-        goals: 'package'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: false
 
     - task: CopyFiles@2
       displayName: 'Copy jar file to artifact staging directory'
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: '**/target/*.?(war|jar)'
+        Contents: '**/*.?(war|jar)'
         TargetFolder: $(Build.ArtifactStagingDirectory)
 
     - task: CopyFiles@2
       displayName: 'Copy resources to artifact staging directory'
       inputs:
         SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: |
-          '**/target/**/velocity**'
-          '**/target/**/public**'
+        Contents: '**/resources**'
         TargetFolder: $(Build.ArtifactStagingDirectory)
 
-    - upload: $(Build.ArtifactStagingDirectory)
-      artifact: drop
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
 
-- stage: Deploy
-  displayName: Deploy stage
-  dependsOn: Build
-  condition: succeeded()
-  jobs:
-  - deployment: DeployLinuxWebApp
-    displayName: Deploy Linux Web App
-    environment: $(environmentName)
-    pool: 
-      vmImage: $(vmImageName)
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureWebApp@1
-            displayName: 'Azure Web App Deploy: masterdisaster-tax-calculator'
-            inputs:
-              azureSubscription: $(azureSubscription)
-              appType: webAppLinux
-              appName: $(webAppName)
-              package: '$(Pipeline.Workspace)/drop/**/target/*.?(war|jar)'
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'connection-masterdisaster-tax-calculator'
+        appType: 'webAppLinux'
+        WebAppName: $(webAppName)
+        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.?(war|jar)'
