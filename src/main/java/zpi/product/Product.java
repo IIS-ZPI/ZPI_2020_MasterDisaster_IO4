@@ -24,11 +24,11 @@ public class Product {
 	public double getBasePrice() {
 		return basePrice;
 	}
-
+	
 	public double getExpectedPrice() {
 		return expectedPrice;
 	}
-
+	
 	public void setExpectedPrice(double expected_price) {
 		this.expectedPrice = expected_price;
 	}
@@ -60,7 +60,7 @@ public class Product {
 		return Objects.hash(name, getBasePrice(), getCategory());
 	}
 	
-	public String getName(){
+	public String getName() {
 		return this.name;
 	}
 }

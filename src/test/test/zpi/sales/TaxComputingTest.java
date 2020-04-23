@@ -8,9 +8,9 @@ import java.util.logging.Handler;
 import static org.mockito.Mockito.mock;
 
 public class TaxComputingTest {
-    @Test
-    public void computeTaxTest(){
-
-    }
-
+	@Test
+	public void computeTaxTest() {
+	
+	}
+	
 }

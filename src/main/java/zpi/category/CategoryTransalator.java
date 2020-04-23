@@ -23,7 +23,7 @@ public class CategoryTransalator {
 		return "";
 	}
 	
-	static public List<String> getPrettyNamesOfCategories(){
+	static public List<String> getPrettyNamesOfCategories() {
 		return Arrays.stream(Category.values())
 				.map(CategoryTransalator::tr)
 				.collect(Collectors.toList());

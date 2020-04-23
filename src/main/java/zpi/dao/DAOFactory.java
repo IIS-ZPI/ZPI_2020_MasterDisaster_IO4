@@ -13,7 +13,7 @@ public class DAOFactory {
 	}
 	
 	static public IUSStateDAO getIUSStateDAO() {
-		if(iusStateDAO == null) throw new RuntimeException();
+		if (iusStateDAO == null) throw new RuntimeException();
 		
 		return iusStateDAO;
 	}

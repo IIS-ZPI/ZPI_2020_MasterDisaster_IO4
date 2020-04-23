@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SimpleUSStateDAO extends IUSStateDAO{
-	public SimpleUSStateDAO(){
+public class SimpleUSStateDAO extends IUSStateDAO {
+	public SimpleUSStateDAO() {
 		prepareTempData();
 	}
 	
 	List<USState> states = new ArrayList<>();
+	
 	void prepareTempData() {
 		USState alabamaState = new USState("Alabama");
 		USState alaskaState = new USState("Alaska");
@@ -36,14 +37,14 @@ public class SimpleUSStateDAO extends IUSStateDAO{
 	}
 	
 	@Override
-	public Optional<USState> getUSStateByName(String name){
+	public Optional<USState> getUSStateByName(String name) {
 		return states.stream()
 				.filter(e -> e.getName().toLowerCase().equals(name.toLowerCase()))
 				.findAny();
 	}
 	
 	@Override
-	public void editCategoryTax(USState state, Category category, Double taxRatio){
+	public void editCategoryTax(USState state, Category category, Double taxRatio) {
 		state.editCategoryTax(category, taxRatio);
 	}
 }

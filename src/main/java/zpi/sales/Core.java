@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Core {
-
+	
 	
 	static Map<String, String> reservations = new HashMap<String, String>();
 	

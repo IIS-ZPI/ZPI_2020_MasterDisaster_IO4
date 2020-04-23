@@ -13,7 +13,7 @@ public class ComputeTaxController {
 		double amount = Double.parseDouble(ctx.queryParam("amount"));
 		double base_price = Double.parseDouble(ctx.queryParam("base_price"));
 		double expected_price = Double.parseDouble(ctx.queryParam("expected_price"));
-
+		
 		product.get().setBasePrice(base_price);
 		product.get().setExpectedPrice(expected_price);
 		String output = "";

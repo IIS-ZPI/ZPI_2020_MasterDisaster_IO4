@@ -18,7 +18,7 @@ public class MainPageController {
 		model.put("title", "Compute tax calculator");
 		model.put("products", productDao.getProducts());
 		model.put("states", DAOFactory.getIUSStateDAO().getStates());
-
+		
 		ctx.render(Paths.Template.INDEX, model);
 	};
 }

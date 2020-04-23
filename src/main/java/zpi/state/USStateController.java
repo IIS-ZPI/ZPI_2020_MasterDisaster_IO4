@@ -42,26 +42,26 @@ public class USStateController {
 		}
 	};
 	
-	public static Handler editStateTaxesPost = ctx ->{
+	public static Handler editStateTaxesPost = ctx -> {
 		Map<String, Object> model = ViewUtil.baseModel(ctx);
 		var stateDao = DAOFactory.getIUSStateDAO();
 		var optState = stateDao.getUSStateByName(RequestUtil.getStateName(ctx));
 		if (optState.isPresent()) {
 			var state = optState.get();
-			try{
-				for(var c : Category.values()){
+			try {
+				for (var c : Category.values()) {
 					var categoryForm = ctx.formParam("tax_" + c.name());
 					
-					if(categoryForm == null) throw new Exception();
+					if (categoryForm == null) throw new Exception();
 					
 					stateDao.editCategoryTax(state, c, Double.valueOf(categoryForm));
 				}
 				model.put("edit_failed", false);
 				
-			}catch (NumberFormatException e){
+			} catch (NumberFormatException e) {
 				//we can input here some additional information about ex. in which category there was an invalid value
 				model.put("edit_failed", true);
-			}catch (Exception e){
+			} catch (Exception e) {
 				model.put("edit_failed", true);
 			}
 			
@@ -72,7 +72,7 @@ public class USStateController {
 			model.put("categoriesTranslator", new CategoryTransalator());
 			
 			ctx.render(Paths.Template.SINGLE_STATE, model);
-		}else{
+		} else {
 			ctx.html("Not found");
 		}
 	};

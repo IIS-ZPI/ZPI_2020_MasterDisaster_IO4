@@ -10,11 +10,11 @@ public class ProductDAO {
 	private final List<Product> products = new ArrayList<>();
 	private final static ProductDAO INSTANCE = new ProductDAO();
 	
-	private ProductDAO(){
+	private ProductDAO() {
 		prepareTempData();
 	}
 	
-	public static ProductDAO getInstance(){
+	public static ProductDAO getInstance() {
 		return INSTANCE;
 	}
 	
@@ -28,7 +28,7 @@ public class ProductDAO {
 		return products;
 	}
 	
-	public Optional<Product> getProductByName(String name){
+	public Optional<Product> getProductByName(String name) {
 		return products.stream()
 				.filter(e -> e.getName().equals(name))
 				.findAny();
