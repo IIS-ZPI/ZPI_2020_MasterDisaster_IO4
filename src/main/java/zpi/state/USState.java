@@ -12,7 +12,7 @@ public class USState {
 	
 	public USState(String name) {
 		this.name = name;
-		for(var c : Category.values()){
+		for (var c : Category.values()) {
 			this.taxForCategoryMap.put(c, 0.);
 		}
 	}
@@ -25,12 +25,16 @@ public class USState {
 		this.taxForCategoryMap.put(category, tax);
 	}
 	
-	public Double computeFinalPriceOfProduct(Product product){
+	public Double computeProfit(Product product) {
 		Double ratio = this.taxForCategoryMap.get(product.getCategory());
 		Double basePrice = product.getBasePrice();
-		if(basePrice < 0.0 || ratio < 0.0) throw new IllegalArgumentException("Base price and tax value should be positive.");
-
-		return ratio * basePrice + basePrice;
+		Double expectedPrice = product.getExpectedPrice();
+		
+		if (basePrice < 0.0 || ratio < 0.0) {
+			throw new IllegalArgumentException("Base price and tax value should be positive.");
+		}
+		
+		return expectedPrice - basePrice - (expectedPrice * ratio);
 	}
 	
 	public String getName() {

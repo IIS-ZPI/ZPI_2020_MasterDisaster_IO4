@@ -19,9 +19,9 @@ public class ProductDAO {
 	}
 	
 	void prepareTempData() {
-		products.add(new Product("Chocolate bar", 15, Category.PREPARED_FOOD));
-		products.add(new Product("Milk", 10, Category.PREPARED_FOOD));
-		products.add(new Product("Tomato", 3, Category.GROCERIES));
+		products.add(new Product("Chocolate bar", 1, Category.PREPARED_FOOD));
+		products.add(new Product("Milk", 2, Category.PREPARED_FOOD));
+		products.add(new Product("Tomato", 0.5, Category.GROCERIES));
 	}
 	
 	public List<Product> getProducts() {
