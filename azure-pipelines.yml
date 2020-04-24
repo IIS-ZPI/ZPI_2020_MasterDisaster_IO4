@@ -1,4 +1,5 @@
-  # Maven
+
+# Maven
 # Build your Java project and run tests with Apache Maven.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
@@ -7,69 +8,24 @@ trigger:
   batch: true
   branches:
     include:
-      - CI_CD-modyfications&tests
-variables:
+      - develop
+      - release
+      - feature*
+      - hotfix
+    exclude:
+      - master
 
-  # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: '3c312e5e-a322-48ae-b67b-5963ebad9ea8'
-  
-  # Web app name
-  webAppName: 'masterdisaster-tax-calculator'
+pool:
+  vmImage: 'windows-latest'
 
-  # Environment name
-  environmentName: 'masterdisaster-tax-calculator'
-  
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
-stages:
-- stage: Build
-  displayName: Build stage
-  jobs:
-  - job: MavenPackageAndPublishArtifacts
-    displayName: Maven Package and Publish Artifacts
-    pool:
-      vmImage: $(vmImageName)
-    
-    steps:
-    - task: Maven@3
-      inputs:
-        mavenPomFile: 'pom.xml'
-        publishJUnitResults: true
-        testResultsFiles: '**/surefire-reports/TEST-*.xml'
-        testRunTitle: 'testy'
-        mavenOptions: '-Xmx3072m'
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '1.11'
-        jdkArchitectureOption: 'x64'
-        mavenVersionOption: 'Default'
-        mavenAuthenticateFeed: false
-        effectivePomSkip: false
-        sonarQubeRunAnalysis: false
-
-    - task: CopyFiles@2
-      displayName: 'Copy jar file to artifact staging directory'
-      inputs:
-        SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: '**/*.?(war|jar)'
-        TargetFolder: $(Build.ArtifactStagingDirectory)
-
-    - task: CopyFiles@2
-      displayName: 'Copy resources to artifact staging directory'
-      inputs:
-        SourceFolder: '$(System.DefaultWorkingDirectory)'
-        Contents: '**/resources**'
-        TargetFolder: $(Build.ArtifactStagingDirectory)
-
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: drop'
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'connection-masterdisaster-tax-calculator'
-        appType: 'webAppLinux'
-        WebAppName: $(webAppName)
-        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.?(war|jar)'
+steps:
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      mavenOptions: '-Xmx3072m'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.11'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      goals: 'package'
