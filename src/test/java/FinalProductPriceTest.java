@@ -1,5 +1,3 @@
-package test.zpi.sales;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -8,7 +6,7 @@ import zpi.product.Product;
 import zpi.sales.Category;
 import zpi.state.USState;
 
-public class FinalProductPriceTests {
+public class FinalProductPriceTest {
     private USState state;
     private static Category category;
     private static Product productPositivePrice;
@@ -34,7 +32,7 @@ public class FinalProductPriceTests {
     }
 
     @Test
-    public void checkIfBasePriceIsPositive() throws Exception {
+    public void testIfBasePriceIsPositiveTest() throws Exception {
         state.addCategoryWithTax(category, BASIC_TAX);
         Assert.assertEquals(Double.valueOf(21.0), state.computeFinalPriceOfProduct(productPositivePrice));
     }
