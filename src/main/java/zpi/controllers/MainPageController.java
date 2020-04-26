@@ -12,7 +12,7 @@ public class MainPageController {
 	public static Handler mainPage = ctx -> {
 		USStateDAO stateDAO = USStateDAO.getInstance();
 		ProductDAO productDao = ProductDAO.getInstance();
-		
+
 		Map<String, Object> model = ViewUtil.baseModel(ctx);
 		model.put("products", productDao.getProducts());
 		model.put("states", stateDAO.getStates());
