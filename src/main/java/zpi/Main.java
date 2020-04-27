@@ -14,14 +14,21 @@ public class Main {
 		
 		Javalin app = Javalin.create(config -> {
 			config.addStaticFiles("/public");
-		}).start(7777);
-		
-		
+		}).start(getHerokuAssignedPort());
+
+
 		app.get(Paths.Web.INDEX, MainPageController.mainPage);
 		app.get(Paths.Web.SIMPLE_TAX, ComputeTaxController.computeTax);
 		app.get(Paths.Web.ALL_STATES, USStateController.allStatesDisplay);
 		app.get(Paths.Web.SINGLE_STATE, USStateController.singleStateDisplay);
 		app.post(Paths.Web.SINGLE_STATE, USStateController.editStateTaxesPost);
-		
+	}
+	
+	private static int getHerokuAssignedPort() {
+		String herokuPort = System.getenv("PORT");
+		if (herokuPort != null) {
+			return Integer.parseInt(herokuPort);
+		}
+		return 7000;
 	}
 }
