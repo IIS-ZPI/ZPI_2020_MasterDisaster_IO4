@@ -18,8 +18,8 @@ public class SimpleUSStateDAO extends IUSStateDAO {
 		USState alaskaState = new USState("Alaska");
 		USState arizonaState = new USState("Arizona");
 		
-		alabamaState.editCategoryTax(Category.GROCERIES, Double.valueOf(4));
-		alabamaState.editCategoryTax(Category.PREPARED_FOOD, Double.valueOf(5));
+		alabamaState.editCategoryTax(Category.GROCERIES, 0.04);
+		alabamaState.editCategoryTax(Category.PREPARED_FOOD, 0.05);
 		
 		states.add(alabamaState);
 		states.add(alaskaState);
