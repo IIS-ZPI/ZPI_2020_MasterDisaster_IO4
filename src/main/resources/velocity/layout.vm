@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+    <ul>
+    	<li>Tax calculator</li>
+    	<li>Products</li>
+    	<li>About</li>
+    	<li>Contact</li>
+    </ul>
     <header>
         <h1>Enter data to calculate tax</h1>
     </header>
