@@ -14,7 +14,7 @@ public class DAOFactory {
 		iusStateDAO = dao;
 	}
 	
-	static public void registerProductDaot(IProductDAO dao) {
+	static public void registerProductDao(IProductDAO dao) {
 		iProductDAO = dao;
 	}
 	
