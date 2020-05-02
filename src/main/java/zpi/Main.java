@@ -4,6 +4,7 @@ import io.javalin.Javalin;
 import zpi.controllers.ComputeTaxController;
 import zpi.controllers.MainPageController;
 import zpi.dao.DAOFactory;
+import zpi.product.SimpleProductDAO;
 import zpi.state.SimpleUSStateDAO;
 import zpi.state.USStateController;
 import zpi.utils.Paths;
@@ -11,6 +12,7 @@ import zpi.utils.Paths;
 public class Main {
 	public static void main(String[] args) {
 		DAOFactory.registerUSStateDao(new SimpleUSStateDAO());
+		DAOFactory.registerProductDao(new SimpleProductDAO());
 		
 		Javalin app = Javalin.create(config -> {
 			config.addStaticFiles("/public");
