@@ -12,9 +12,9 @@
     	<li>About</li>
     	<li>Contact</li>
     </ul>
-    <header>
+    <!--<header>
         <h1>Enter data to calculate tax</h1>
-    </header>
+    </header>-->
     <main>
         <div id="content">
             $bodyContent
