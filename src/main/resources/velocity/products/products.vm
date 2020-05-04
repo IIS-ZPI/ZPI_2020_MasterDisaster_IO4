@@ -1,0 +1,29 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+    <a href="/">
+       <button>Home</button>
+    </a>
+    <table class="tg">
+        <th>Product name</th>
+        <th>Category</th>
+        <th>Base price</th>
+
+        #foreach($product in $products)
+        <tr>
+            <td class="product-name">$product.getName()</td>
+            <td>$categoriesTranslator.tr($product.getCategory())</td>
+            <td class="product-baseprice">$product.getBasePrice()</td>
+
+
+            <th class="edit-product">
+                <!--
+                <a href="/state/$state.getName()">
+                   <button>Edit</button>
+                </a>
+                ---!>
+               <button>Edit</button>
+            </th>
+        </tr>
+        #end
+    </table>
+#end

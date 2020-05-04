@@ -25,4 +25,7 @@
     <a href="/states">
        <button>Browse states</button>
     </a>
+    <a href="/products">
+       <button>Browse products</button>
+    </a>
 #end

@@ -4,6 +4,7 @@ import io.javalin.Javalin;
 import zpi.controllers.ComputeTaxController;
 import zpi.controllers.MainPageController;
 import zpi.dao.DAOFactory;
+import zpi.product.ProductController;
 import zpi.product.SimpleProductDAO;
 import zpi.state.SimpleUSStateDAO;
 import zpi.state.USStateController;
@@ -23,6 +24,7 @@ public class Main {
 		app.get(Paths.Web.SIMPLE_TAX, ComputeTaxController.computeTax);
 		app.get(Paths.Web.ALL_STATES, USStateController.allStatesDisplay);
 		app.get(Paths.Web.SINGLE_STATE, USStateController.singleStateDisplay);
+		app.get(Paths.Web.ALL_PRODUCTS, ProductController.allProductsDisplay);
 		app.post(Paths.Web.SINGLE_STATE, USStateController.editStateTaxesPost);
 	}
 	
