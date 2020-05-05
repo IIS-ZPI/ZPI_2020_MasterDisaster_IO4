@@ -11,8 +11,9 @@ import zpi.state.IUSStateDAO;
 import zpi.state.SimpleUSStateDAO;
 import zpi.state.USState;
 
+import java.util.Optional;
+
 public class SimpleDAOTests {
-	//input
 	private static final String EXISTING_NAME = "EXISTING_NAME";
 	private static final String NON_EXISTING_NAME = "NON_EXISTING_NAME";
 	private static final Category irrelevantCategory = Category.GROCERIES;
@@ -41,7 +42,23 @@ public class SimpleDAOTests {
 	@Before
 	public void clean(){
 		productDAO.getProducts().clear();
+		stateDAO.getStates().clear();
 	}
+
+	private void addTestingProduct() {
+		try {
+			productDAO.addProduct(EXISTING_NAME, irrelevantCategory, irrelevantPrice);
+		} catch (ProductDuplicateException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void addTestingState(){
+		stateDAO.addUSState(EXISTING_NAME);
+	}
+
+	// --- PRODUCT TESTS --- //
+
 
 	@Test
 	public void checkIfProductExistsInProductDAO() throws ProductDoesNotExistException {
@@ -116,63 +133,41 @@ public class SimpleDAOTests {
 		Assert.assertThrows(ProductDoesNotExistException.class, () -> productDAO.updateProductCategory(NON_EXISTING_NAME, newCategory));
 	}
 
-	private void addTestingProduct() {
-		try {
-			productDAO.addProduct(EXISTING_NAME, irrelevantCategory, irrelevantPrice);
-		} catch (ProductDuplicateException e) {
-			e.printStackTrace();
-		}
+
+	// --- STATE TESTS --- //
+
+
+	@Test
+	public void checkIfStateNameExists() {
+		addTestingState();
+		Optional<USState> state = stateDAO.getUSStateByName(EXISTING_NAME);
+		Assert.assertEquals(SimpleDAOTests.state.getName(), state.orElse(null).getName());
 	}
 
-	//	@Test
-//	public void checkIfStateNameExists() {
-//		Mockito.when(stateDAO.getUSStateByName(EXISTING_NAME)).thenReturn(Optional.of(SimpleDAOTests.state));
-//		Optional<USState> state = stateDAO.getUSStateByName(EXISTING_NAME);
-//		Assert.assertEquals(SimpleDAOTests.state, state.orElse(null));
-//	}
-//
-//	@Test
-//	public void checkIfStateNameNotExists() {
-//		Mockito.when(stateDAO.getUSStateByName(NAME_THAT_NOT_EXISTS)).thenReturn(Optional.empty());
-//		Optional<USState> state = stateDAO.getUSStateByName(NAME_THAT_NOT_EXISTS);
-//		Assert.assertNull(state.orElse(null));
-//	}
-//
-//	@Test
-//	public void checkIfStateNameIsNull() {
-//		Mockito.when(stateDAO.getUSStateByName(null)).thenReturn(Optional.empty());
-//		Optional<USState> state = stateDAO.getUSStateByName(null);
-//		Assert.assertNull(state.orElse(null));
-//	}
-//
-//	@Test
-//	public void checkIfStateNameIsEmpty() {
-//		Mockito.when(stateDAO.getUSStateByName("")).thenReturn(Optional.empty());
-//		Optional<USState> state = stateDAO.getUSStateByName("");
-//		Assert.assertNull(state.orElse(null));
-//	}
-//
-//	@Test
-//	public void checkIfProductNameExists() {
-//		Optional<Product> product = simpleProductDAO.getProduct(EXISTING_NAME);
-//		Assert.assertEquals(SimpleDAOTests.product, product.orElse(null));
-//	}
-//
-//	@Test
-//	public void checkIfProductNameNotExists() {
-//		Optional<Product> product = simpleProductDAO.getProduct(NAME_THAT_NOT_EXISTS);
-//		Assert.assertNull(product.orElse(null));
-//	}
-//
-//	@Test
-//	public void checkIfProductNameIsNull() {
-//		Optional<Product> product = simpleProductDAO.getProduct(null);
-//		Assert.assertNull(product.orElse(null));
-//	}
-//
-//	@Test
-//	public void checkIfProductNameIsEmpty() {
-//		Optional<Product> product = simpleProductDAO.getProduct("");
-//		Assert.assertNull(product.orElse(null));
-//	}
+	@Test
+	public void checkIfStateNameDoesNotExist() {
+		addTestingState();
+		Optional<USState> state = stateDAO.getUSStateByName(NON_EXISTING_NAME);
+		Assert.assertNull(state.orElse(null));
+	}
+
+	@Test
+	public void checkIfStateNameIsNull() {
+		addTestingState();
+		Assert.assertThrows(NullPointerException.class, () -> stateDAO.getUSStateByName(null));
+	}
+
+	@Test
+	public void checkIfStateNameIsEmpty() {
+		addTestingState();
+		Optional<USState> state = stateDAO.getUSStateByName("");
+		Assert.assertNull(state.orElse(null));
+	}
+
+	@Test
+	public void checkIfCanEditStateTax() {
+		double taxRatio = 0.23;
+		stateDAO.editCategoryTax(state, irrelevantCategory, taxRatio);
+		Assert.assertEquals(taxRatio, state.getTaxForCategory(irrelevantCategory), 0.0);
+	}
 }
