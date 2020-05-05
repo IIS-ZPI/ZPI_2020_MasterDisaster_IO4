@@ -9,11 +9,11 @@
         <div>Edit taxes was successful!</div>
     #end
     <form method="post">
-        <label>State name: $state.getName()</label>
+        <h4>State name: $state.getName()</h4>
         </br>
-        <label>Taxes:</label>
+        <h4>Taxes:</h4>
         </br>
-        #foreach($category in $categories)
+        <!--#foreach($category in $categories)
             #set( $tax = $state.getTaxForCategory($category))
             <label>$categoriesTranslator.tr($category)</label>
             #if(!$tax)
@@ -21,7 +21,21 @@
             #end
             <input type="number" id="tax_$category" name="tax_$category" min="0" value="$tax"/>
             </br>
+        #end-->
+        #foreach($category in $categories)
+            <div class="inline_groups">
+                #set( $tax = $state.getTaxForCategory($category))
+                <div class="label_input_group">
+                    <label>$categoriesTranslator.tr($category)</label>
+                    </div>
+                    #if(!$tax)
+                        #set($tax = "")
+                    #end
+                    <input type="number" id="tax_$category" name="tax_$category" min="0" value="$tax"/>
+                </div>
+            </div>
         #end
+
         <button>Update</button>
     </form>
 #end
