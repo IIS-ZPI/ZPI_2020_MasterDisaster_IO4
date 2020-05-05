@@ -32,13 +32,14 @@
             </button>
           </div>
           <div class="modal-body">
-            <form>
+            <form method="post" id="editProductForm">
               <div class="form-group">
-                <label class="col-form-label" id="productNameID">Product:</label>
+                <label class="col-form-label" id="editProductNameID"></label>
+                <input type="hidden" name="editProductName" id="editProductNameIDHidd" value=""/>
               </div>
               <div class="form-group">
-                <label for="category-group" class="col-form-label" id="categoryNameID">Category:</label>
-                <select name="category-group">
+                <label for="category-group" class="col-form-label" id="editCategoryNameID">Category: </label>
+                <select name="editCategoryName">
                     #foreach($cat in $categories)
                     <option value="$cat">$categoriesTranslator.tr($cat)</option>
                     #end
@@ -46,13 +47,13 @@
               </div>
               <div class="form-group">
                 <label for="base-price-group" class="col-form-label">Price:</label>
-                <input type="number" id="basePriceID" min="0" value="0"/>
+                <input type="number" name="editBasePrice" id="editBasePriceID" min="0" value="0"/>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Submit</button>
+            <button onclick="edit_product_submit()" type="button" class="btn btn-primary" id="editSubmit">Submit</button>
           </div>
         </div>
       </div>
@@ -71,11 +72,15 @@
           var basePriceName = row.cells[2].innerHTML;
 
           modal.find('.modal-title').text('Edit ' + productName)
-          modal.find('#productNameID').text(productName)
-          modal.find('#categoryNameID').val(categoryName)
-          modal.find('#basePriceID').val(basePriceName)
-
+          modal.find('#editProductNameID').text('Product: ' + productName)
+          modal.find('#editProductNameIDHidd').val(productName)
+          modal.find('#editCategoryNameID').val(categoryName)
+          modal.find('#editBasePriceID').val(basePriceName)
         })
+
+        function edit_product_submit() {
+            document.getElementById("editProductForm").submit();
+        }
     </script>
 
 #end

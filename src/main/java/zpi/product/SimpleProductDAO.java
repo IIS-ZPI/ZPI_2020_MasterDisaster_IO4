@@ -74,10 +74,16 @@ public class SimpleProductDAO extends IProductDAO {
 		}
 	}
 	
+//	@Override
+//	public void updateProductBasePrice(Product product, double basePrice) throws ProductDoesNotExistException {
+//		if (!products.contains(product)) throw new ProductDoesNotExistException();
+//
+//		products.stream().filter(product::equals).findAny().get().setBasePrice(basePrice);
+//	}
+	
 	@Override
-	public void updateProductBasePrice(Product product, double basePrice) throws ProductDoesNotExistException {
-		if (!products.contains(product)) throw new ProductDoesNotExistException();
-		
-		products.stream().filter(product::equals).findAny().get().setBasePrice(basePrice);
+	public void updateProductCategory(String productName, Category category) throws ProductDoesNotExistException {
+		var product = getProduct(productName);
+		product.setCategory(category);
 	}
 }

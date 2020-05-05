@@ -16,8 +16,9 @@ public abstract class IProductDAO {
 	
 	
 	abstract public void updateProductBasePrice(String productName, double basePrice) throws ProductDoesNotExistException;
+	abstract public void updateProductCategory(String productName, Category category) throws ProductDoesNotExistException;
 	
-	abstract public void updateProductBasePrice(Product product, double basePrice) throws ProductDoesNotExistException;
+	//abstract public void updateProductBasePrice(Product product, double basePrice) throws ProductDoesNotExistException;
 	
 	abstract public void removeProduct(String productName) throws ProductDoesNotExistException;
 	

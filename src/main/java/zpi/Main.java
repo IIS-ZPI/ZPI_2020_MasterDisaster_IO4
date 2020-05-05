@@ -25,6 +25,7 @@ public class Main {
 		app.get(Paths.Web.ALL_STATES, USStateController.allStatesDisplay);
 		app.get(Paths.Web.SINGLE_STATE, USStateController.singleStateDisplay);
 		app.get(Paths.Web.ALL_PRODUCTS, ProductController.allProductsDisplay);
+		app.post(Paths.Web.ALL_PRODUCTS, ProductController.editProductPost);
 		app.post(Paths.Web.SINGLE_STATE, USStateController.editStateTaxesPost);
 	}
 	
