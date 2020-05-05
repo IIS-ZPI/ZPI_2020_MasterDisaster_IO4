@@ -50,9 +50,7 @@ public class Product {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Product product = (Product) o;
-		return Double.compare(product.getBasePrice(), getBasePrice()) == 0 &&
-				Objects.equals(name, product.name) &&
-				Objects.equals(getCategory(), product.getCategory());
+		return Objects.equals(name, product.name);
 	}
 	
 	@Override
@@ -62,5 +60,9 @@ public class Product {
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public String getNameWithoutSpaces() {
+		return this.name.replace(" ", "_");
 	}
 }
