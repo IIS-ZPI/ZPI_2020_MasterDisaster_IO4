@@ -61,4 +61,8 @@ public class Product {
 	public String getName() {
 		return this.name;
 	}
+	
+	public String getNameWithoutSpaces() {
+		return this.name.replace(" ", "_");
+	}
 }

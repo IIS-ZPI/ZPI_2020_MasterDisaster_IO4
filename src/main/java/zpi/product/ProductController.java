@@ -1,6 +1,7 @@
 package zpi.product;
 
 import io.javalin.http.Handler;
+import zpi.category.Category;
 import zpi.category.CategoryTransalator;
 import zpi.dao.DAOFactory;
 import zpi.state.IUSStateDAO;
@@ -16,6 +17,7 @@ public class ProductController {
 		IProductDAO dao = DAOFactory.getIProductDAO();
 		model.put("title", "CTC: All products");
 		model.put("categoriesTranslator", new CategoryTransalator());
+		model.put("categories", Category.values());
 		model.put("products", dao.getProducts());
 		
 		ctx.render(Paths.Template.ALL_PRODUCTS, model);
