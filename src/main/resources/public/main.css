@@ -20,11 +20,21 @@ header {
     color: #ebebeb;
 }
 
+a:link {
+    text-decoration: none;
+}
 
-h1, h3, h4 {
+h1, h3 {
     font-family: Arial;
     font-weight: 300;
     color: #ebebeb;
+}
+
+h4 {
+    font-family: Arial;
+    font-weight: 300;
+    color: #ebebeb;
+    font-size: 18px;
 }
 
 h2 {
@@ -34,6 +44,32 @@ h2 {
     color: #ebebeb;
 }
 
+.inline_groups {
+    display: inline-block;
+    width: 15%;
+    float: left;
+}
+
+.inline_groups label {
+    font-family: Arial;
+    line-height: 5vh;
+    font-weight: 200;
+    color: #ebebeb;
+    font-size: 18px;
+}
+
+.inline_groups input {
+    font-family: Arial;
+    line-height: 5vh;
+    font-size: 16px;
+    width: 100%
+}
+
+.label_input_group {
+    display: block;
+    margin: auto:
+    padding: 1%;
+}
 
 /*Button*/
 
@@ -96,6 +132,11 @@ li {
 	margin: auto;
 }
 
+li > a {
+    text-decoration: none;
+    color: #ebebeb;
+}
+
 li:hover {
   background-image: url('https://cdn.discordapp.com/attachments/435381018699235349/705889130868899900/button.png');
   background-size: 100% 100%;
@@ -104,6 +145,12 @@ li:hover {
   text-shadow: 0 -1px 0 #29a19c;
 	font-weight: bold;
 }
+
+li:hover > a {
+    text-decoration: none;
+    color: #27262c;
+}
+
 li:active {
   transform: translateY(4px);
 }
@@ -294,3 +341,24 @@ li:active {
 .prettyTable td:nth-child(4),
 .prettyTable th:nth-child(4) { display: none; }
 }
+
+.prettyButton {
+    border: none;
+    font-weight: normal;
+    font-size: 1em;
+    background-color: #323C50;
+    color: #ebebeb;
+}
+
+/*.prettyButton:hover {
+    background-color: #a3f7bf;
+    color: #403E10;
+    font-weight: bold;
+    box-shadow: #29a19c -1px 1px, #29a19c -2px 2px, #29a19c -3px 3px, #29a19c -4px 4px, #29a19c -5px 5px, #29a19c -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+
+    transition-delay: 0s;
+    transition-duration: 0.4s;
+    transition-property: all;
+    transition-timing-function: line;
+}*/

@@ -7,10 +7,10 @@
 </head>
 <body>
     <ul>
-    	<li>Tax calculator</li>
+    	<li><a href="/">Tax calculator</a></li>
     	<li>Products</li>
+    	<li><a href="/states">States</a></li>
     	<li>About</li>
-    	<li>Contact</li>
     </ul>
     <!--<header>
         <h1>Enter data to calculate tax</h1>
