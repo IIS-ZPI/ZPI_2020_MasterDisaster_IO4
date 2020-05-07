@@ -12,13 +12,37 @@ trigger:
     exclude:
       - develop
       - master
-      - hotfix
       - feature*
+      - hotfix
 
 pool:
-  vmImage: 'ubunut-latest'
+  vmImage: 'windows-latest'
 
 steps:
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'SonarCloud'
+      organization: 'masterdisaster'
+      scannerMode: 'Other'
+
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      mavenOptions: '-Xmx3072m'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.11'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: true
+      sqMavenPluginVersionChoice: 'latest'
+      goals: 'package'
+
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: '300'
+
   - task: CmdLine@2
     inputs:
       script: |

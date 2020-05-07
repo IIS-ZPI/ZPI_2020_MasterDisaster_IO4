@@ -16,9 +16,15 @@ trigger:
       - master
 
 pool:
-  vmImage: 'ubunut-latest'
+  vmImage: 'windows-latest'
 
 steps:
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'SonarCloud'
+      organization: 'masterdisaster'
+      scannerMode: 'Other'
+
   - task: Maven@3
     inputs:
       mavenPomFile: 'pom.xml'
@@ -28,6 +34,11 @@ steps:
       jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: true
+      sqMavenPluginVersionChoice: 'latest'
       goals: 'package'
 
-# code smell steps
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: '300'
