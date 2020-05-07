@@ -9,14 +9,14 @@ trigger:
   branches:
     include:
       - develop
-      - release
       - feature*
       - hotfix
     exclude:
+      - release
       - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubunut-latest'
 
 steps:
   - task: Maven@3
@@ -30,8 +30,4 @@ steps:
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       goals: 'package'
 
-  - task: CmdLine@2
-    inputs:
-      script: |
-        set HEROKU_API_KEY=$(HAT)
-        mvn heroku:deploy
+# code smell steps

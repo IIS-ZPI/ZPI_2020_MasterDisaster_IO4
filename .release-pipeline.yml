@@ -1,0 +1,26 @@
+
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - release
+    exclude:
+      - develop
+      - master
+      - hotfix
+      - feature*
+
+pool:
+  vmImage: 'ubunut-latest'
+
+steps:
+  - task: CmdLine@2
+    inputs:
+      script: |
+        set HEROKU_API_KEY=$(HAT)
+        mvn heroku:deploy
