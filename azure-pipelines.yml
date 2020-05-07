@@ -9,9 +9,7 @@ trigger:
   branches:
     include:
       - release
-    exclude:
       - develop
-      - master
       - feature*
       - hotfix
 
@@ -42,3 +40,10 @@ steps:
   - task: SonarCloudPublish@1
     inputs:
       pollingTimeoutSec: '300'
+
+  - task: CmdLine@2
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/release'))
+    inputs:
+      script: |
+        set HEROKU_API_KEY=$(HAT)
+        mvn heroku:deploy
