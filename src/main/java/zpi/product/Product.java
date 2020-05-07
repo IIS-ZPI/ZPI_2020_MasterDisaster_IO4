@@ -1,6 +1,6 @@
 package zpi.product;
 
-import zpi.sales.Category;
+import zpi.category.Category;
 
 import java.util.Objects;
 
@@ -8,6 +8,7 @@ public class Product {
 	private String name;
 	private double basePrice;
 	private Category category;
+	private double expectedPrice;
 	
 	public Product(String name) {
 		this.name = name;
@@ -17,10 +18,19 @@ public class Product {
 		this.name = name;
 		this.basePrice = basePrice;
 		this.category = category;
+		this.expectedPrice = 0.0;
 	}
 	
 	public double getBasePrice() {
 		return basePrice;
+	}
+	
+	public double getExpectedPrice() {
+		return expectedPrice;
+	}
+	
+	public void setExpectedPrice(double expected_price) {
+		this.expectedPrice = expected_price;
 	}
 	
 	public void setBasePrice(double basePrice) {
@@ -40,9 +50,7 @@ public class Product {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Product product = (Product) o;
-		return Double.compare(product.getBasePrice(), getBasePrice()) == 0 &&
-				Objects.equals(name, product.name) &&
-				Objects.equals(getCategory(), product.getCategory());
+		return Objects.equals(name, product.name);
 	}
 	
 	@Override
@@ -50,7 +58,11 @@ public class Product {
 		return Objects.hash(name, getBasePrice(), getCategory());
 	}
 	
-	public String getName(){
+	public String getName() {
 		return this.name;
+	}
+	
+	public String getNameWithoutSpaces() {
+		return this.name.replace(" ", "_");
 	}
 }
