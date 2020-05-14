@@ -8,7 +8,7 @@ public class RequestUtil {
 	}
 	
 	public static String getProductName(Context ctx) {
-		return ctx.formParam("editProductName");
+		return ctx.formParam("productName");
 	}
 	public static String getProductCategory(Context ctx) {
 		return ctx.formParam("editCategoryName");

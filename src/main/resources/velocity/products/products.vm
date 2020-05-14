@@ -15,6 +15,11 @@
                  Edit
                </button>
             </th>
+            <th class="remove-product">
+               <button type="button" class="prettyButton removeProductBtn" data-toggle="modal" data-whatever="$product.getName()">
+                 Remove
+               </button>
+            </th>
         </tr>
         #end
     </table>
@@ -29,10 +34,10 @@
             </button>
           </div>
           <div class="modal-body">
-            <form method="post" id="editProductForm">
+            <form id="editProductForm">
               <div class="form-group">
                 <label class="col-form-label" id="editProductNameID"></label>
-                <input type="hidden" name="editProductName" id="editProductNameIDHidd" value=""/>
+                <input type="hidden" name="productName" id="editProductNameIDHidd" value=""/>
               </div>
               <div class="form-group">
                 <label for="category-group" class="col-form-label" id="editCategoryNameID">Category: </label>
@@ -50,13 +55,14 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button onclick="edit_product_submit()" type="button" class="btn btn-primary" id="editSubmit">Submit</button>
+            <button type="button" class="btn btn-primary" id="editSubmit">Submit</button>
           </div>
         </div>
       </div>
     </div>
 
     <script>
+    $(document).ready(function () {
         $('#editProductModal').on('show.bs.modal', function (event) {
           var button = $(event.relatedTarget) // Button that triggered the modal
           var id = button.data('whatever') // Extract info from data-* attributes
@@ -75,9 +81,30 @@
           modal.find('#editBasePriceID').val(basePriceName)
         })
 
-        function edit_product_submit() {
-            document.getElementById("editProductForm").submit();
-        }
+		 $('#editSubmit').click(function(){
+		    var formData = $('#editProductForm').serialize();
+            $.ajax({
+                url: '/products',
+                type: 'put',
+                data: formData,
+                success: function(result) {
+                    location.reload();
+                }
+            });
+          });
+
+		 $('.removeProductBtn').click(function(){
+		    var productID = $(this).data('whatever');
+            $.ajax({
+                url: '/products',
+                type: 'DELETE',
+                data: {'productName': productID},
+                success: function(result) {
+                    location.reload();
+                }
+            });
+          });
+    });
     </script>
 
 #end
