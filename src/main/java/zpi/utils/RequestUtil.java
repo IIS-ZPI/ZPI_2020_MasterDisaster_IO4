@@ -11,9 +11,9 @@ public class RequestUtil {
 		return ctx.formParam("productName");
 	}
 	public static String getProductCategory(Context ctx) {
-		return ctx.formParam("editCategoryName");
+		return ctx.formParam("categoryName");
 	}
 	public static Double getProductBasePrice(Context ctx) {
-		return Double.valueOf(ctx.formParam("editBasePrice"));
+		return Double.valueOf(ctx.formParam("basePrice"));
 	}
 }

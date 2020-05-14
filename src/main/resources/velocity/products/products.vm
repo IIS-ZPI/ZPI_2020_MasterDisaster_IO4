@@ -1,5 +1,8 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
+    <button type="button" class="prettyButton addProductBtn" data-toggle="modal"  data-target="#addProductModal" >
+        Add new product
+    </button>
     <table class="prettyTable">
         <th>Product name</th>
         <th>Category</th>
@@ -16,7 +19,7 @@
                </button>
             </th>
             <th class="remove-product">
-               <button type="button" class="prettyButton removeProductBtn" data-toggle="modal" data-whatever="$product.getName()">
+               <button type="button" class="prettyButton removeProductBtn" data-whatever="$product.getName()">
                  Remove
                </button>
             </th>
@@ -41,7 +44,7 @@
               </div>
               <div class="form-group">
                 <label for="category-group" class="col-form-label" id="editCategoryNameID">Category: </label>
-                <select name="editCategoryName">
+                <select name="categoryName">
                     #foreach($cat in $categories)
                     <option value="$cat">$categoriesTranslator.tr($cat)</option>
                     #end
@@ -49,13 +52,50 @@
               </div>
               <div class="form-group">
                 <label for="base-price-group" class="col-form-label">Price:</label>
-                <input type="number" name="editBasePrice" id="editBasePriceID" min="0" value="0"/>
+                <input type="number" name="basePrice" id="editBasePriceID" min="0" value="0"/>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" id="editSubmit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addProductModal">Add new product</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="addProductForm">
+              <div class="form-group">
+                <label class="col-form-label">Product name</label>
+                <input type="text" name="productName"/>
+              </div>
+              <div class="form-group">
+                <label for="category-group" class="col-form-label">Category:</label>
+                <select name="categoryName">
+                    #foreach($cat in $categories)
+                    <option value="$cat">$categoriesTranslator.tr($cat)</option>
+                    #end
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="base-price-group" class="col-form-label">Price:</label>
+                <input type="number" name="basePrice" min="0" value="0"/>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="addSubmit">Add</button>
           </div>
         </div>
       </div>
@@ -86,6 +126,18 @@
             $.ajax({
                 url: '/products',
                 type: 'put',
+                data: formData,
+                success: function(result) {
+                    location.reload();
+                }
+            });
+          });
+
+		 $('#addSubmit').click(function(){
+		    var formData = $('#addProductForm').serialize();
+            $.ajax({
+                url: '/products',
+                type: 'post',
                 data: formData,
                 success: function(result) {
                     location.reload();

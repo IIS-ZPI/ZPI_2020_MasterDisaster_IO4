@@ -67,4 +67,30 @@ public class ProductController {
 			ctx.html("Not found");
 		}
 	};
+	
+	public static Handler addProductPost = ctx -> {
+		Map<String, Object> model = ViewUtil.baseModel(ctx);
+		
+		try {
+			var category = RequestUtil.getProductCategory(ctx);
+			var basePrice = RequestUtil.getProductBasePrice(ctx);
+			var newProductName = RequestUtil.getProductName(ctx);
+			
+			IProductDAO dao = DAOFactory.getIProductDAO();
+			dao.addProduct(newProductName, Category.valueOf(category), basePrice);
+			
+			model.put("title", "CTC: All products");
+			model.put("categoriesTranslator", new CategoryTransalator());
+			model.put("categories", Category.values());
+			model.put("products", dao.getProducts());
+			
+			
+			ctx.render(Paths.Template.ALL_PRODUCTS, model);
+		} catch (ProductDuplicateException e) {
+			ctx.html("Product with such name ");
+		} catch (NumberFormatException e) {
+			ctx.html("Wrong data");
+		}
+		
+	};
 }
