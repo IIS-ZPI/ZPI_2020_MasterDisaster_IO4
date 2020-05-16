@@ -1,4 +1,4 @@
-package test.zpi.sales;
+package java.zpi.sales;
 
 import org.junit.Assert;
 import org.junit.Before;

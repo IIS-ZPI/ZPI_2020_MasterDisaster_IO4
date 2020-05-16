@@ -42,7 +42,7 @@ public class USStateController {
 		}
 	};
 	
-	public static Handler editStateTaxesPost = ctx -> {
+	public static Handler editStateTaxesPut = ctx -> {
 		Map<String, Object> model = ViewUtil.baseModel(ctx);
 		var stateDao = DAOFactory.getIUSStateDAO();
 		var optState = stateDao.getUSStateByName(RequestUtil.getStateName(ctx));

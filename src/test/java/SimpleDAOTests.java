@@ -1,4 +1,4 @@
-package test.zpi.sales;
+package java.zpi.sales;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -64,9 +64,9 @@ public class SimpleDAOTests {
 	public void checkIfProductExistsInProductDAO() throws ProductDoesNotExistException {
 		addTestingProduct();
 		Product product = productDAO.getProduct(EXISTING_NAME);
-		Assert.assertEquals(test.zpi.sales.SimpleDAOTests.product.getName(), product.getName());
-		Assert.assertEquals(test.zpi.sales.SimpleDAOTests.product.getCategory(), product.getCategory());
-		Assert.assertEquals(test.zpi.sales.SimpleDAOTests.product.getBasePrice(), product.getBasePrice(), 0.0);
+		Assert.assertEquals(SimpleDAOTests.product.getName(), product.getName());
+		Assert.assertEquals(SimpleDAOTests.product.getCategory(), product.getCategory());
+		Assert.assertEquals(SimpleDAOTests.product.getBasePrice(), product.getBasePrice(), 0.0);
 	}
 
 	@Test

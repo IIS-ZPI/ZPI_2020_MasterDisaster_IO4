@@ -87,7 +87,7 @@ public class ProductController {
 			
 			ctx.render(Paths.Template.ALL_PRODUCTS, model);
 		} catch (ProductDuplicateException e) {
-			ctx.html("Product with such name ");
+			ctx.html("Product with such name exists");
 		} catch (NumberFormatException e) {
 			ctx.html("Wrong data");
 		}

@@ -30,7 +30,7 @@ public class Main {
 		app.post(Paths.Web.ALL_PRODUCTS, ProductController.addProductPost);
 		app.put(Paths.Web.ALL_PRODUCTS, ProductController.editProductPut);
 		app.delete(Paths.Web.ALL_PRODUCTS, ProductController.removeProduct);
-		app.put(Paths.Web.SINGLE_STATE, USStateController.editStateTaxesPost);
+		app.put(Paths.Web.SINGLE_STATE, USStateController.editStateTaxesPut);
 	}
 	
 	private static int getHerokuAssignedPort() {
