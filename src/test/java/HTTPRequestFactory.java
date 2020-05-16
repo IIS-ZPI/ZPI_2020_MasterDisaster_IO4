@@ -10,22 +10,22 @@ import zpi.state.SimpleUSStateDAO;
 import zpi.state.USStateController;
 import zpi.utils.Paths;
 
-public class HTTPRequestFactory {
-	public static final int PORT = 1234;
-	public static final String URL_BASE = "http://localhost:1234";
-	public static final String SIMPLE_TAX_URL = URL_BASE + Paths.Web.SIMPLE_TAX;
-	public static final String ALL_PRODUCTS_URL = URL_BASE + Paths.Web.ALL_PRODUCTS;
-	public static final String ALL_STATES_URL = URL_BASE + Paths.Web.ALL_STATES;
-	public static final String SINGLE_STATE_URL = URL_BASE + Paths.Web.SINGLE_STATE;
+class HTTPRequestFactory {
+	static final int PORT = 1234;
+	static final String URL_BASE = "http://localhost:1234";
+	static final String SIMPLE_TAX_URL = URL_BASE + Paths.Web.SIMPLE_TAX;
+	static final String ALL_PRODUCTS_URL = URL_BASE + Paths.Web.ALL_PRODUCTS;
+	static final String ALL_STATES_URL = URL_BASE + Paths.Web.ALL_STATES;
+	static final String SINGLE_STATE_URL = URL_BASE + Paths.Web.SINGLE_STATE;
 
-	public static final String NOT_FOUND_MESSAGE = "Not found";
-	public static final String NON_EXISTING_PRODUCT_MESSAGE = "Such product does not exist!";
-	public static final String WRONG_DATA_MESSAGE = "Wrong data";
+	static final String NOT_FOUND_MESSAGE = "Not found";
+	static final String NON_EXISTING_PRODUCT_MESSAGE = "Such product does not exist!";
+	static final String WRONG_DATA_MESSAGE = "Wrong data";
 
-	public static final int OK_STATUS = 200;
-	public static final int NOT_FOUND_STATUS = 404;
+	static final int OK_STATUS = 200;
+	static final int NOT_FOUND_STATUS = 404;
 
-	public static Javalin createApp(){
+	static Javalin createApp(){
 		DAOFactory.registerUSStateDao(new SimpleUSStateDAO());
 		DAOFactory.registerProductDao(new SimpleProductDAO());
 
@@ -47,20 +47,19 @@ public class HTTPRequestFactory {
 		return app;
 	}
 
-	public static HttpResponse getResponse(String url){
+	static HttpResponse getResponse(String url){
 		return Unirest.get(url).asString();
 	}
 
-	public static HttpResponse postResponse(String url, Object body){
+	static HttpResponse postResponse(String url, Object body){
 		return Unirest.post(url).body(body).asString();
 	}
 
-	public static HttpResponse putResponse(String url, Object body){
+	static HttpResponse putResponse(String url, Object body){
 		return Unirest.delete(url).body(body).asString();
 	}
 
-	public static HttpResponse deleteResponse(String url, Object body){
+	static HttpResponse deleteResponse(String url, Object body){
 		return Unirest.delete(url).body(body).asString();
 	}
-
 }

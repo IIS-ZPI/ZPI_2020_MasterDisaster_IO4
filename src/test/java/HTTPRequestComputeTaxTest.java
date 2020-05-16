@@ -54,7 +54,7 @@ public class HTTPRequestComputeTaxTest {
 		Javalin app = HTTPRequestFactory.createApp().start(HTTPRequestFactory.PORT);
 		HttpResponse response = HTTPRequestFactory.getResponse(HTTPRequestFactory.URL_BASE + "/notExistingPageTest");
 		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.NOT_FOUND_STATUS);
-		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.HTTPRequestFactory.NOT_FOUND_MESSAGE);
+		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
 		app.stop();
 	}
 
