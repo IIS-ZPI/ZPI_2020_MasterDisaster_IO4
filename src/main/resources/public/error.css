@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 10px;
+}
+
+body {
+    font-family: Arial;
+    height: 100%;
+    width: 100%;
+    background-color: #222831;
+    vertical-align: middle;
+    text-align: center;
+    color: #ebebeb;
+}
+
+h1 {
+    font-family: Arial;
+    font-weight: 300;
+    color: #ebebeb;
+    font-size: 44px;
+}
+
+h2 {
+    font-family: Arial;
+    font-weight: 400;
+    color: #ebebeb;
+    font-size: 60px;
+}
+
+h3 {
+    font-family: Arial;
+    font-weight: 300;
+    color: #ebebeb;
+    font-size: 22px;
+}
+
+
+.tax-background-image {
+    background-image: url("fog.jpg");
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    /*filter: blur(2px);
+    -webkit-filter: blur(2px);
+*/
+    height: 100%;
+    width: 100%;
+}
+
+
+.prettyButton {
+    border: none;
+    font-weight: normal;
+    font-size: 1em;
+    background-color: #323C50;
+    color: #ebebeb;
+}

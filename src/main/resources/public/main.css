@@ -25,6 +25,10 @@ header {
     color: #ebebeb;
 }
 
+main {
+    width: 100%;
+}
+
 .tax-background-image {
     background-image: url("notebook.jpg");
 
@@ -88,10 +92,6 @@ h2 {
     float: center;
 }
 
-.inline_groups select {
-    width: 40%;
-}
-
 .inline_groups label {
     font-family: Arial;
     line-height: 5vh;
@@ -119,6 +119,14 @@ h2 {
     display: block;
     margin: auto:
     padding: 1%;
+}
+
+.modal-content {
+    font-size: 22px;
+    background-color: #222831;
+    text-align: center;
+    color: #ebebeb;
+    font-family: Arial;
 }
 
 

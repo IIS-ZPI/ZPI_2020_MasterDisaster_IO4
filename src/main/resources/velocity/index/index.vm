@@ -1,6 +1,6 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
-<div class="tax-background-image">
+<!--<div class="tax-background-image">-->
 <div class="form-container">
     <header>
         <h1>Enter data to calculate tax</h1>
@@ -11,25 +11,23 @@
         <div class="center_block">
             <div class="inline_groups" style="width: 40%;">
                 <h2>Choose state</h2>
-                <div class="custom-select">
-                    <select name="state" id="state" class="select-css">
-                    <option value="0">Select state:</option>
-                    #foreach($states in $states)
-                        <option value="$states.getName()">$states.getName()</option>
-                    #end
-                    </select>
-                </div>
+                <select name="state" id="state" class="custom-select">
+                <option value="0">Select state:</option>
+                #foreach($states in $states)
+                    <option value="$states.getName()">$states.getName()</option>
+                #end
+                </select>
             </div>
             <div class="inline_groups" style="width: 40%;">
                 <h2>Choose product</h2>
-                <div class="custom-select">
-                    <select name="product" id="product" class="select-css">
-                    <option value="0">Select product:</option>
-                    #foreach($product in $products)
-                            <option value="$product.getName()">$product.getName()</option>
-                    #end
-                    </select>
-                </div>
+
+                <select name="product" id="product" class="custom-select">
+                <option value="0">Select product:</option>
+                #foreach($product in $products)
+                        <option value="$product.getName()">$product.getName()</option>
+                #end
+                </select>
+
             </div>
             <script src="/select_w3.js"></script>
         </div>
@@ -58,5 +56,5 @@
         </div>
     </form>
 </div>
-</div>
+<!--</div>-->
 #end
