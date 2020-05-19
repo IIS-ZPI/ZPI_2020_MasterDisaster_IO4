@@ -17,9 +17,6 @@
     	<li><a href="/states">States</a></li>
     	<li>About</li>
     </ul>
-    <!--<header>
-        <h1>Enter data to calculate tax</h1>
-    </header>-->
     <main>
         <div id="content">
             $bodyContent
