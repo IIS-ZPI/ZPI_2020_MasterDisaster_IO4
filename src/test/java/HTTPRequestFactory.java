@@ -13,10 +13,10 @@ import zpi.utils.Paths;
 class HTTPRequestFactory {
 	static final int PORT = 1234;
 	static final String URL_BASE = "http://localhost:1234";
-	static final String SIMPLE_TAX_URL = URL_BASE + Paths.Web.SIMPLE_TAX;
-	static final String ALL_PRODUCTS_URL = URL_BASE + Paths.Web.ALL_PRODUCTS;
-	static final String ALL_STATES_URL = URL_BASE + Paths.Web.ALL_STATES;
-	static final String SINGLE_STATE_URL = URL_BASE + Paths.Web.SINGLE_STATE;
+	static final String SIMPLE_TAX_URL = Paths.Web.SIMPLE_TAX;
+	static final String ALL_PRODUCTS_URL = Paths.Web.ALL_PRODUCTS;
+	static final String ALL_STATES_URL = Paths.Web.ALL_STATES;
+	static final String SINGLE_STATE_URL = "/state";
 
 	static final String NOT_FOUND_MESSAGE = "Not found";
 	static final String NON_EXISTING_PRODUCT_MESSAGE = "Such product does not exist!";
@@ -45,6 +45,10 @@ class HTTPRequestFactory {
 		app.delete(Paths.Web.ALL_PRODUCTS, ProductController.removeProduct);
 		app.put(Paths.Web.SINGLE_STATE, USStateController.editStateTaxesPut);
 		return app;
+	}
+
+	static void setdefaultBaseUrl(){
+			Unirest.config().defaultBaseUrl(HTTPRequestFactory.URL_BASE);
 	}
 
 	static HttpResponse getResponse(String url){

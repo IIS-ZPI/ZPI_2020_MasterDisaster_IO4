@@ -3,22 +3,13 @@
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-import org.apache.http.protocol.HTTP;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import static org.mockito.Mockito.*;
 
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import zpi.controllers.ComputeTaxController;
-import zpi.controllers.MainPageController;
-import zpi.dao.DAOFactory;
-import zpi.product.ProductController;
-import zpi.product.SimpleProductDAO;
-import zpi.state.SimpleUSStateDAO;
-import zpi.state.USStateController;
-import zpi.utils.Paths;
+
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -34,6 +25,11 @@ public class HTTPRequestComputeTaxTest {
 
 	@Mock
 	private Context ctx;
+
+	@BeforeClass
+	public static void init(){
+		HTTPRequestFactory.setdefaultBaseUrl();
+	}
 
 	// compute tax:
 	//		state/product/both niewybrani

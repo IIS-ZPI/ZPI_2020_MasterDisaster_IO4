@@ -2,6 +2,7 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
 
@@ -17,6 +18,11 @@ public class HTTPRequestProductTest {
 
 	@Mock
 	private Context ctx;
+
+	@BeforeClass
+	public static void init(){
+		HTTPRequestFactory.setdefaultBaseUrl();
+	}
 
 	private void generateContextForProductController(String productName, String categoryName, String basePrice){
 		when(ctx.formParam("productName")).thenReturn(productName);
