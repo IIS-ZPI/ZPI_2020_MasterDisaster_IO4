@@ -8,7 +8,7 @@
     #elseif($edit_failed == false)
         <div>Edit taxes was successful!</div>
     #end
-    <form method="put">
+    <form id="updateStateTaxForm">
         <h4>State name: $state.getName()</h4>
         </br>
         <h4>Taxes:</h4>
@@ -27,6 +27,21 @@
         
         #end
 
-        <button>Update</button>
+        <button id="updateStateBtn">Update</button>
     </form>
+    <script>
+         $('#updateStateBtn').click(function(){
+            var formData = $('#updateStateTaxForm').serializeArray();
+
+            $.ajax({
+                url: '/state/$state.getName()',
+                type: 'put',
+                data: formData,
+                success: function(result) {
+                    location.reload();
+                }
+            });
+          });
+    </script>
+
 #end

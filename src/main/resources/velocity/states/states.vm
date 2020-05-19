@@ -10,7 +10,6 @@
         #foreach($state in $states)
         <tr>
             <td class="state-name">$state.getName()</td>
-            <!--<td class="base-tax">$state.getName()</td>---!>
             #foreach($category in $categories)
                 #set( $tax = $state.getTaxForCategory($category))
                 #if(!$tax)
