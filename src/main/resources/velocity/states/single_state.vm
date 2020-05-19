@@ -22,7 +22,7 @@
                     #if(!$tax)
                         #set($tax = "")
                     #end
-                       <input type="number" id="tax_$category" name="tax_$category" min="0" value="$tax"/>
+            <input type="number" step=any id="tax_$category" name="tax_$category" min="0" value="$tax"/>
                     </div>
         
         #end
