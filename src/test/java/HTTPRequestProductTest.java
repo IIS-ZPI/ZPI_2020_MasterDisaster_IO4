@@ -21,7 +21,7 @@ public class HTTPRequestProductTest {
 
 	@BeforeClass
 	public static void init(){
-		HTTPRequestFactory.setdefaultBaseUrl();
+		HTTPRequestFactory.setDefaultBaseUrl();
 	}
 
 	private void generateContextForProductController(String productName, String categoryName, String basePrice){

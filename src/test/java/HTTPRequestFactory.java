@@ -24,6 +24,7 @@ class HTTPRequestFactory {
 
 	static final int OK_STATUS = 200;
 	static final int NOT_FOUND_STATUS = 404;
+	static final int INTERNAL_ERROR = 500;
 
 	static Javalin createApp(){
 		DAOFactory.registerUSStateDao(new SimpleUSStateDAO());
@@ -47,7 +48,7 @@ class HTTPRequestFactory {
 		return app;
 	}
 
-	static void setdefaultBaseUrl(){
+	static void setDefaultBaseUrl(){
 			Unirest.config().defaultBaseUrl(HTTPRequestFactory.URL_BASE);
 	}
 
@@ -60,7 +61,7 @@ class HTTPRequestFactory {
 	}
 
 	static HttpResponse putResponse(String url, Object body){
-		return Unirest.delete(url).body(body).asString();
+		return Unirest.put(url).body(body).asString();
 	}
 
 	static HttpResponse deleteResponse(String url, Object body){

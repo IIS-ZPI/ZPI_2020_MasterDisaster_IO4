@@ -28,7 +28,7 @@ public class HTTPRequestComputeTaxTest {
 
 	@BeforeClass
 	public static void init(){
-		HTTPRequestFactory.setdefaultBaseUrl();
+		HTTPRequestFactory.setDefaultBaseUrl();
 	}
 
 	// compute tax:
