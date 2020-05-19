@@ -1,6 +1,10 @@
 package zpi.state;
 
 import io.javalin.http.Handler;
+import io.javalin.plugin.json.JavalinJson;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import zpi.category.Category;
 import zpi.category.CategoryTransalator;
 import zpi.dao.DAOFactory;
@@ -48,20 +52,20 @@ public class USStateController {
 		var optState = stateDao.getUSStateByName(RequestUtil.getStateName(ctx));
 		if (optState.isPresent()) {
 			var state = optState.get();
+			var jsonRequestBody = new JSONArray(ctx.body());
+			
 			try {
-				for (var c : Category.values()) {
-					var categoryForm = ctx.formParam("tax_" + c.name());
+				for (int i = 0; i < jsonRequestBody.length(); ++i) {
+					var jsonObject = jsonRequestBody.getJSONObject(i);
+					var categoryForm = jsonObject.getDouble("value");
+					var category = Category.valueOf(jsonObject.getString("name"));
 					
-					if (categoryForm == null) throw new Exception();
-					
-					stateDao.editCategoryTax(state, c, Double.valueOf(categoryForm));
+					stateDao.editCategoryTax(state, category, categoryForm);
 				}
 				model.put("edit_failed", false);
 				
-			} catch (NumberFormatException e) {
+			} catch (NumberFormatException | JSONException e) {
 				//we can input here some additional information about ex. in which category there was an invalid value
-				model.put("edit_failed", true);
-			} catch (Exception e) {
 				model.put("edit_failed", true);
 			}
 			

@@ -22,7 +22,7 @@
                     #if(!$tax)
                         #set($tax = "")
                     #end
-            <input type="number" step=any id="tax_$category" name="tax_$category" min="0" value="$tax"/>
+            <input type="number" step=any id="$category" name="$category" min="0" value="$tax"/>
                     </div>
         
         #end
@@ -30,12 +30,12 @@
         <button id="updateStateBtn">Update</button>
     </form>
     <script>
-         $('#updateStateBtn').click(function(){
-            var formData = $('#updateStateTaxForm').serializeArray();
 
+         $('#updateStateBtn').click(function(){
+            var formData = JSON.stringify($('#updateStateTaxForm').serializeArray());
             $.ajax({
                 url: '/state/$state.getName()',
-                type: 'put',
+                type: 'PUT',
                 data: formData,
                 success: function(result) {
                     location.reload();

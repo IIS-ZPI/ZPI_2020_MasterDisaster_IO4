@@ -4,6 +4,8 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONObject;
 import netscape.javascript.JSObject;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -61,10 +63,14 @@ public class HTTPRequestStateTest {
 //		ObjectMapper objectMapper = new ObjectMapper();
 //		String bodyString = objectMapper.writeValueAsString(generateBody(values));
 //		System.out.println(bodyString);
-
+		var arr = new JSONArray();
+		int index= 0;
+		for(var c : Category.values()){
+			arr.put(new JSONObject(Map.of("name", c.name(), "value", values.get(index++))));
+		}
 		HttpResponse response = Unirest.put(HTTPRequestFactory.SINGLE_STATE_URL + IRRELEVANT_STATE_NAME)
 				.header("Content-Type", "application/json")
-				.body("tax_GROCERIES=0.04&tax_PREPARED_FOOD=0.05&tax_PRESCRIPTION_DRUG=23.0&tax_NON_PRESCRIPTION_DRUG=0.0&tax_CLOTHING=0.0&tax_INTANGIBLES=0.0")
+				.body(arr)
 				.asString();
 		String body = (String)response.getBody();
 		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
