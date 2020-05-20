@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans');
+$font: "Fira Sans", sans-serif;
+
+* {
+    margin: 0;
+    padding: 10px;
+}
+
+body {
+    font-family: $font;
+    height: 100%;
+    width: 100%;
+    background-color: #ebebeb;
+    vertical-align: middle;
+    text-align: center;
+    color: #222831;
+}
+
+h1 {
+    font-family: $font;
+    font-weight: 400;
+    color: #222831;
+    font-size: 60px;
+}
+
+h2 {
+    font-family: $font;
+    font-weight: 600;
+    color: #222831;
+    font-size: 100px;
+    margin: 20px;
+}
+
+h3 {
+    font-family: $font;
+    font-weight: 300;
+    color: #222831;
+    font-size: 22px;
+    height: 10%;
+}
+
+
+.tax-background-image {
+    background-image: url("fog.jpg");
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    /*filter: blur(2px);
+    -webkit-filter: blur(2px);
+*/
+    height: 100%;
+    '''width: 100%;
+}
+
+
+.prettyButton {
+    border: none;
+    font-weight: normal;
+    font-size: 20px;;
+    background-color: #323C50;
+    color: #ebebeb;
+    margin: 10px;
+    line-height: 5vh;
+    padding: 5%, 5%, 5%, 5%;
+    border-radius: 3px;
+}

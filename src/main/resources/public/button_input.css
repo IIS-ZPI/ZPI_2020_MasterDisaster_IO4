@@ -1,0 +1,42 @@
+/*Button*/
+
+button {
+    display: block;
+    margin: auto;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: 1px solid rgba(41,161,156,1);
+    border-radius: 3px;
+    font: Arial, Courier, monospace;
+    color: #222831;
+    background: #29a19c;
+}
+
+input {
+    display: block;
+    margin: auto;
+    width: 10%;
+    position: relative;
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid rgba(41,161,156,1);
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    font: Arial, Courier, monospace;
+    color: #222831;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: #29a19c;
+
+}
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
