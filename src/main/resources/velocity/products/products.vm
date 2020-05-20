@@ -122,7 +122,7 @@
         })
 
 		 $('#editSubmit').click(function(){
-		    var formData = $('#editProductForm').serialize();
+		    var formData = JSON.stringify($('#editProductForm').serializeArray());
             $.ajax({
                 url: '/products',
                 type: 'put',
@@ -134,7 +134,7 @@
           });
 
 		 $('#addSubmit').click(function(){
-		    var formData = $('#addProductForm').serialize();
+		    var formData = JSON.stringify($('#addProductForm').serializeArray());
             $.ajax({
                 url: '/products',
                 type: 'post',
@@ -147,10 +147,11 @@
 
 		 $('.removeProductBtn').click(function(){
 		    var productID = $(this).data('whatever');
+		    var data = JSON.stringify([{'name': 'productName', 'value': productID}]);
             $.ajax({
                 url: '/products',
                 type: 'DELETE',
-                data: {'productName': productID},
+                data: data,
                 success: function(result) {
                     location.reload();
                 }

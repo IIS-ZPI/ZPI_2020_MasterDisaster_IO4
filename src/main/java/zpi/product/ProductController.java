@@ -1,6 +1,8 @@
 package zpi.product;
 
 import io.javalin.http.Handler;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import zpi.category.Category;
 import zpi.category.CategoryTransalator;
 import zpi.dao.DAOFactory;
@@ -27,70 +29,81 @@ public class ProductController {
 	
 	public static Handler editProductPut = ctx -> {
 		Map<String, Object> model = ViewUtil.baseModel(ctx);
-		
-		try {
-			var category = RequestUtil.getProductCategory(ctx);
-			var basePrice = RequestUtil.getProductBasePrice(ctx);
-			IProductDAO dao = DAOFactory.getIProductDAO();
-			dao.updateProductBasePrice(RequestUtil.getProductName(ctx), basePrice);
-			dao.updateProductCategory(RequestUtil.getProductName(ctx), Category.valueOf(category));
+		var paramsMap = RequestUtil.parseJSONStandardArrayToMap(ctx);
+		if (RequestUtil.isMapContainsRequiredParams(paramsMap, "productName", "categoryName", "basePrice")) {
 			
-			model.put("title", "CTC: All products");
-			model.put("categoriesTranslator", new CategoryTransalator());
-			model.put("categories", Category.values());
-			model.put("products", dao.getProducts());
-			
-			
-			ctx.render(Paths.Template.ALL_PRODUCTS, model);
-			
-		} catch (ProductDoesNotExistException e) {
-			ctx.html("Not found");
-		} catch (NumberFormatException e) {
-			ctx.html("Wrong data");
+			try {
+				IProductDAO dao = DAOFactory.getIProductDAO();
+				dao.updateProductBasePrice(paramsMap.get("productName"), Double.parseDouble(paramsMap.get("basePrice")));
+				dao.updateProductCategory(paramsMap.get("productName"), Category.valueOf(paramsMap.get("categoryName")));
+				
+				model.put("title", "CTC: All products");
+				model.put("categoriesTranslator", new CategoryTransalator());
+				model.put("categories", Category.values());
+				model.put("products", dao.getProducts());
+				
+				
+				ctx.render(Paths.Template.ALL_PRODUCTS, model);
+				
+			} catch (ProductDoesNotExistException e) {
+				ctx.html("Not found");
+			} catch (NumberFormatException e) {
+				ctx.html("Wrong data");
+			}
+		} else {
+			ctx.status(400);
 		}
 		
 	};
 	
 	public static Handler removeProduct = ctx -> {
 		Map<String, Object> model = ViewUtil.baseModel(ctx);
-		try {
-			IProductDAO dao = DAOFactory.getIProductDAO();
-			dao.removeProduct(RequestUtil.getProductName(ctx));
-			
-			model.put("title", "CTC: All products");
-			model.put("categoriesTranslator", new CategoryTransalator());
-			model.put("categories", Category.values());
-			model.put("products", dao.getProducts());
-			
-			ctx.render(Paths.Template.ALL_PRODUCTS, model);
-		} catch (ProductDoesNotExistException e) {
-			ctx.html("Not found");
+		var paramsMap = RequestUtil.parseJSONStandardArrayToMap(ctx);
+		if (RequestUtil.isMapContainsRequiredParams(paramsMap, "productName")) {
+			try {
+				IProductDAO dao = DAOFactory.getIProductDAO();
+				dao.removeProduct(paramsMap.get("productName"));
+				
+				model.put("title", "CTC: All products");
+				model.put("categoriesTranslator", new CategoryTransalator());
+				model.put("categories", Category.values());
+				model.put("products", dao.getProducts());
+				
+				ctx.render(Paths.Template.ALL_PRODUCTS, model);
+			} catch (ProductDoesNotExistException e) {
+				ctx.html("Not found");
+			}
+		} else {
+			ctx.status(400);
 		}
 	};
 	
 	public static Handler addProductPost = ctx -> {
 		Map<String, Object> model = ViewUtil.baseModel(ctx);
 		
-		try {
-			var category = RequestUtil.getProductCategory(ctx);
-			var basePrice = RequestUtil.getProductBasePrice(ctx);
-			var newProductName = RequestUtil.getProductName(ctx);
-			
-			IProductDAO dao = DAOFactory.getIProductDAO();
-			dao.addProduct(newProductName, Category.valueOf(category), basePrice);
-			
-			model.put("title", "CTC: All products");
-			model.put("categoriesTranslator", new CategoryTransalator());
-			model.put("categories", Category.values());
-			model.put("products", dao.getProducts());
-			
-			
-			ctx.render(Paths.Template.ALL_PRODUCTS, model);
-		} catch (ProductDuplicateException e) {
-			ctx.html("Product with such name exists");
-		} catch (NumberFormatException e) {
-			ctx.html("Wrong data");
+		var paramsMap = RequestUtil.parseJSONStandardArrayToMap(ctx);
+		if (RequestUtil.isMapContainsRequiredParams(paramsMap, "productName", "categoryName", "basePrice")) {
+			try {
+				String productName = paramsMap.get("productName");
+				Category category = Category.valueOf(paramsMap.get("categoryName"));
+				double basePrice = Double.parseDouble(paramsMap.get("basePrice"));
+				
+				IProductDAO dao = DAOFactory.getIProductDAO();
+				dao.addProduct(productName, category, basePrice);
+				
+				model.put("title", "CTC: All products");
+				model.put("categoriesTranslator", new CategoryTransalator());
+				model.put("categories", Category.values());
+				model.put("products", dao.getProducts());
+				
+				ctx.render(Paths.Template.ALL_PRODUCTS, model);
+			} catch (ProductDuplicateException e) {
+				ctx.html("Product with such name exists");
+			} catch (NumberFormatException e) {
+				ctx.html("Wrong data");
+			}
+		} else {
+			ctx.status(400);
 		}
-		
 	};
 }
