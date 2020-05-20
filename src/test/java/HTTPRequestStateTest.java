@@ -31,6 +31,15 @@ public class HTTPRequestStateTest {
 		app.stop();
 	}
 
+	private JSONArray generateBody(List<String> taxValues){
+		var arr = new JSONArray();
+		int index= 0;
+		for(var c : Category.values()){
+			arr.put(new JSONObject(Map.of("name", c.name(), "value", taxValues.get(index++))));
+		}
+		return arr;
+	}
+
 	@Test
 	public void GET_toCheckAllStatesStatus() {
 		HttpResponse response = HTTPRequestFactory.getResponse(HTTPRequestFactory.ALL_STATES_URL);
@@ -57,7 +66,7 @@ public class HTTPRequestStateTest {
 		var values = Arrays.asList("0.5", "0.7", "0.12", "0.23", "0.4", "0.5");
 		var arr = generateBody(values);
 
-		HttpResponse response = Unirest.put(IRRELEVANT_STATE_URL).body(arr).asString();
+		HttpResponse response = HTTPRequestFactory.putResponse(IRRELEVANT_STATE_URL, arr);
 		String body = (String)response.getBody();
 		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
 		assertThat(body).contains("Edit taxes was successful!");
@@ -66,7 +75,7 @@ public class HTTPRequestStateTest {
 
 	@Test
 	public void PUT_toChangeContentOfNonExistingState() {
-		HttpResponse response = Unirest.put(NON_EXISTING_STATE_URL).asString();
+		HttpResponse response = HTTPRequestFactory.putResponse(NON_EXISTING_STATE_URL, new JSONArray());
 		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
 		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
 	}
@@ -94,18 +103,9 @@ public class HTTPRequestStateTest {
 		var values = Arrays.asList("0.5", "number", "0.12", "0.23", "number", "0.5");
 		var arr = generateBody(values);
 
-		HttpResponse response = Unirest.put(IRRELEVANT_STATE_URL).body(arr).asString();
+		HttpResponse response = HTTPRequestFactory.putResponse(IRRELEVANT_STATE_URL, arr);
 		String body = (String)response.getBody();
 		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
 		assertThat(body).contains("Check your input, edit taxes failed!");
-	}
-
-	private JSONArray generateBody(List<String> taxValues){
-		var arr = new JSONArray();
-		int index= 0;
-		for(var c : Category.values()){
-			arr.put(new JSONObject(Map.of("name", c.name(), "value", taxValues.get(index++))));
-		}
-		return arr;
 	}
 }

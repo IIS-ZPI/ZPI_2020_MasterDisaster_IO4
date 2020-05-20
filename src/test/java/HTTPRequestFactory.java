@@ -1,6 +1,7 @@
 import io.javalin.Javalin;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import kong.unirest.json.JSONArray;
 import zpi.controllers.ComputeTaxController;
 import zpi.controllers.MainPageController;
 import zpi.dao.DAOFactory;
@@ -24,7 +25,7 @@ class HTTPRequestFactory {
 
 	static final int OK_STATUS = 200;
 	static final int NOT_FOUND_STATUS = 404;
-	static final int INTERNAL_ERROR = 500;
+	static final int BAD_REQUEST = 400;
 
 	static Javalin createApp(){
 		DAOFactory.registerUSStateDao(new SimpleUSStateDAO());
@@ -56,15 +57,15 @@ class HTTPRequestFactory {
 		return Unirest.get(url).asString();
 	}
 
-	static HttpResponse postResponse(String url, Object body){
+	static HttpResponse postResponse(String url, JSONArray body){
 		return Unirest.post(url).body(body).asString();
 	}
 
-	static HttpResponse putResponse(String url, Object body){
+	static HttpResponse putResponse(String url, JSONArray body){
 		return Unirest.put(url).body(body).asString();
 	}
 
-	static HttpResponse deleteResponse(String url, Object body){
+	static HttpResponse deleteResponse(String url, JSONArray body){
 		return Unirest.delete(url).body(body).asString();
 	}
 }
