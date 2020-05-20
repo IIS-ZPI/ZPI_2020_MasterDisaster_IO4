@@ -1,5 +1,6 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
+<div class="form-container">
     <a href="/states">
        <button>Back</button>
     </a>
@@ -29,4 +30,5 @@
 
         <button>Update</button>
     </form>
+</div>
 #end

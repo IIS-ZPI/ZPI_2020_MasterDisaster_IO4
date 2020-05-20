@@ -2,6 +2,7 @@ package zpi;
 
 import io.javalin.Javalin;
 import zpi.controllers.ComputeTaxController;
+import zpi.controllers.ErrorPageController;
 import zpi.controllers.MainPageController;
 import zpi.dao.DAOFactory;
 import zpi.product.ProductController;
@@ -29,6 +30,7 @@ public class Main {
 		app.get(Paths.Web.ALL_PRODUCTS, ProductController.allProductsDisplay);
 		app.post(Paths.Web.ALL_PRODUCTS, ProductController.editProductPost);
 		app.post(Paths.Web.SINGLE_STATE, USStateController.editStateTaxesPost);
+		app.error(404, ErrorPageController.error404);
 	}
 	
 	private static int getHerokuAssignedPort() {

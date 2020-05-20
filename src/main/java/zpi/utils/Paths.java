@@ -14,5 +14,8 @@ public class Paths {
 		public static final String ALL_STATES = "/velocity/states/states.vm";
 		public static final String ALL_PRODUCTS = "/velocity/products/products.vm";
 		public static final String SINGLE_STATE = "/velocity/states/single_state.vm";
+		public static final String SINGLE_RESULT = "/velocity/taxes/single_result.vm";
+		public static final String PAGE_NOT_FOUND = "/velocity/errors/pageNotFound.vm";
+
 	}
 }
