@@ -29,15 +29,15 @@ public class ProfitProductPriceTests {
 	@Parameterized.Parameters
 	public static Collection doubleValues() {
 		return Arrays.asList(new Double[][] {
-				{ 0.05, 30.0, 8.5 },
+				{ BASIC_TAX, POSITIVE_EXPECTED_PRICE, 8.5 },
 				{ 0.2, 21.0, -3.2 },
 				{ 0.23, 45.0, 14.65 },
 				{ 0.07, 25.5, 3.715 },
 				{ 0.03, 30.5, 9.585 },
-				{ 0.05, -30.0, -48.5 },
-				{ 0.05, 0.0, -20.0 },
-				{ 0.05, Double.MIN_VALUE, -20.0 },
-				{ 0.05, Double.MAX_VALUE, 1.7078084781191998E308 }
+				{ BASIC_TAX, -POSITIVE_EXPECTED_PRICE, -48.5 },
+				{ BASIC_TAX, 0.0, -POSITIVE_BASE_PRICE },
+				{ BASIC_TAX, Double.MIN_VALUE, -POSITIVE_BASE_PRICE },
+				{ BASIC_TAX, Double.MAX_VALUE, 1.7078084781191998E308 }
 		});
 	}
 

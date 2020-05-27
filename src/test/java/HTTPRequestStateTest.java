@@ -77,7 +77,7 @@ public class HTTPRequestStateTest {
 		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
 	}
 
-	@Test // par
+	@Test
 	public void PUT_toChangeContentOfExistingState() {
 		var arr = generateBody(taxes);
 
