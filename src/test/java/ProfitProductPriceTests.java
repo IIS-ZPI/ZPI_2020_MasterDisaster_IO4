@@ -27,7 +27,7 @@ public class ProfitProductPriceTests {
 	private static Product product;
 
 	@Parameterized.Parameters
-	public static Collection doubleValuesBasePricePositive() {
+	public static Collection doubleValues() {
 		return Arrays.asList(new Double[][] {
 				{ 0.05, 30.0, 8.5 },
 				{ 0.2, 21.0, -3.2 },
