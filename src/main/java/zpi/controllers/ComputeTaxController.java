@@ -31,6 +31,7 @@ public class ComputeTaxController {
 				model.put("profitForAmount", String.valueOf(state.get().computeProfit(product) * amount));
 
 				ctx.render(Paths.Template.SINGLE_RESULT, model);
+				ctx.status(HttpStatus.OK_200);
 			} else {
 				ctx.status(HttpStatus.BAD_REQUEST_400);
 			}

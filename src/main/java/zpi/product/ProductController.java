@@ -44,8 +44,7 @@ public class ProductController {
 				model.put("products", dao.getProducts());
 				
 				
-				ctx.render(Paths.Template.ALL_PRODUCTS, model);
-				
+				ctx.status(HttpStatus.OK_200);
 			} catch (ProductDoesNotExistException | NumberFormatException e) {
 				ctx.status(HttpStatus.BAD_REQUEST_400);
 			}
@@ -68,7 +67,7 @@ public class ProductController {
 				model.put("categories", Category.values());
 				model.put("products", dao.getProducts());
 				
-				ctx.render(Paths.Template.ALL_PRODUCTS, model);
+				ctx.status(HttpStatus.OK_200);
 			} catch (ProductDoesNotExistException e) {
 				ctx.status(HttpStatus.BAD_REQUEST_400);
 			}
@@ -95,7 +94,7 @@ public class ProductController {
 				model.put("categories", Category.values());
 				model.put("products", dao.getProducts());
 				
-				ctx.render(Paths.Template.ALL_PRODUCTS, model);
+				ctx.status(HttpStatus.OK_200);
 			} catch (ProductDuplicateException e) {
 				ctx.status(HttpStatus.CONFLICT_409);
 			} catch (NumberFormatException e) {

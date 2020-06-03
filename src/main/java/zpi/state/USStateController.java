@@ -76,7 +76,7 @@ public class USStateController {
 			model.put("categories", Category.values());
 			model.put("categoriesTranslator", new CategoryTransalator());
 			
-			ctx.render(Paths.Template.SINGLE_STATE, model);
+			ctx.status(HttpStatus.OK_200);
 		} else {
 			ctx.status(HttpStatus.BAD_REQUEST_400);
 		}
