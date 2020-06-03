@@ -1,5 +1,3 @@
-package test.zpi.sales;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -16,10 +14,10 @@ import java.util.Optional;
 public class SimpleDAOTests {
 	private static final String EXISTING_NAME = "EXISTING_NAME";
 	private static final String NON_EXISTING_NAME = "NON_EXISTING_NAME";
-	private static final Category irrelevantCategory = Category.GROCERIES;
-	private static final Category newCategory = Category.CLOTHING;
-	private static final double irrelevantPrice = 1.0;
-	private static final double newBasePrice = 2.0;
+	private static final Category IRRELEVANT_CATEGORY = Category.GROCERIES;
+	private static final Category NEW_CATEGORY = Category.CLOTHING;
+	private static final double IRRELEVANT_PRICE = 1.0;
+	private static final double NEW_BASE_PRICE = 2.0;
 
 	private static IUSStateDAO stateDAO;
 	private static IProductDAO productDAO;
@@ -35,8 +33,8 @@ public class SimpleDAOTests {
 		state = new USState(EXISTING_NAME);
 
 		product = new Product(EXISTING_NAME);
-		product.setCategory(irrelevantCategory);
-		product.setBasePrice(irrelevantPrice);
+		product.setCategory(IRRELEVANT_CATEGORY);
+		product.setBasePrice(IRRELEVANT_PRICE);
 	}
 
 	@Before
@@ -47,7 +45,7 @@ public class SimpleDAOTests {
 
 	private void addTestingProduct() {
 		try {
-			productDAO.addProduct(EXISTING_NAME, irrelevantCategory, irrelevantPrice);
+			productDAO.addProduct(EXISTING_NAME, IRRELEVANT_CATEGORY, IRRELEVANT_PRICE);
 		} catch (ProductDuplicateException e) {
 			e.printStackTrace();
 		}
@@ -64,9 +62,9 @@ public class SimpleDAOTests {
 	public void checkIfProductExistsInProductDAO() throws ProductDoesNotExistException {
 		addTestingProduct();
 		Product product = productDAO.getProduct(EXISTING_NAME);
-		Assert.assertEquals(test.zpi.sales.SimpleDAOTests.product.getName(), product.getName());
-		Assert.assertEquals(test.zpi.sales.SimpleDAOTests.product.getCategory(), product.getCategory());
-		Assert.assertEquals(test.zpi.sales.SimpleDAOTests.product.getBasePrice(), product.getBasePrice(), 0.0);
+		Assert.assertEquals(SimpleDAOTests.product.getName(), product.getName());
+		Assert.assertEquals(SimpleDAOTests.product.getCategory(), product.getCategory());
+		Assert.assertEquals(SimpleDAOTests.product.getBasePrice(), product.getBasePrice(), 0.0);
 	}
 
 	@Test
@@ -78,7 +76,7 @@ public class SimpleDAOTests {
 	@Test
 	public void checkIfCanAddSameProductTwice() {
 		addTestingProduct();
-		Assert.assertThrows(ProductDuplicateException.class,() -> productDAO.addProduct(EXISTING_NAME, irrelevantCategory, irrelevantPrice));
+		Assert.assertThrows(ProductDuplicateException.class,() -> productDAO.addProduct(EXISTING_NAME, IRRELEVANT_CATEGORY, IRRELEVANT_PRICE));
 	}
 
 	@Test
@@ -110,27 +108,27 @@ public class SimpleDAOTests {
 	@Test
 	public void checkIfCanUpdateBasePriceInExistingProduct() throws ProductDoesNotExistException {
 		addTestingProduct();
-		productDAO.updateProductBasePrice(EXISTING_NAME, newBasePrice);
-		Assert.assertEquals(newBasePrice, productDAO.getProduct(EXISTING_NAME).getBasePrice(), 0.0);
+		productDAO.updateProductBasePrice(EXISTING_NAME, NEW_BASE_PRICE);
+		Assert.assertEquals(NEW_BASE_PRICE, productDAO.getProduct(EXISTING_NAME).getBasePrice(), 0.0);
 	}
 
 	@Test
 	public void checkIfCanUpdateBasePriceInNonExistingProduct() {
 		addTestingProduct();
-		Assert.assertThrows(ProductDoesNotExistException.class, () -> productDAO.updateProductBasePrice(NON_EXISTING_NAME, newBasePrice));
+		Assert.assertThrows(ProductDoesNotExistException.class, () -> productDAO.updateProductBasePrice(NON_EXISTING_NAME, NEW_BASE_PRICE));
 	}
 
 	@Test
 	public void checkIfCanUpdateCategoryInExistingProduct() throws ProductDoesNotExistException {
 		addTestingProduct();
-		productDAO.updateProductCategory(EXISTING_NAME, newCategory);
-		Assert.assertEquals(newCategory, productDAO.getProduct(EXISTING_NAME).getCategory());
+		productDAO.updateProductCategory(EXISTING_NAME, NEW_CATEGORY);
+		Assert.assertEquals(NEW_CATEGORY, productDAO.getProduct(EXISTING_NAME).getCategory());
 	}
 
 	@Test
 	public void checkIfCanUpdateCategoryInNonExistingProduct() {
 		addTestingProduct();
-		Assert.assertThrows(ProductDoesNotExistException.class, () -> productDAO.updateProductCategory(NON_EXISTING_NAME, newCategory));
+		Assert.assertThrows(ProductDoesNotExistException.class, () -> productDAO.updateProductCategory(NON_EXISTING_NAME, NEW_CATEGORY));
 	}
 
 
@@ -167,7 +165,7 @@ public class SimpleDAOTests {
 	@Test
 	public void checkIfCanEditStateTax() {
 		double taxRatio = 0.23;
-		stateDAO.editCategoryTax(state, irrelevantCategory, taxRatio);
-		Assert.assertEquals(taxRatio, state.getTaxForCategory(irrelevantCategory), 0.0);
+		stateDAO.editCategoryTax(state, IRRELEVANT_CATEGORY, taxRatio);
+		Assert.assertEquals(taxRatio, state.getTaxForCategory(IRRELEVANT_CATEGORY), 0.0);
 	}
 }

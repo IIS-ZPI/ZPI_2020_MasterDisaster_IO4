@@ -1,5 +1,8 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
+    <button type="button" class="prettyButton addProductBtn" data-toggle="modal"  data-target="#addProductModal" >
+        Add new product
+    </button>
     <table class="prettyTable">
         <th>Product name</th>
         <th>Category</th>
@@ -13,6 +16,11 @@
             <th class="edit-product">
                <button type="button" class="prettyButton" data-toggle="modal" data-target="#editProductModal" data-whatever="productID_$product.getNameWithoutSpaces()">
                  Edit
+               </button>
+            </th>
+            <th class="remove-product">
+               <button type="button" class="prettyButton removeProductBtn" data-whatever="$product.getName()">
+                 Remove
                </button>
             </th>
         </tr>
@@ -29,14 +37,14 @@
             </button>
           </div>
           <div class="modal-body">
-            <form method="post" id="editProductForm">
+            <form id="editProductForm">
               <div class="form-group">
                 <label class="col-form-label" id="editProductNameID"></label>
-                <input type="hidden" name="editProductName" id="editProductNameIDHidd" value=""/>
+                <input type="hidden" name="productName" id="editProductNameIDHidd" value=""/>
               </div>
               <div class="form-group">
                 <label for="category-group" class="col-form-label" id="editCategoryNameID">Category: </label>
-                <select name="editCategoryName" class="custom-select">
+                <select name="categoryName" class="form-control custom-select">
                     #foreach($cat in $categories)
                     <option value="$cat">$categoriesTranslator.tr($cat)</option>
                     #end
@@ -44,19 +52,57 @@
               </div>
               <div class="form-group">
                 <label for="base-price-group" class="col-form-label">Price:</label>
-                <input type="number" name="editBasePrice" style="width: 50%;" id="editBasePriceID" min="0" value="0"/>
+                <input type="number" class="form-control" name="basePrice" id="editBasePriceID" min="0" value="0"/>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button onclick="edit_product_submit()" type="button" class="btn btn-primary" id="editSubmit">Submit</button>
+            <button type="button" class="btn btn-primary" id="editSubmit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addProductModal">Add new product</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="addProductForm">
+              <div class="form-group">
+                <label class="col-form-label">Product name</label>
+                <input type="text" class="form-control" name="productName"/>
+              </div>
+              <div class="form-group">
+                <label for="category-group" class="col-form-label">Category:</label>
+                <select name="categoryName" class="form-control custom-select">
+                    #foreach($cat in $categories)
+                    <option value="$cat">$categoriesTranslator.tr($cat)</option>
+                    #end
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="base-price-group" class="col-form-label">Price:</label>
+                <input type="number" class="form-control" name="basePrice" min="0" value="0"/>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="addSubmit">Add</button>
           </div>
         </div>
       </div>
     </div>
 
     <script>
+    $(document).ready(function () {
         $('#editProductModal').on('show.bs.modal', function (event) {
           var button = $(event.relatedTarget) // Button that triggered the modal
           var id = button.data('whatever') // Extract info from data-* attributes
@@ -75,9 +121,43 @@
           modal.find('#editBasePriceID').val(basePriceName)
         })
 
-        function edit_product_submit() {
-            document.getElementById("editProductForm").submit();
-        }
+	 $('#editSubmit').click(function(){
+	    var formData = JSON.stringify($('#editProductForm').serializeArray());
+            $.ajax({
+                url: '/products',
+                type: 'put',
+                data: formData,
+                success: function(result) {
+                    location.reload();
+                }
+            });
+          });
+
+	 $('#addSubmit').click(function(){
+	    var formData = JSON.stringify($('#addProductForm').serializeArray());
+            $.ajax({
+                url: '/products',
+                type: 'post',
+                data: formData,
+                success: function(result) {
+                    location.reload();
+                }
+            });
+          });
+
+	 $('.removeProductBtn').click(function(){
+	    var productID = $(this).data('whatever');
+	    var data = JSON.stringify([{'name': 'productName', 'value': productID}]);
+            $.ajax({
+                url: '/products',
+                type: 'DELETE',
+                data: data,
+                success: function(result) {
+                    location.reload();
+                }
+            });
+          });
+    });
     </script>
 
 #end
