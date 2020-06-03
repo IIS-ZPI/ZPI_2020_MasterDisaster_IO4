@@ -18,8 +18,8 @@ public class SimpleUSStateDAO extends IUSStateDAO {
 		USState alaskaState = new USState("Alaska");
 		USState arizonaState = new USState("Arizona");
 		
-		alabamaState.editCategoryTax(Category.GROCERIES, 0.04);
-		alabamaState.editCategoryTax(Category.PREPARED_FOOD, 0.05);
+		alabamaState.editCategoryTax(Category.GROCERIES, new Tax(0.04));
+		alabamaState.editCategoryTax(Category.PREPARED_FOOD, new Tax(0.05));
 		
 		states.add(alabamaState);
 		states.add(alaskaState);
@@ -32,11 +32,6 @@ public class SimpleUSStateDAO extends IUSStateDAO {
 	}
 	
 	@Override
-	public void addUSState(String stateName) {
-		this.states.add(new USState(stateName));
-	}
-	
-	@Override
 	public Optional<USState> getUSStateByName(String name) {
 		return states.stream()
 				.filter(e -> e.getName().toLowerCase().equals(name.toLowerCase()))
@@ -44,7 +39,12 @@ public class SimpleUSStateDAO extends IUSStateDAO {
 	}
 	
 	@Override
-	public void editCategoryTax(USState state, Category category, Double taxRatio) {
-		state.editCategoryTax(category, taxRatio);
+	public void editCategoryBaseTax(USState state, Category category, Double taxRatio) {
+		state.editCategoryTax(category, new Tax(taxRatio));
+	}
+	
+	@Override
+	public void editCategoryValueWithoutTax(USState state, Category category, Double valueWithoutTax) {
+		state.editCategoryTax(category, new Tax(state.getTaxForCategory(category).getBaseTax(), valueWithoutTax));
 	}
 }

@@ -9,9 +9,9 @@ public abstract class IUSStateDAO {
 	
 	abstract public List<USState> getStates();
 	
-	abstract public void addUSState(String state);
-	
 	abstract public Optional<USState> getUSStateByName(String name);
 	
-	abstract public void editCategoryTax(USState state, Category category, Double taxRatio);
+	abstract public void editCategoryBaseTax(USState state, Category category, Double taxRatio);
+	
+	abstract public void editCategoryValueWithoutTax(USState state, Category category, Double valueWithoutTax);
 }

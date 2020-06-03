@@ -9,7 +9,7 @@ import zpi.db.Database;
 import zpi.product.MSSQLProductDAO;
 import zpi.product.ProductController;
 import zpi.product.SimpleProductDAO;
-import zpi.state.MSSqlUSStateDAO;
+import zpi.state.MSSQUSStateDAO;
 import zpi.state.SimpleUSStateDAO;
 import zpi.state.USStateController;
 import zpi.utils.Paths;
@@ -23,10 +23,12 @@ public class Main {
 		else
 			database.createDBConnection("HOSTNAME", "DBNAME", "DBUSER", "DBPASSWORD");
 		
-		//database.dropAll();
+		database.dropAll();
 		database.initializeTables();
 		
-		DAOFactory.registerUSStateDao(new SimpleUSStateDAO());
+//		DAOFactory.registerUSStateDao(new SimpleUSStateDAO());
+//		DAOFactory.registerProductDao(new SimpleProductDAO());
+		DAOFactory.registerUSStateDao(new MSSQUSStateDAO(database));
 		DAOFactory.registerProductDao(new MSSQLProductDAO(database));
 		
 		Javalin app = Javalin.create(config -> {

@@ -11,11 +11,16 @@
         <tr>
             <td class="state-name">$state.getName()</td>
             #foreach($category in $categories)
-                #set( $tax = $state.getTaxForCategory($category))
+                #set( $tax = $state.getTaxForCategory($category).getBaseTax())
                 #if(!$tax)
                     #set( $tax = "-")
                 #end
-                <td>$tax%</td>
+                #set( $valueWithoutTax = $state.getTaxForCategory($category).getValueWithoutTax())
+                #if($valueWithoutTax == 0)
+                    <td>$tax%</td>
+                #else
+                    <td>$tax% ( > $valueWithoutTax$)</td>
+                #end
             #end
             <th class="edit-category">
                 <a href="/state/$state.getName()">

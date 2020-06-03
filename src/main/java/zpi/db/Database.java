@@ -41,7 +41,7 @@ public class Database {
 	}
 	
 	public void dropAll() {
-		String sql = "DECLARE @sql NVARCHAR(2000)\n" +
+		final String sql = "DECLARE @sql NVARCHAR(2000)\n" +
 				"\n" +
 				"WHILE(EXISTS(SELECT 1 from INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE='FOREIGN KEY'))\n" +
 				"BEGIN\n" +
@@ -69,7 +69,17 @@ public class Database {
 	}
 	
 	public void initializeTables() {
-		String sql =
+		try {
+			createCategoriesTable();
+			createStatesTable();
+			createProductsTable();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void createCategoriesTable() throws SQLException {
+		final String sql =
 				"CREATE TABLE Categories (\n" +
 						"  id INT NOT NULL IDENTITY(1,1),\n" +
 						"  category VARCHAR(200),\n" +
@@ -82,21 +92,41 @@ public class Database {
 						"('PRESCRIPTION_DRUG'),\n" +
 						"('NON_PRESCRIPTION_DRUG'),\n" +
 						"('CLOTHING'),\n" +
-						"('INTANGIBLES');\n" +
-						"\n" +
-						"\n" +
-						"CREATE TABLE Products (\n" +
-						"  productName VARCHAR(200),\n" +
-						"  basePrice FLOAT,\n" +
-						"  categoryID INT,\n" +
-						"  PRIMARY KEY (productName),\n" +
-						"  FOREIGN KEY (categoryID) REFERENCES Categories(id) ON DELETE CASCADE ON UPDATE CASCADE" +
-						");\n";
-		try {
-			connection.createStatement().executeUpdate(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+						"('INTANGIBLES');\n";
+		connection.createStatement().executeUpdate(sql);
+	}
+	
+	private void createStatesTable() throws SQLException {
+		final String sql = "CREATE TABLE States (\n" +
+				"  id INT NOT NULL IDENTITY(1,1),\n" +
+				"  stateName VARCHAR(100),\n" +
+				"  PRIMARY KEY (id)\n" +
+				");\n" +
+				"\n" +
+				"CREATE TABLE Taxes (\n" +
+				"  stateID INT,\n" +
+				"  categoryID INT,\n" +
+				"  tax FLOAT,\n" +
+				"  valueWithoutTax FLOAT,\n" +
+				"  FOREIGN KEY (stateID) REFERENCES States(id),\n" +
+				"  FOREIGN KEY (categoryID) REFERENCES Categories(id)\n" +
+				");";
+		connection.createStatement().executeUpdate(sql);
+		
+		
+		final String insertStates = "INSERT INTO States (stateName) VALUES ('Alabama');\nINSERT INTO Taxes VALUES(1, 1, 2, 50);\n";
+		connection.createStatement().executeUpdate(insertStates );
+	}
+	
+	private void createProductsTable() throws SQLException {
+		final String sql = "CREATE TABLE Products (\n" +
+				"  productName VARCHAR(200),\n" +
+				"  basePrice FLOAT,\n" +
+				"  categoryID INT,\n" +
+				"  PRIMARY KEY (productName),\n" +
+				"  FOREIGN KEY (categoryID) REFERENCES Categories(id) ON DELETE CASCADE ON UPDATE CASCADE" +
+				");\n";
+		connection.createStatement().executeUpdate(sql);
 	}
 	
 	public Connection getConnection() {
@@ -105,6 +135,28 @@ public class Database {
 	
 	public Statement createStatement() throws SQLException {
 		return connection.createStatement();
+	}
+	
+	public void createDBConnectionFromCommandLine(String[] args) {
+		var params =
+				IntStream.range(0, args.length - 1)
+						.filter(i -> i % 2 == 0)
+						.boxed()
+						.collect(Collectors.toMap(i -> args[i], i -> args[i + 1]));
+		
+		String hostName = params.get("--HOSTNAME"),
+				dbName = params.get("--DBNAME"),
+				user = params.get("--DBUSER"),
+				password = params.get("--DBPASSWORD");
+		try {
+			// Connect to database
+			String url = String.format("jdbc:sqlserver://%s:1433;database=%s;user=%s;password=%s;encrypt=true;"
+					+ "hostNameInCertificate=*.database.windows.net;loginTimeout=30;", hostName, dbName, user, password);
+			connection = DriverManager.getConnection(url);
+		} catch (SQLException exc) {
+			System.err.println("Problem with connecting to SQL server");
+			exc.printStackTrace();
+		}
 	}
 	
 	private static String SQLExample(Connection connection) {
@@ -139,25 +191,4 @@ public class Database {
 		return outputBuilder.toString();
 	}
 	
-	public void createDBConnectionFromCommandLine(String[] args) {
-		var subSets =
-				IntStream.range(0, args.length - 1)
-						.filter(i -> i % 2 == 0)
-						.boxed()
-						.collect(Collectors.toMap(i -> args[i], i -> args[i + 1]));
-		
-		String hostName = subSets.get("--HOSTNAME"),
-				dbName = subSets.get("--DBNAME"),
-				user = subSets.get("--DBUSER"),
-				password = subSets.get("--DBPASSWORD");
-		try {
-			// Connect to database
-			String url = String.format("jdbc:sqlserver://%s:1433;database=%s;user=%s;password=%s;encrypt=true;"
-					+ "hostNameInCertificate=*.database.windows.net;loginTimeout=30;", hostName, dbName, user, password);
-			connection = DriverManager.getConnection(url);
-		} catch (SQLException exc) {
-			System.err.println("Problem with connecting to SQL server");
-			exc.printStackTrace();
-		}
-	}
 }

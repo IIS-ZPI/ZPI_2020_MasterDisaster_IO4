@@ -1,11 +1,9 @@
 package zpi.state;
 
 import io.javalin.http.Handler;
-import io.javalin.plugin.json.JavalinJson;
 import org.eclipse.jetty.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import zpi.category.Category;
 import zpi.category.CategoryTransalator;
 import zpi.dao.DAOFactory;
@@ -61,7 +59,7 @@ public class USStateController {
 					var categoryForm = jsonObject.getDouble("value");
 					var category = Category.valueOf(jsonObject.getString("name"));
 					
-					stateDao.editCategoryTax(state, category, categoryForm);
+					stateDao.editCategoryBaseTax(state, category, categoryForm);
 				}
 				model.put("edit_failed", false);
 				
