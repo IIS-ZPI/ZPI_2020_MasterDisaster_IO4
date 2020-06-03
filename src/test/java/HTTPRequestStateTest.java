@@ -73,8 +73,8 @@ public class HTTPRequestStateTest {
 	@Test
 	public void GET_toCheckSingleStateNonExisting() {
 		HttpResponse response = HTTPRequestFactory.getResponse(NON_EXISTING_STATE_URL);
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
-		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
+		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.BAD_REQUEST);
+//		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
 	}
 
 	@Test
@@ -82,19 +82,14 @@ public class HTTPRequestStateTest {
 		var arr = generateBody(taxes);
 
 		HttpResponse response = HTTPRequestFactory.putResponse(IRRELEVANT_STATE_URL, arr);
-		String body = (String)response.getBody();
 		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
-		assertThat(body).contains(returnMessage);
-		if(returnMessage.equals(PUT_SUCCESS)){
-			taxes.forEach(value -> assertThat(body).contains(value));
-		}
 	}
 
 	@Test
 	public void PUT_toChangeContentOfNonExistingState() {
 		HttpResponse response = HTTPRequestFactory.putResponse(NON_EXISTING_STATE_URL, new JSONArray());
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
-		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
+		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.BAD_REQUEST);
+//		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
 	}
 
 //	@Test
