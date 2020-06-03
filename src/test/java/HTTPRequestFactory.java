@@ -20,12 +20,12 @@ class HTTPRequestFactory {
 	static final String SINGLE_STATE_URL = "/state";
 
 	static final String NOT_FOUND_MESSAGE = "Not found";
-	static final String NON_EXISTING_PRODUCT_MESSAGE = "Such product does not exist!";
-	static final String WRONG_DATA_MESSAGE = "Wrong data";
 
 	static final int OK_STATUS = 200;
 	static final int NOT_FOUND_STATUS = 404;
-	static final int BAD_REQUEST = 400;
+	static final int BAD_REQUEST_STATUS = 400;
+	static final int CONFLICT_STATUS = 409;
+
 
 	static Javalin createApp(){
 		DAOFactory.registerUSStateDao(new SimpleUSStateDAO());

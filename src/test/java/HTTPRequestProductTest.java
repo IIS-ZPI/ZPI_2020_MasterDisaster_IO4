@@ -21,29 +21,26 @@ public class HTTPRequestProductTest {
 	private static final String NON_EXISTING_PRODUCT_NAME = "TestProductName";
 	private static final String WRONG_BASE_PRICE = "TestBasePrice";
 
-	private static final String SUCCESS_MESSAGE = "";
-	private static final String FAIL_MESSAGE = "Product with such name exists";
-
 	enum Type {POST, PUT, DELETE}
 	@Parameterized.Parameters
 	public static Collection values() {
 		return Arrays.asList(new Object[][] {
-				{ Type.PUT, IRRELEVANT_PRODUCT_NAME, IRRELEVANT_PRODUCT_CATEGORY, "2.0", SUCCESS_MESSAGE},
-				{ Type.PUT, NON_EXISTING_PRODUCT_NAME, IRRELEVANT_PRODUCT_CATEGORY, IRRELEVANT_BASE_PRICE, HTTPRequestFactory.NOT_FOUND_MESSAGE},
-				{ Type.PUT, IRRELEVANT_PRODUCT_NAME, IRRELEVANT_PRODUCT_CATEGORY, WRONG_BASE_PRICE, HTTPRequestFactory.WRONG_DATA_MESSAGE},
-				{ Type.POST, NON_EXISTING_PRODUCT_NAME, IRRELEVANT_PRODUCT_CATEGORY, IRRELEVANT_BASE_PRICE, SUCCESS_MESSAGE },
-				{ Type.POST, IRRELEVANT_PRODUCT_NAME, IRRELEVANT_PRODUCT_CATEGORY, IRRELEVANT_BASE_PRICE, FAIL_MESSAGE },
-				{ Type.POST, IRRELEVANT_PRODUCT_NAME, IRRELEVANT_PRODUCT_CATEGORY, WRONG_BASE_PRICE, HTTPRequestFactory.WRONG_DATA_MESSAGE },
-				{ Type.DELETE, "Milk", "", "", SUCCESS_MESSAGE},
-				{ Type.DELETE, "TestProductName2", "", "", HTTPRequestFactory.NOT_FOUND_MESSAGE},
+				{ Type.PUT, HTTPRequestFactory.OK_STATUS, IRRELEVANT_PRODUCT_NAME, IRRELEVANT_PRODUCT_CATEGORY, "2.0" },
+				{ Type.PUT, HTTPRequestFactory.BAD_REQUEST_STATUS, NON_EXISTING_PRODUCT_NAME, IRRELEVANT_PRODUCT_CATEGORY, IRRELEVANT_BASE_PRICE },
+				{ Type.PUT, HTTPRequestFactory.BAD_REQUEST_STATUS, IRRELEVANT_PRODUCT_NAME, IRRELEVANT_PRODUCT_CATEGORY, WRONG_BASE_PRICE },
+				{ Type.POST, HTTPRequestFactory.OK_STATUS, NON_EXISTING_PRODUCT_NAME, IRRELEVANT_PRODUCT_CATEGORY, IRRELEVANT_BASE_PRICE },
+				{ Type.POST, HTTPRequestFactory.CONFLICT_STATUS, IRRELEVANT_PRODUCT_NAME, IRRELEVANT_PRODUCT_CATEGORY, IRRELEVANT_BASE_PRICE },
+				{ Type.POST, HTTPRequestFactory.BAD_REQUEST_STATUS, IRRELEVANT_PRODUCT_NAME, IRRELEVANT_PRODUCT_CATEGORY, WRONG_BASE_PRICE },
+				{ Type.DELETE, HTTPRequestFactory.OK_STATUS, "Milk", "", "" },
+				{ Type.DELETE, HTTPRequestFactory.BAD_REQUEST_STATUS, "TestProductName2", "", "" },
 		});
 	}
 
 	@Parameterized.Parameter public Type type;
-	@Parameterized.Parameter(1) public String productName;
-	@Parameterized.Parameter(2) public String productCategory;
-	@Parameterized.Parameter(3) public String basePrice;
-	@Parameterized.Parameter(4) public String returnMessage;
+	@Parameterized.Parameter(1) public int status;
+	@Parameterized.Parameter(2) public String productName;
+	@Parameterized.Parameter(3) public String productCategory;
+	@Parameterized.Parameter(4) public String basePrice;
 
 	@BeforeClass
 	public static void init() {
@@ -76,22 +73,21 @@ public class HTTPRequestProductTest {
 		var arr = generateBody(productName, productCategory, basePrice);
 
 		HttpResponse response = HTTPRequestFactory.postResponse(HTTPRequestFactory.ALL_PRODUCTS_URL, arr);
-		String body = (String)response.getBody();
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
-		assertThat(body).contains(returnMessage);
-//
-//		if(returnMessage.equals(SUCCESS_MESSAGE)){
+		assertThat(response.getStatus()).isEqualTo(status);
+
+//		String body = (String)response.getBody();
+//		if(status == HTTPRequestFactory.OK_STATUS){
 //			assertThat(body).contains(productName);
 //			assertThat(body).contains(productCategory);
 //			assertThat(body).contains(basePrice);
 //		}
 	}
 
-	@Test
-	public void POST_toCheckIfNoProductDataEntered() {
-		HttpResponse response = HTTPRequestFactory.postResponse(HTTPRequestFactory.ALL_PRODUCTS_URL, new JSONArray());
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.BAD_REQUEST);
-	}
+//	@Test
+//	public void POST_toCheckIfNoProductDataEntered() {
+//		HttpResponse response = HTTPRequestFactory.postResponse(HTTPRequestFactory.ALL_PRODUCTS_URL, new JSONArray());
+//		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.BAD_REQUEST_STATUS);
+//	}
 
 	@Test
 	public void DELETE_toCheckIfDeletedProduct() {
@@ -99,10 +95,10 @@ public class HTTPRequestProductTest {
 		var arr = generateBody(productName, productCategory, basePrice);
 
 		HttpResponse response = HTTPRequestFactory.deleteResponse(HTTPRequestFactory.ALL_PRODUCTS_URL, arr);
+		assertThat(response.getStatus()).isEqualTo(status);
+
 		String body = (String)response.getBody();
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
 		assertThat(body).doesNotContain(productName);
-		assertThat(body).contains(returnMessage);
 	}
 
 	@Test
@@ -111,10 +107,10 @@ public class HTTPRequestProductTest {
 		var arr = generateBody( productName, productCategory, basePrice);
 
 		HttpResponse response = HTTPRequestFactory.putResponse(HTTPRequestFactory.ALL_PRODUCTS_URL, arr);
-		String body = (String)response.getBody();
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
-		assertThat(body).contains(returnMessage);
-//		if(returnMessage.equals(SUCCESS_MESSAGE)){
+		assertThat(response.getStatus()).isEqualTo(status);
+
+//		String body = (String)response.getBody();
+//		if(status == HTTPRequestFactory.OK_STATUS){
 //			assertThat(body).contains(productName);
 //			assertThat(body).contains(productCategory);
 //			assertThat(body).contains(basePrice);

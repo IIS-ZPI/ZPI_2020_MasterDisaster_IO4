@@ -73,7 +73,7 @@ public class HTTPRequestStateTest {
 	@Test
 	public void GET_toCheckSingleStateNonExisting() {
 		HttpResponse response = HTTPRequestFactory.getResponse(NON_EXISTING_STATE_URL);
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.BAD_REQUEST);
+		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.BAD_REQUEST_STATUS);
 //		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
 	}
 
@@ -88,7 +88,7 @@ public class HTTPRequestStateTest {
 	@Test
 	public void PUT_toChangeContentOfNonExistingState() {
 		HttpResponse response = HTTPRequestFactory.putResponse(NON_EXISTING_STATE_URL, new JSONArray());
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.BAD_REQUEST);
+		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.BAD_REQUEST_STATUS);
 //		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
 	}
 
