@@ -1,39 +1,43 @@
-package zpi.sales;
+package zpi.state;
 
-import java.util.ArrayList;
+import zpi.category.Category;
+import zpi.product.Product;
+
 import java.util.HashMap;
-import java.util.List;
 
 public class USState {
-	public class NotFoundTaxForThisCategory extends Exception{}
-	
 	private String name;
 	private HashMap<Category, Double> taxForCategoryMap = new HashMap<>();
 	
 	
 	public USState(String name) {
 		this.name = name;
+		for (var c : Category.values()) {
+			this.taxForCategoryMap.put(c, 0.);
+		}
 	}
 	
 	public Double getTaxForCategory(Category category) {
 		return this.taxForCategoryMap.get(category);
 	}
 	
-	public void addCategoryWithTax(Category category, Double tax) {
+	public void editCategoryTax(Category category, Double tax) {
 		this.taxForCategoryMap.put(category, tax);
 	}
 	
-	public Double computeFinalPriceOfProduct(Product product) throws NotFoundTaxForThisCategory {
-		if(!this.taxForCategoryMap.containsKey(product.getCategory())){
-			throw new NotFoundTaxForThisCategory();
-		}
+	public Double computeProfit(Product product) {
 		Double ratio = this.taxForCategoryMap.get(product.getCategory());
 		Double basePrice = product.getBasePrice();
-
-		if(basePrice < 0.0 || ratio < 0.0){
+		Double expectedPrice = product.getExpectedPrice();
+		
+		if (basePrice < 0.0 || ratio < 0.0) {
 			throw new IllegalArgumentException("Base price and tax value should be positive.");
 		}
-
-		return ratio * basePrice + basePrice;
+		
+		return expectedPrice - basePrice - (expectedPrice * ratio);
+	}
+	
+	public String getName() {
+		return name;
 	}
 }

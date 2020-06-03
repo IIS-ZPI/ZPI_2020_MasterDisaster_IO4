@@ -1,0 +1,72 @@
+/*Table class="prettyTable"*/
+.prettyTable th h1 {
+	  font-weight: bold;
+	  font-size: 1em;
+  text-align: left;
+  color: #29a19c;
+}
+
+.prettyTable td {
+	  font-weight: normal;
+	  font-size: 1em;
+  -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+	   -moz-box-shadow: 0 2px 2px -2px #0E1119;
+	        box-shadow: 0 2px 2px -2px #0E1119;
+}
+
+.prettyTable {
+	  text-align: left;
+	  overflow: hidden;
+	  width: 80%;
+	  margin: 0 auto;
+  display: table;
+  padding: 0 0 8em 0;
+}
+
+.prettyTable td, .container th {
+	  padding-bottom: 2%;
+	  padding-top: 2%;
+  padding-left:2%;
+}
+
+/* Background-color of the odd rows */
+.prettyTable tr:nth-child(odd) {
+	  background-color: #323C50;
+}
+
+/* Background-color of the even rows */
+.prettyTable tr:nth-child(even) {
+	  background-color: #2C3446;
+}
+
+.prettyTable th {
+	  background-color: #222831;
+}
+
+.prettyTable td:first-child { color: #29a19c; }
+
+.prettyTable tr:hover {
+   background-color: #464A52;
+-webkit-box-shadow: 0 6px 6px -6px #0E1119;
+	   -moz-box-shadow: 0 6px 6px -6px #0E1119;
+	        box-shadow: 0 6px 6px -6px #0E1119;
+}
+
+.prettyTable td:hover {
+  background-color: #a3f7bf;
+  color: #403E10;
+  font-weight: bold;
+
+  box-shadow: #29a19c -1px 1px, #29a19c -2px 2px, #29a19c -3px 3px, #29a19c -4px 4px, #29a19c -5px 5px, #29a19c -6px 6px;
+  transform: translate3d(6px, -6px, 0);
+
+  transition-delay: 0s;
+	  transition-duration: 0.4s;
+	  transition-property: all;
+  transition-timing-function: line;
+}
+
+@media (max-width: 800px) {
+.prettyTable td:nth-child(4),
+.prettyTable th:nth-child(4) { display: none; }
+}

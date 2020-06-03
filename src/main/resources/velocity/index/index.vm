@@ -1,0 +1,60 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+<!--<div class="tax-background-image">-->
+<div class="form-container">
+    <header>
+        <h1>Enter data to calculate tax</h1>
+    </header>
+
+    <form method="get" action="/compute-tax">
+
+        <div class="center_block">
+            <div class="inline_groups" style="width: 40%;">
+                <h2>Choose state</h2>
+                <select name="state" id="state" class="custom-select">
+                <option value="0">Select state:</option>
+                #foreach($states in $states)
+                    <option value="$states.getName()">$states.getName()</option>
+                #end
+                </select>
+            </div>
+            <div class="inline_groups" style="width: 40%;">
+                <h2>Choose product</h2>
+
+                <select name="product" id="product" class="custom-select">
+                <option value="0">Select product:</option>
+                #foreach($product in $products)
+                        <option value="$product.getName()">$product.getName()</option>
+                #end
+                </select>
+
+            </div>
+            <script src="/select_w3.js"></script>
+        </div>
+        <div class="center_block">
+            <div class="inline_groups" style="width: 30%;">
+                <div class="label_input_group">
+                    <h2>Amount of product</h2>
+                </div>
+                <input type="number" id="amount" name="amount" min="1"/>
+            </div>
+            <div class="inline_groups" style="width: 30%;">
+                <div class="label_input_group">
+                    <h2>Base price</h2>
+                </div>
+                <input type="number" step="0.01" min="0" name="base_price"/>
+            </div>
+            <div class="inline_groups" style="width: 30%;">
+                <div class="label_input_group">
+                    <h2>Expected price</h2>
+                </div>
+                <input type="number" step="0.01" min="0" name="expected_price"/>
+            </div>
+        </div>
+        <div class="center_block">
+            <button>Submit</button>
+        </div>
+    </form>
+</div>
+<!--</div>-->
+#end

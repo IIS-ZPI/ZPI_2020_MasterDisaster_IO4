@@ -1,0 +1,152 @@
+@import "menu.css";
+@import "select.css";
+@import "button_input.css";
+@import "table.css";
+
+* {
+    margin: 0;
+    padding: 10px;
+    list-style-type: none;
+}
+
+body {
+    font-family: Arial;
+    height: 100%;
+    width: 100%;
+    background-color: #222831;
+    vertical-align: middle;
+    text-align: center;
+    color: #ebebeb;
+}
+
+header {
+    text-align: center;
+    height: 10vh;
+    color: #ebebeb;
+}
+
+main {
+    width: 100%;
+}
+
+.tax-background-image {
+    background-image: url("notebook.jpg");
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    /*filter: blur(2px);
+    -webkit-filter: blur(2px);
+*/
+    height: 100%;
+    width: 100%;
+}
+
+.form-container{
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+    width: 70%;
+    margin: auto;
+    text-align: center;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+a:link {
+    text-decoration: none;
+}
+
+h1, h3 {
+    font-family: Arial;
+    font-weight: 300;
+    color: #ebebeb;
+    font-size: 44px;
+}
+
+h4 {
+    font-family: Arial;
+    font-weight: 300;
+    color: #ebebeb;
+    font-size: 18px;
+}
+
+h2 {
+    font-family: Arial;
+    line-height: 5vh;
+    font-weight: 200;
+    color: #ebebeb;
+    font-size: 28px;
+}
+
+.center_block {
+    display: block;
+    margin: auto;
+    position: relative;
+    padding: 2% 2% 2% 2%;
+}
+
+.inline_groups {
+    display: inline-block;
+    width: 15%;
+    float: center;
+}
+
+.inline_groups label {
+    font-family: Arial;
+    line-height: 5vh;
+    font-weight: 200;
+    color: #ebebeb;
+    font-size: 18px;
+}
+
+.inline_groups h2 {
+    font-family: Arial;
+    line-height: 5vh;
+    font-weight: 200;
+    color: #ebebeb;
+    font-size: 28px;
+}
+
+.inline_groups input {
+    font-family: Arial;
+    line-height: 5vh;
+    font-size: 16px;
+    width: 100%
+}
+
+.label_input_group {
+    display: block;
+    margin: auto:
+    padding: 1%;
+}
+
+.modal-content {
+    font-size: 22px;
+    background-color: #222831;
+    text-align: center;
+    color: #ebebeb;
+    font-family: Arial;
+}
+
+
+.prettyButton {
+    border: none;
+    font-weight: normal;
+    font-size: 1em;
+    background-color: #323C50;
+    color: #ebebeb;
+}
+
+/*.prettyButton:hover {
+    background-color: #a3f7bf;
+    color: #403E10;
+    font-weight: bold;
+    box-shadow: #29a19c -1px 1px, #29a19c -2px 2px, #29a19c -3px 3px, #29a19c -4px 4px, #29a19c -5px 5px, #29a19c -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+
+    transition-delay: 0s;
+    transition-duration: 0.4s;
+    transition-property: all;
+    transition-timing-function: line;
+}*/
