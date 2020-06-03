@@ -58,7 +58,8 @@ public class HTTPRequestComputeTaxTest {
 		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
 	}
 
-	private void generateContextForComputeTaxController(String productName, String stateName, String amountOfProduct, String basePrice, String expectedPrice){
+	private void generateContextForComputeTaxController(String productName, String stateName, String amountOfProduct,
+														String basePrice, String expectedPrice){
 		when(ctx.queryParam("product")).thenReturn(productName);
 		when(ctx.queryParam("state")).thenReturn(stateName);
 		when(ctx.queryParam("amount")).thenReturn(amountOfProduct);
@@ -68,7 +69,7 @@ public class HTTPRequestComputeTaxTest {
 
 //	@Test
 //	public void GET_toCheckStatusIfNoProductDataEntered() {
-//		HttpResponse response = HTTPRequestFactory.getResponse(SIMPLE_TAX_URL);
+//		HttpResponse response = HTTPRequestFactory.getResponse(HTTPRequestFactory.SIMPLE_TAX_URL);
 //		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
 //		assertThat(response.getBody()).isEqualTo(NON_EXISTING_PRODUCT_MESSAGE);
 //	}
@@ -80,7 +81,4 @@ public class HTTPRequestComputeTaxTest {
 //		//verify(ctx).status(HTTPRequestFactory.OK_STATUS);
 //		verify(ctx).html("Profit for 1 piece of the product: 2.0$\nProfit for given amount of the product: 4.0$\n");
 //	}
-//
-
-
 }
