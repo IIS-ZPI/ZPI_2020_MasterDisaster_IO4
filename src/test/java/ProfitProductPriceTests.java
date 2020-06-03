@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import zpi.product.Product;
 import zpi.category.Category;
+import zpi.state.Tax;
 import zpi.state.USState;
 
 import java.util.Arrays;
@@ -17,8 +18,8 @@ public class ProfitProductPriceTests {
 	private static final String PRODUCT_NAME = "TestProductName";
 	private static final String STATE_NAME = "TestStateName";
 	private static final Category CATEGORY = Category.GROCERIES;
-
-	private static final double BASIC_TAX = 0.05;
+	
+	private static final Tax BASIC_TAX = new Tax(0.05);
 	private static final double POSITIVE_BASE_PRICE = 20.0;
 	private static final double POSITIVE_EXPECTED_PRICE = 30.0;
 	private static final double ZERO = 0.0;
@@ -28,7 +29,7 @@ public class ProfitProductPriceTests {
 
 	@Parameterized.Parameters
 	public static Collection doubleValues() {
-		return Arrays.asList(new Double[][] {
+		return Arrays.asList(new Object[][] {
 				{ BASIC_TAX, POSITIVE_EXPECTED_PRICE, 8.5 },
 				{ 0.2, 21.0, -3.2 },
 				{ 0.23, 45.0, 14.65 },
@@ -41,7 +42,7 @@ public class ProfitProductPriceTests {
 		});
 	}
 
-	@Parameterized.Parameter public double tax;
+	@Parameterized.Parameter public Tax tax;
 	@Parameterized.Parameter(1) public double expectedPrice;
 	@Parameterized.Parameter(2) public double profit;
 	
@@ -81,7 +82,7 @@ public class ProfitProductPriceTests {
 
 		state.editCategoryTax(CATEGORY, tax);
 
-		assertEquals(Double.valueOf(expectedPrice - tax * expectedPrice), state.computeProfit(product));
+		assertEquals(Double.valueOf(expectedPrice - tax.getBaseTax() * expectedPrice), state.computeProfit(product));
 	}
 
 	@Test
@@ -90,7 +91,7 @@ public class ProfitProductPriceTests {
 		product.setBasePrice(-POSITIVE_BASE_PRICE);
 		product.setExpectedPrice(expectedPrice);
 
-		state.editCategoryTax(CATEGORY, -tax);
+		state.editCategoryTax(CATEGORY, new Tax(-tax.getBaseTax()));
 
 		assertThrows(IllegalArgumentException.class, () -> state.computeProfit(product));
 	}

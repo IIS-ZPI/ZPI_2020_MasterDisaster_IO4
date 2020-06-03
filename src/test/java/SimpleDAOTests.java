@@ -51,9 +51,6 @@ public class SimpleDAOTests {
 		}
 	}
 
-	private void addTestingState(){
-		stateDAO.addUSState(EXISTING_NAME);
-	}
 
 	// --- PRODUCT TESTS --- //
 
@@ -133,39 +130,26 @@ public class SimpleDAOTests {
 
 
 	// --- STATE TESTS --- //
-
-
 	@Test
 	public void checkIfStateNameExists() {
-		addTestingState();
 		Optional<USState> state = stateDAO.getUSStateByName(EXISTING_NAME);
 		Assert.assertEquals(SimpleDAOTests.state.getName(), state.orElse(null).getName());
 	}
 
 	@Test
 	public void checkIfStateNameDoesNotExist() {
-		addTestingState();
 		Optional<USState> state = stateDAO.getUSStateByName(NON_EXISTING_NAME);
 		Assert.assertNull(state.orElse(null));
 	}
 
 	@Test
 	public void checkIfStateNameIsNull() {
-		addTestingState();
 		Assert.assertThrows(NullPointerException.class, () -> stateDAO.getUSStateByName(null));
 	}
 
 	@Test
 	public void checkIfStateNameIsEmpty() {
-		addTestingState();
 		Optional<USState> state = stateDAO.getUSStateByName("");
 		Assert.assertNull(state.orElse(null));
-	}
-
-	@Test
-	public void checkIfCanEditStateTax() {
-		double taxRatio = 0.23;
-		stateDAO.editCategoryTax(state, IRRELEVANT_CATEGORY, taxRatio);
-		Assert.assertEquals(taxRatio, state.getTaxForCategory(IRRELEVANT_CATEGORY), 0.0);
 	}
 }
