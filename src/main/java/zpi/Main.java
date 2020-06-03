@@ -23,6 +23,7 @@ public class Main {
 		else
 			database.createDBConnection("HOSTNAME", "DBNAME", "DBUSER", "DBPASSWORD");
 		
+		//database.dropAll();
 		database.initializeTables();
 		
 		DAOFactory.registerUSStateDao(new SimpleUSStateDAO());

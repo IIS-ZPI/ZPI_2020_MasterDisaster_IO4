@@ -40,40 +40,60 @@ public class Database {
 		}
 	}
 	
-	public void initializeTables() {
-		String scheme = "EXEC sp_MSForEachTable 'DISABLE TRIGGER ALL ON ?'\n" +
-				"GO\n" +
-				"EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'\n" +
-				"GO\n" +
-				"EXEC sp_MSForEachTable 'DELETE FROM ?'\n" +
-				"GO\n" +
-				"EXEC sp_MSForEachTable 'ALTER TABLE ? CHECK CONSTRAINT ALL'\n" +
-				"GO\n" +
-				"EXEC sp_MSForEachTable 'ENABLE TRIGGER ALL ON ?'\n" +
-				"GO" +
-				"\n\n" +
-				"CREATE TABLE Products (\n" +
-				"  productName VARCHAR(200),\n" +
-				"  basePrice FLOAT,\n" +
-				"  categoryName VARCHAR(200),\n" +
-				"  PRIMARY KEY (productName)\n" +
-				");\n" +
+	public void dropAll() {
+		String sql = "DECLARE @sql NVARCHAR(2000)\n" +
 				"\n" +
-				"CREATE TABLE Categories (\n" +
-				"  id INT NOT NULL IDENTITY(1,1),\n" +
-				"  category VARCHAR(200) NOT NULL,\n" +
-				"  PRIMARY KEY (id)\n" +
-				");\n" +
+				"WHILE(EXISTS(SELECT 1 from INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE='FOREIGN KEY'))\n" +
+				"BEGIN\n" +
+				"    SELECT TOP 1 @sql=('ALTER TABLE ' + TABLE_SCHEMA + '.[' + TABLE_NAME + '] DROP CONSTRAINT [' + CONSTRAINT_NAME + ']')\n" +
+				"    FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS\n" +
+				"    WHERE CONSTRAINT_TYPE = 'FOREIGN KEY'\n" +
+				"    EXEC(@sql)\n" +
+				"    PRINT @sql\n" +
+				"END\n" +
 				"\n" +
-				"INSERT INTO Categories (category) VALUES\n" +
-				"('GROCERIES'),\n" +
-				"('PREPARED_FOOD'),\n" +
-				"('PRESCRIPTION_DRUG'),\n" +
-				"('NON_PRESCRIPTION_DRUG'),\n" +
-				"('CLOTHING'),\n" +
-				"('INTANGIBLES')\n";
+				"WHILE(EXISTS(SELECT * from INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME != '__MigrationHistory' AND TABLE_NAME != 'database_firewall_rules'))\n" +
+				"BEGIN\n" +
+				"    SELECT TOP 1 @sql=('DROP TABLE ' + TABLE_SCHEMA + '.[' + TABLE_NAME + ']')\n" +
+				"    FROM INFORMATION_SCHEMA.TABLES\n" +
+				"    WHERE TABLE_NAME != '__MigrationHistory' AND TABLE_NAME != 'database_firewall_rules'\n" +
+				"    EXEC(@sql)\n" +
+				"    PRINT @sql\n" +
+				"END";
+		
 		try {
-			connection.setSchema(scheme);
+			connection.createStatement().executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void initializeTables() {
+		String sql =
+				"CREATE TABLE Categories (\n" +
+						"  id INT NOT NULL IDENTITY(1,1),\n" +
+						"  category VARCHAR(200),\n" +
+						"  PRIMARY KEY (id)\n" +
+						");\n" +
+						"\n" +
+						"INSERT INTO Categories (category) VALUES\n" +
+						"('GROCERIES'),\n" +
+						"('PREPARED_FOOD'),\n" +
+						"('PRESCRIPTION_DRUG'),\n" +
+						"('NON_PRESCRIPTION_DRUG'),\n" +
+						"('CLOTHING'),\n" +
+						"('INTANGIBLES');\n" +
+						"\n" +
+						"\n" +
+						"CREATE TABLE Products (\n" +
+						"  productName VARCHAR(200),\n" +
+						"  basePrice FLOAT,\n" +
+						"  categoryID INT,\n" +
+						"  PRIMARY KEY (productName),\n" +
+						"  FOREIGN KEY (categoryID) REFERENCES Categories(id) ON DELETE CASCADE ON UPDATE CASCADE" +
+						");\n";
+		try {
+			connection.createStatement().executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
