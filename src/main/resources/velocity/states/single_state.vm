@@ -9,7 +9,7 @@
     #elseif($edit_failed == false)
         <div>Edit taxes was successful!</div>
     #end
-    <form method="post">
+    <form id="updateStateTaxForm">
         <h4>State name: $state.getName()</h4>
         </br>
         <h4>Taxes:</h4>
@@ -23,12 +23,26 @@
                     #if(!$tax)
                         #set($tax = "")
                     #end
-            <input type="number" step=any id="tax_$category" name="tax_$category" min="0" value="$tax"/>
+            <input type="number" step=any id="$category" name="$category" min="0" value="$tax"/>
                     </div>
         
         #end
 
-        <button>Update</button>
+        <button id="updateStateBtn">Update</button>
     </form>
-</div>
+    <script>
+
+         $('#updateStateBtn').click(function(){
+            var formData = JSON.stringify($('#updateStateTaxForm').serializeArray());
+            $.ajax({
+                url: '/state/$state.getName()',
+                type: 'PUT',
+                data: formData,
+                success: function(result) {
+                    location.reload();
+                }
+            });
+          });
+    </script>
+
 #end
