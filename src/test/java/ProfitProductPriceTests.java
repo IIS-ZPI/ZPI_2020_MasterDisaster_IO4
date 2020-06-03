@@ -31,10 +31,10 @@ public class ProfitProductPriceTests {
 	public static Collection doubleValues() {
 		return Arrays.asList(new Object[][] {
 				{ BASIC_TAX, POSITIVE_EXPECTED_PRICE, 8.5 },
-				{ 0.2, 21.0, -3.2 },
-				{ 0.23, 45.0, 14.65 },
-				{ 0.07, 25.5, 3.715 },
-				{ 0.03, 30.5, 9.585 },
+				{ new Tax(0.2), 21.0, -3.2 },
+				{ new Tax(0.23), 45.0, 14.65 },
+				{ new Tax(0.07), 25.5, 3.715 },
+				{ new Tax(0.03), 30.5, 9.585 },
 				{ BASIC_TAX, -POSITIVE_EXPECTED_PRICE, -48.5 },
 				{ BASIC_TAX, 0.0, -POSITIVE_BASE_PRICE },
 				{ BASIC_TAX, Double.MIN_VALUE, -POSITIVE_BASE_PRICE },
