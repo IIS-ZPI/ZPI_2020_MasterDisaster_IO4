@@ -29,20 +29,12 @@ public class ProductController {
 	
 	
 	public static Handler editProductPut = ctx -> {
-		Map<String, Object> model = ViewUtil.baseModel(ctx);
 		var paramsMap = RequestUtil.parseJSONStandardArrayToMap(ctx);
 		if (RequestUtil.isMapContainsRequiredParams(paramsMap, "productName", "categoryName", "basePrice")) {
-			
 			try {
 				IProductDAO dao = DAOFactory.getIProductDAO();
 				dao.updateProductBasePrice(paramsMap.get("productName"), Double.parseDouble(paramsMap.get("basePrice")));
 				dao.updateProductCategory(paramsMap.get("productName"), Category.valueOf(paramsMap.get("categoryName")));
-				
-				model.put("title", "CTC: All products");
-				model.put("categoriesTranslator", new CategoryTransalator());
-				model.put("categories", Category.values());
-				model.put("products", dao.getProducts());
-				
 				
 				ctx.status(HttpStatus.OK_200);
 			} catch (ProductDoesNotExistException | NumberFormatException e) {
@@ -55,17 +47,11 @@ public class ProductController {
 	};
 	
 	public static Handler removeProduct = ctx -> {
-		Map<String, Object> model = ViewUtil.baseModel(ctx);
 		var paramsMap = RequestUtil.parseJSONStandardArrayToMap(ctx);
 		if (RequestUtil.isMapContainsRequiredParams(paramsMap, "productName")) {
 			try {
 				IProductDAO dao = DAOFactory.getIProductDAO();
 				dao.removeProduct(paramsMap.get("productName"));
-				
-				model.put("title", "CTC: All products");
-				model.put("categoriesTranslator", new CategoryTransalator());
-				model.put("categories", Category.values());
-				model.put("products", dao.getProducts());
 				
 				ctx.status(HttpStatus.OK_200);
 			} catch (ProductDoesNotExistException e) {
@@ -77,8 +63,6 @@ public class ProductController {
 	};
 	
 	public static Handler addProductPost = ctx -> {
-		Map<String, Object> model = ViewUtil.baseModel(ctx);
-		
 		var paramsMap = RequestUtil.parseJSONStandardArrayToMap(ctx);
 		if (RequestUtil.isMapContainsRequiredParams(paramsMap, "productName", "categoryName", "basePrice")) {
 			try {
@@ -88,11 +72,6 @@ public class ProductController {
 				
 				IProductDAO dao = DAOFactory.getIProductDAO();
 				dao.addProduct(productName, category, basePrice);
-				
-				model.put("title", "CTC: All products");
-				model.put("categoriesTranslator", new CategoryTransalator());
-				model.put("categories", Category.values());
-				model.put("products", dao.getProducts());
 				
 				ctx.status(HttpStatus.OK_200);
 			} catch (ProductDuplicateException e) {
