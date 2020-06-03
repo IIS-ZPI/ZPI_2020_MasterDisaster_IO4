@@ -1,6 +1,7 @@
 package zpi.controllers;
 
 import io.javalin.http.Handler;
+import org.eclipse.jetty.http.HttpStatus;
 import zpi.dao.DAOFactory;
 import zpi.product.Product;
 import zpi.product.ProductDoesNotExistException;
@@ -31,10 +32,10 @@ public class ComputeTaxController {
 
 				ctx.render(Paths.Template.SINGLE_RESULT, model);
 			} else {
-				ctx.html("Such state does not exist!");
+				ctx.status(HttpStatus.BAD_REQUEST_400);
 			}
 		}catch (ProductDoesNotExistException e){
-			ctx.html("Such product does not exist!");
+			ctx.status(HttpStatus.BAD_REQUEST_400);
 		}
 		
 	};

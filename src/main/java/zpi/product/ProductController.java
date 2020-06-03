@@ -1,6 +1,7 @@
 package zpi.product;
 
 import io.javalin.http.Handler;
+import org.eclipse.jetty.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import zpi.category.Category;
@@ -45,13 +46,11 @@ public class ProductController {
 				
 				ctx.render(Paths.Template.ALL_PRODUCTS, model);
 				
-			} catch (ProductDoesNotExistException e) {
-				ctx.html("Not found");
-			} catch (NumberFormatException e) {
-				ctx.html("Wrong data");
+			} catch (ProductDoesNotExistException | NumberFormatException e) {
+				ctx.status(HttpStatus.BAD_REQUEST_400);
 			}
 		} else {
-			ctx.status(400);
+			ctx.status(HttpStatus.BAD_REQUEST_400);
 		}
 		
 	};
@@ -71,10 +70,10 @@ public class ProductController {
 				
 				ctx.render(Paths.Template.ALL_PRODUCTS, model);
 			} catch (ProductDoesNotExistException e) {
-				ctx.html("Not found");
+				ctx.status(HttpStatus.BAD_REQUEST_400);
 			}
 		} else {
-			ctx.status(400);
+			ctx.status(HttpStatus.BAD_REQUEST_400);
 		}
 	};
 	
@@ -98,12 +97,12 @@ public class ProductController {
 				
 				ctx.render(Paths.Template.ALL_PRODUCTS, model);
 			} catch (ProductDuplicateException e) {
-				ctx.html("Product with such name exists");
+				ctx.status(HttpStatus.CONFLICT_409);
 			} catch (NumberFormatException e) {
-				ctx.html("Wrong data");
+				ctx.status(HttpStatus.BAD_REQUEST_400);
 			}
 		} else {
-			ctx.status(400);
+			ctx.status(HttpStatus.BAD_REQUEST_400);
 		}
 	};
 }

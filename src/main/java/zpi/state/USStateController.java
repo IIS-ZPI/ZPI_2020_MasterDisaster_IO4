@@ -2,6 +2,7 @@ package zpi.state;
 
 import io.javalin.http.Handler;
 import io.javalin.plugin.json.JavalinJson;
+import org.eclipse.jetty.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +43,7 @@ public class USStateController {
 			
 			ctx.render(Paths.Template.SINGLE_STATE, model);
 		} else {
-			ctx.html("Not found");
+			ctx.status(HttpStatus.BAD_REQUEST_400);
 		}
 	};
 	
@@ -77,7 +78,7 @@ public class USStateController {
 			
 			ctx.render(Paths.Template.SINGLE_STATE, model);
 		} else {
-			ctx.html("Not found");
+			ctx.status(HttpStatus.BAD_REQUEST_400);
 		}
 	};
 
