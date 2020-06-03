@@ -1,5 +1,6 @@
 import io.javalin.Javalin;
 import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 import org.junit.AfterClass;
@@ -92,21 +93,9 @@ public class HTTPRequestStateTest {
 //		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
 	}
 
-//	@Test
-//	public void PUT_toChangeContentOfExistingState_NoBodySet() {
-//		Javalin app = HTTPRequestFactory.createApp().start(HTTPRequestFactory.PORT);
-//		HttpResponse response = Unirest.put(IRRELEVANT_STATE_URL).asString();
-//		String body = (String)response.getBody();
-//		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
-//		assertThat(body).contains("Check your input, edit taxes failed!");
-//		app.stop();
-//	}
-
-//	@Test
-//	public void PUT_toChangeContentOfExistingState_EmptyBody() {
-//		HttpResponse response = Unirest.put(IRRELEVANT_STATE_URL).body(new JSONArray()).asString();
-//		String body = (String)response.getBody();
-//		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
-//		assertThat(body).contains("Check your input, edit taxes failed!");
-//	}
+	@Test
+	public void PUT_toChangeContentOfExistingState_EmptyBody() {
+		HttpResponse response = HTTPRequestFactory.putResponse(IRRELEVANT_STATE_URL, new JSONArray());
+		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
+	}
 }
