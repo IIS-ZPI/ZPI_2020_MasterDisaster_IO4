@@ -27,6 +27,7 @@ public class ComputeTaxController {
 			product.setBasePrice(base_price);
 			product.setExpectedPrice(expected_price);
 			if (state.isPresent()) {
+				model.put("title", "CTC: Profit");
 				model.put("profitForOnePiece", String.valueOf(state.get().computeProfit(product)));
 				model.put("profitForAmount", String.valueOf(state.get().computeProfit(product) * amount));
 
