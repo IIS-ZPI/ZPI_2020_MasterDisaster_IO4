@@ -7,6 +7,7 @@ public class Paths {
 		public static final String ALL_STATES = "/states";
 		public static final String ALL_PRODUCTS = "/products";
 		public static final String SINGLE_STATE = "/state/:name";
+		public static final String ABOUT = "/about";
 	}
 	
 	public static class Template {
@@ -16,6 +17,6 @@ public class Paths {
 		public static final String SINGLE_STATE = "/velocity/states/single_state.vm";
 		public static final String SINGLE_RESULT = "/velocity/taxes/single_result.vm";
 		public static final String PAGE_NOT_FOUND = "/velocity/errors/pageNotFound.vm";
-
+		public static final String ABOUT = "/velocity/about/about.vm";
 	}
 }

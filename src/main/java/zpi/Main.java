@@ -1,6 +1,7 @@
 package zpi;
 
 import io.javalin.Javalin;
+import zpi.controllers.AboutPaigeController;
 import zpi.controllers.ComputeTaxController;
 import zpi.controllers.ErrorPageController;
 import zpi.controllers.MainPageController;
@@ -30,6 +31,7 @@ public class Main {
 		app.get(Paths.Web.ALL_STATES, USStateController.allStatesDisplay);
 		app.get(Paths.Web.SINGLE_STATE, USStateController.singleStateDisplay);
 		app.get(Paths.Web.ALL_PRODUCTS, ProductController.allProductsDisplay);
+		app.get(Paths.Web.ABOUT, AboutPaigeController.aboutPage);
 		app.post(Paths.Web.ALL_PRODUCTS, ProductController.addProductPost);
 		app.put(Paths.Web.ALL_PRODUCTS, ProductController.editProductPut);
 		app.delete(Paths.Web.ALL_PRODUCTS, ProductController.removeProduct);
