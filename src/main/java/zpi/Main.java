@@ -14,6 +14,9 @@ import zpi.state.SimpleUSStateDAO;
 import zpi.state.USStateController;
 import zpi.utils.Paths;
 
+import java.net.URISyntaxException;
+import java.net.URL;
+
 public class Main {
 	
 	public static void main(String[] args) {
@@ -22,10 +25,12 @@ public class Main {
 			database.createDBConnectionFromCommandLine(args);
 		else
 			database.createDBConnection("HOSTNAME", "DBNAME", "DBUSER", "DBPASSWORD");
-		
-		database.dropAll();
-		database.initializeTables();
-		
+//
+//		database.dropAll();
+//		database.initializeTables();
+//		database.fillStatesAndTaxesTablesFromCSV("/additional/statesTaxes.csv");
+//		database.addBaseExceptionForThreeStates();
+
 //		DAOFactory.registerUSStateDao(new SimpleUSStateDAO());
 //		DAOFactory.registerProductDao(new SimpleProductDAO());
 		DAOFactory.registerUSStateDao(new MSSQUSStateDAO(database));

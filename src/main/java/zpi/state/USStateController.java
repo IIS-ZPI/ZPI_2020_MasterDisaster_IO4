@@ -19,6 +19,7 @@ public class USStateController {
 		//daos
 		IUSStateDAO usStateDAO = DAOFactory.getIUSStateDAO();
 		model.put("title", "CTC: All states");
+		model.put("mathTools", Math.class);
 		
 		model.put("categoriesTranslator", new CategoryTransalator());
 		model.put("categories", Category.values());

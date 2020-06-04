@@ -1,10 +1,12 @@
 package zpi.db;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -112,10 +114,6 @@ public class Database {
 				"  FOREIGN KEY (categoryID) REFERENCES Categories(id)\n" +
 				");";
 		connection.createStatement().executeUpdate(sql);
-		
-		
-		final String insertStates = "INSERT INTO States (stateName) VALUES ('Alabama');\nINSERT INTO Taxes VALUES(1, 1, 2, 50);\n";
-		connection.createStatement().executeUpdate(insertStates );
 	}
 	
 	private void createProductsTable() throws SQLException {
@@ -159,36 +157,47 @@ public class Database {
 		}
 	}
 	
-	private static String SQLExample(Connection connection) {
-		
-		StringBuilder outputBuilder = new StringBuilder();
+	
+	/**
+	 * @param pathToCSV Path to CSV file which contains a states with their taxes for each category
+	 */
+	public void fillStatesAndTaxesTablesFromCSV(String pathToCSV) {
+		final String insertIntoStates = "INSERT INTO States (stateName) VALUES ('%s');";
+		final String insertIntoTaxes = "INSERT INTO Taxes VALUES ((SELECT id FROM States WHERE stateName='%s'), %d, %s, %f);";
+		URL resource = getClass().getResource(pathToCSV);
 		try {
-			String schema = connection.getSchema();
-			System.out.println("Successful connection - Schema: " + schema);
-			
-			outputBuilder.append("Query data example:\n");
-			outputBuilder.append("=========================================\n");
-			
-			// Create and execute a SELECT SQL statement.
-			String selectSql = "SELECT TOP (1000) * FROM [dbo].[test_table]";
-			
-			try (Statement statement = connection.createStatement();
-			     ResultSet resultSet = statement.executeQuery(selectSql)) {
-				
-				// Print results from select statement
-				outputBuilder.append("Top 20 categories:\n");
-				while (resultSet.next()) {
-					outputBuilder.append(resultSet.getString(1));
-					outputBuilder.append(" ");
-					outputBuilder.append(resultSet.getString(2));
-				}
-				connection.close();
-			}
-		} catch (Exception e) {
+			Files.lines(Paths.get(resource.toURI()))
+					.forEach(l -> {
+						var list = l.split(",");
+						try {
+							createStatement().executeUpdate(String.format(insertIntoStates, list[0]));
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+						IntStream.range(1, list.length)
+								.forEach(index -> {
+									try {
+										createStatement().executeUpdate(String.format(insertIntoTaxes, list[0], index, list[index], 0.));
+									} catch (SQLException e) {
+										e.printStackTrace();
+									}
+								});
+					});
+		} catch (IOException | URISyntaxException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void addBaseExceptionForThreeStates() {
+		final String updateTax = "UPDATE Taxes SET valueWithoutTax=%f WHERE stateID=(SELECT id FROM States WHERE stateName='%s') and categoryID=(SELECT id FROM Categories WHERE category='%s');";
+		try {
+			createStatement().executeUpdate(String.format(updateTax, 175., "Massachusetts", "Clothing"));
+			createStatement().executeUpdate(String.format(updateTax, 110., "New York", "Clothing"));
+			createStatement().executeUpdate(String.format(updateTax, 250., "Rhode Island", "Clothing"));
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return outputBuilder.toString();
+		
 	}
-	
 }
