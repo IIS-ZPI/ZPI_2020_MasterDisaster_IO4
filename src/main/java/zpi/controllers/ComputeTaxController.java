@@ -39,6 +39,5 @@ public class ComputeTaxController {
 		}catch (ProductDoesNotExistException e){
 			ctx.status(HttpStatus.BAD_REQUEST_400);
 		}
-		
 	};
 }

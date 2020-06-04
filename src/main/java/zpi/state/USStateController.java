@@ -29,56 +29,24 @@ public class USStateController {
 		ctx.render(Paths.Template.ALL_STATES, model);
 	};
 	
-	public static Handler singleStateDisplay = ctx -> {
-		Map<String, Object> model = ViewUtil.baseModel(ctx);
-		
-		var state = DAOFactory.getIUSStateDAO().getUSStateByName(RequestUtil.getStateName(ctx));
-		if (state.isPresent()) {
-			model.put("title", "CTC: " + state.get() + " state");
-			model.put("state", state.get());
-			
-			model.put("categories", Category.values());
-			model.put("categoriesTranslator", new CategoryTransalator());
-			
-			ctx.render(Paths.Template.SINGLE_STATE, model);
-		} else {
-			ctx.status(HttpStatus.BAD_REQUEST_400);
-		}
-	};
-	
 	public static Handler editStateTaxesPut = ctx -> {
 		Map<String, Object> model = ViewUtil.baseModel(ctx);
 		var stateDao = DAOFactory.getIUSStateDAO();
-		var optState = stateDao.getUSStateByName(RequestUtil.getStateName(ctx));
-		if (optState.isPresent()) {
-			var state = optState.get();
-			var jsonRequestBody = new JSONArray(ctx.body());
-			
-			try {
-				for (int i = 0; i < jsonRequestBody.length(); ++i) {
-					var jsonObject = jsonRequestBody.getJSONObject(i);
-					var categoryForm = jsonObject.getDouble("value");
-					var category = Category.valueOf(jsonObject.getString("name"));
-					
-					stateDao.editCategoryBaseTax(state, category, categoryForm);
-				}
-				model.put("edit_failed", false);
-				
-			} catch (NumberFormatException | JSONException e) {
-				//we can input here some additional information about ex. in which category there was an invalid value
-				model.put("edit_failed", true);
+		var paramsMap = RequestUtil.parseJSONStandardArrayToMap(ctx);
+		var state = stateDao.getUSStateByName(paramsMap.get("stateName"));
+		paramsMap.remove("stateName");
+		if (state.isPresent()) {
+			for (var pair : paramsMap.entrySet()) {
+				if (pair.getKey().startsWith("valueWithoutTax"))
+					stateDao.editCategoryValueWithoutTax(state.get(), Category.valueOf(pair.getKey().substring(15)), Double.valueOf(pair.getValue()));
+				else
+					stateDao.editCategoryBaseTax(state.get(), Category.valueOf(pair.getKey()), Double.parseDouble(pair.getValue())/100);
 			}
-			
-			model.put("title", "CTC: " + state + " state");
-			model.put("state", state);
-			
-			model.put("categories", Category.values());
-			model.put("categoriesTranslator", new CategoryTransalator());
 			
 			ctx.status(HttpStatus.OK_200);
 		} else {
-			ctx.status(HttpStatus.BAD_REQUEST_400);
+			ctx.status(HttpStatus.NOT_FOUND_404);
 		}
 	};
-
+	
 }

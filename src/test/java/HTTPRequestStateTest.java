@@ -62,40 +62,40 @@ public class HTTPRequestStateTest {
 		HttpResponse response = HTTPRequestFactory.getResponse(HTTPRequestFactory.ALL_STATES_URL);
 		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
 	}
-
-	@Test
-	public void GET_toCheckSingleStateExisting() {
-		HttpResponse response = HTTPRequestFactory.getResponse(IRRELEVANT_STATE_URL);
-		String body = (String)response.getBody();
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
-		assertThat(body).contains(IRRELEVANT_STATE_NAME);
-	}
-
-	@Test
-	public void GET_toCheckSingleStateNonExisting() {
-		HttpResponse response = HTTPRequestFactory.getResponse(NON_EXISTING_STATE_URL);
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.BAD_REQUEST_STATUS);
-//		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
-	}
-
-	@Test
-	public void PUT_toChangeContentOfExistingState() {
-		var arr = generateBody(taxes);
-
-		HttpResponse response = HTTPRequestFactory.putResponse(IRRELEVANT_STATE_URL, arr);
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
-	}
-
-	@Test
-	public void PUT_toChangeContentOfNonExistingState() {
-		HttpResponse response = HTTPRequestFactory.putResponse(NON_EXISTING_STATE_URL, new JSONArray());
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.BAD_REQUEST_STATUS);
-//		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
-	}
-
-	@Test
-	public void PUT_toChangeContentOfExistingState_EmptyBody() {
-		HttpResponse response = HTTPRequestFactory.putResponse(IRRELEVANT_STATE_URL, new JSONArray());
-		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
-	}
+//
+//	@Test
+//	public void GET_toCheckSingleStateExisting() {
+//		HttpResponse response = HTTPRequestFactory.getResponse(IRRELEVANT_STATE_URL);
+//		String body = (String)response.getBody();
+//		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
+//		assertThat(body).contains(IRRELEVANT_STATE_NAME);
+//	}
+//
+//	@Test
+//	public void GET_toCheckSingleStateNonExisting() {
+//		HttpResponse response = HTTPRequestFactory.getResponse(NON_EXISTING_STATE_URL);
+//		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.BAD_REQUEST_STATUS);
+////		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
+//	}
+//
+//	@Test
+//	public void PUT_toChangeContentOfExistingState() {
+//		var arr = generateBody(taxes);
+//
+//		HttpResponse response = HTTPRequestFactory.putResponse(IRRELEVANT_STATE_URL, arr);
+//		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
+//	}
+//
+//	@Test
+//	public void PUT_toChangeContentOfNonExistingState() {
+//		HttpResponse response = HTTPRequestFactory.putResponse(NON_EXISTING_STATE_URL, new JSONArray());
+//		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.BAD_REQUEST_STATUS);
+////		assertThat(response.getBody()).isEqualTo(HTTPRequestFactory.NOT_FOUND_MESSAGE);
+//	}
+//
+//	@Test
+//	public void PUT_toChangeContentOfExistingState_EmptyBody() {
+//		HttpResponse response = HTTPRequestFactory.putResponse(IRRELEVANT_STATE_URL, new JSONArray());
+//		assertThat(response.getStatus()).isEqualTo(HTTPRequestFactory.OK_STATUS);
+//	}
 }

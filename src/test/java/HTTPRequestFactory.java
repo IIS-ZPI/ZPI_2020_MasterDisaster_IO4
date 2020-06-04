@@ -39,13 +39,12 @@ class HTTPRequestFactory {
 		app.get(Paths.Web.SIMPLE_TAX, ComputeTaxController.computeTax);
 
 		app.get(Paths.Web.ALL_STATES, USStateController.allStatesDisplay);
-		app.get(Paths.Web.SINGLE_STATE, USStateController.singleStateDisplay);
+		app.put(Paths.Web.ALL_STATES, USStateController.editStateTaxesPut);
 		app.get(Paths.Web.ALL_PRODUCTS, ProductController.allProductsDisplay);
 
 		app.post(Paths.Web.ALL_PRODUCTS, ProductController.addProductPost);
 		app.put(Paths.Web.ALL_PRODUCTS, ProductController.editProductPut);
 		app.delete(Paths.Web.ALL_PRODUCTS, ProductController.removeProduct);
-		app.put(Paths.Web.SINGLE_STATE, USStateController.editStateTaxesPut);
 		return app;
 	}
 
