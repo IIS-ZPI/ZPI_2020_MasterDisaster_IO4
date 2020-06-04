@@ -42,6 +42,28 @@ public class Database {
 		}
 	}
 	
+	public void createDBConnectionFromCommandLine(String[] args) {
+		var params =
+				IntStream.range(0, args.length - 1)
+						.filter(i -> i % 2 == 0)
+						.boxed()
+						.collect(Collectors.toMap(i -> args[i], i -> args[i + 1]));
+		
+		String hostName = params.get("--HOSTNAME"),
+				dbName = params.get("--DBNAME"),
+				user = params.get("--DBUSER"),
+				password = params.get("--DBPASSWORD");
+		try {
+			// Connect to database
+			String url = String.format("jdbc:sqlserver://%s:1433;database=%s;user=%s;password=%s;encrypt=true;"
+					+ "hostNameInCertificate=*.database.windows.net;loginTimeout=30;", hostName, dbName, user, password);
+			connection = DriverManager.getConnection(url);
+		} catch (SQLException exc) {
+			System.err.println("Problem with connecting to SQL server");
+			exc.printStackTrace();
+		}
+	}
+	
 	public void dropAll() {
 		final String sql = "DECLARE @sql NVARCHAR(2000)\n" +
 				"\n" +
@@ -133,28 +155,6 @@ public class Database {
 	
 	public Statement createStatement() throws SQLException {
 		return connection.createStatement();
-	}
-	
-	public void createDBConnectionFromCommandLine(String[] args) {
-		var params =
-				IntStream.range(0, args.length - 1)
-						.filter(i -> i % 2 == 0)
-						.boxed()
-						.collect(Collectors.toMap(i -> args[i], i -> args[i + 1]));
-		
-		String hostName = params.get("--HOSTNAME"),
-				dbName = params.get("--DBNAME"),
-				user = params.get("--DBUSER"),
-				password = params.get("--DBPASSWORD");
-		try {
-			// Connect to database
-			String url = String.format("jdbc:sqlserver://%s:1433;database=%s;user=%s;password=%s;encrypt=true;"
-					+ "hostNameInCertificate=*.database.windows.net;loginTimeout=30;", hostName, dbName, user, password);
-			connection = DriverManager.getConnection(url);
-		} catch (SQLException exc) {
-			System.err.println("Problem with connecting to SQL server");
-			exc.printStackTrace();
-		}
 	}
 	
 	
