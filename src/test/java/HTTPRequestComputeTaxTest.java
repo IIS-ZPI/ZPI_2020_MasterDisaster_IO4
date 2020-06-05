@@ -123,7 +123,7 @@ public class HTTPRequestComputeTaxTest {
 		when(ctx.queryParam("base_price")).thenReturn(basePrice);
 		when(ctx.queryParam("expected_price")).thenReturn(expectedPrice);
 	}
-	
+
 	private Map<String, Object> generateModel(USState state, Product product, double amount){
 		Map<String, Object> model = ViewUtil.baseModel(ctx);
 		model.put("title", "CTC: Profit");

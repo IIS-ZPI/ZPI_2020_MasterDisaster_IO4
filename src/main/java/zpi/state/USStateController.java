@@ -36,14 +36,17 @@ public class USStateController {
 		var state = stateDao.getUSStateByName(paramsMap.get("stateName"));
 		paramsMap.remove("stateName");
 		if (state.isPresent()) {
-			for (var pair : paramsMap.entrySet()) {
-				if (pair.getKey().startsWith("valueWithoutTax"))
-					stateDao.editCategoryValueWithoutTax(state.get(), Category.valueOf(pair.getKey().substring(15)), Double.valueOf(pair.getValue()));
-				else
-					stateDao.editCategoryBaseTax(state.get(), Category.valueOf(pair.getKey()), Double.parseDouble(pair.getValue())/100);
+			try{
+				for (var pair : paramsMap.entrySet()) {
+					if (pair.getKey().startsWith("valueWithoutTax"))
+						stateDao.editCategoryValueWithoutTax(state.get(), Category.valueOf(pair.getKey().substring(15)), Double.valueOf(pair.getValue()));
+					else
+						stateDao.editCategoryBaseTax(state.get(), Category.valueOf(pair.getKey()), Double.parseDouble(pair.getValue())/100);
+				}
+				ctx.status(HttpStatus.OK_200);
+			}catch(NumberFormatException e){
+				ctx.status(HttpStatus.BAD_REQUEST_400);
 			}
-			
-			ctx.status(HttpStatus.OK_200);
 		} else {
 			ctx.status(HttpStatus.NOT_FOUND_404);
 		}
