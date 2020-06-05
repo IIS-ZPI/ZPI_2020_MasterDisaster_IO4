@@ -24,7 +24,6 @@ public class DatabaseTest {
 
 	private static Product product;
 	private static USState existingState;
-	//private static USState nonExistingState;
 
 	private static final String EXISTING_NAME = "TestingProduct";
 	private static final String EXISTING_STATE_NAME = "Alabama";
@@ -51,7 +50,6 @@ public class DatabaseTest {
 		stateDAO = new MSSQUSStateDAO(database);
 
 		existingState = new USState(EXISTING_STATE_NAME);
-		//nonExistingState = new USState(NON_EXISTING_NAME);
 //		product = addTestingProduct(EXISTING_NAME);
 	}
 
