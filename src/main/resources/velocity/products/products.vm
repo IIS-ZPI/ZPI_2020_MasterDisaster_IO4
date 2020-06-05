@@ -1,32 +1,46 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
+<div class="container-fluid">
+    <div class="row">
+        <div class="table-responsive" style=" max-height: 700px;">
+        <table id="productsTable" class="prettyTable" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>Product name</th>
+                    <th>Category</th>
+                    <th>Base price</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            #foreach($product in $products)
+            <tr id="productID_$product.getNameWithoutSpaces()">
+                <td class="product-name">$product.getName()</td>
+                <td class="category-name" id="catID_$product.getCategory()")>$categoriesTranslator.tr($product.getCategory())</td>
+                <td class="product-baseprice">$product.getBasePrice()</td>
+                <th class="edit-product">
+                   <button type="button" class="prettyButton" data-toggle="modal" data-target="#editProductModal" data-whatever="productID_$product.getNameWithoutSpaces()">
+                     Edit
+                   </button>
+                </th>
+                <th class="remove-product">
+                   <button type="button" class="prettyButton removeProductBtn" data-whatever="$product.getName()">
+                     Remove
+                   </button>
+                </th>
+            </tr>
+            #end
+        </tbody>
+        </table>
+        </div>
+    </div>
+    <div class="row">
     <button type="button" class="prettyButton addProductBtn" data-toggle="modal"  data-target="#addProductModal" >
         Add new product
     </button>
-    <table class="prettyTable">
-        <th>Product name</th>
-        <th>Category</th>
-        <th>Base price</th>
-
-        #foreach($product in $products)
-        <tr id="productID_$product.getNameWithoutSpaces()">
-            <td class="product-name">$product.getName()</td>
-            <td class="category-name" id="catID_$product.getCategory()")>$categoriesTranslator.tr($product.getCategory())</td>
-            <td class="product-baseprice">$product.getBasePrice()</td>
-            <th class="edit-product">
-               <button type="button" class="prettyButton" data-toggle="modal" data-target="#editProductModal" data-whatever="productID_$product.getNameWithoutSpaces()">
-                 Edit
-               </button>
-            </th>
-            <th class="remove-product">
-               <button type="button" class="prettyButton removeProductBtn" data-whatever="$product.getName()">
-                 Remove
-               </button>
-            </th>
-        </tr>
-        #end
-    </table>
-
+    </div>
+</div>
     <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModal" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -38,13 +52,10 @@
           </div>
           <div class="modal-body">
             <form id="editProductForm">
+              <input type="hidden" name="productName" id="editProductNameIDHidd" value=""/>
               <div class="form-group">
-                <label class="col-form-label" id="editProductNameID"></label>
-                <input type="hidden" name="productName" id="editProductNameIDHidd" value=""/>
-              </div>
-              <div class="form-group">
-                <label for="category-group" class="col-form-label" id="editCategoryNameID">Category: </label>
-                <select name="categoryName" class="form-control custom-select">
+                <label for="category-group" class="col-form-label" >Category: </label>
+                <select id="editCategoryNameID" name="categoryName" class="form-control custom-select">
                     #foreach($cat in $categories)
                     <option value="$cat">$categoriesTranslator.tr($cat)</option>
                     #end
@@ -103,21 +114,21 @@
 
     <script>
     $(document).ready(function () {
-        $('#editProductModal').on('show.bs.modal', function (event) {
+        $("#editProductModal").on('show.bs.modal', function (event) {
           var button = $(event.relatedTarget) // Button that triggered the modal
           var id = button.data('whatever') // Extract info from data-* attributes
           // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
           // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
           var modal = $(this)
           var row = document.getElementById(id);
+
           var productName = row.cells[0].innerHTML;
-          var categoryName = row.cells[1].innerHTML.substring(6);
+          var categoryName = row.cells[1].innerHTML;
           var basePriceName = row.cells[2].innerHTML;
 
           modal.find('.modal-title').text('Edit ' + productName)
-          modal.find('#editProductNameID').text('Product: ' + productName)
           modal.find('#editProductNameIDHidd').val(productName)
-          modal.find('#editCategoryNameID').val(categoryName)
+          modal.find("#editCategoryNameID option:contains('" + categoryName + "')").attr("selected", "selected");
           modal.find('#editBasePriceID').val(basePriceName)
         })
 

@@ -17,7 +17,6 @@ class HTTPRequestFactory {
 	static final String SIMPLE_TAX_URL = Paths.Web.SIMPLE_TAX;
 	static final String ALL_PRODUCTS_URL = Paths.Web.ALL_PRODUCTS;
 	static final String ALL_STATES_URL = Paths.Web.ALL_STATES;
-	static final String SINGLE_STATE_URL = "/state";
 
 	static final String NOT_FOUND_MESSAGE = "Not found";
 
@@ -39,13 +38,12 @@ class HTTPRequestFactory {
 		app.get(Paths.Web.SIMPLE_TAX, ComputeTaxController.computeTax);
 
 		app.get(Paths.Web.ALL_STATES, USStateController.allStatesDisplay);
-		app.get(Paths.Web.SINGLE_STATE, USStateController.singleStateDisplay);
-		app.get(Paths.Web.ALL_PRODUCTS, ProductController.allProductsDisplay);
+		app.put(Paths.Web.ALL_STATES, USStateController.editStateTaxesPut);
 
+		app.get(Paths.Web.ALL_PRODUCTS, ProductController.allProductsDisplay);
 		app.post(Paths.Web.ALL_PRODUCTS, ProductController.addProductPost);
 		app.put(Paths.Web.ALL_PRODUCTS, ProductController.editProductPut);
 		app.delete(Paths.Web.ALL_PRODUCTS, ProductController.removeProduct);
-		app.put(Paths.Web.SINGLE_STATE, USStateController.editStateTaxesPut);
 		return app;
 	}
 

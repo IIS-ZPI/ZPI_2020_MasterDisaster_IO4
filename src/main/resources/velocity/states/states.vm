@@ -1,91 +1,112 @@
 #parse("/velocity/layout.vm")
 #@mainLayout()
-    <table class="prettyTable">
-        <th>State name</th>
-        #foreach($category in $categories)
-            <th>$categoriesTranslator.tr($category)</th>
-        #end
-        <th></th>
-
-        #foreach($state in $states)
+<div class="container-fluid">
+    <div class="table-responsive" style=" max-height: 700px;">
+    <table id="stateTable" class="prettyTable" style="width:100%;">
+    <thead>
         <tr>
+            <th>State name</th>
+            #foreach($category in $categories)
+                <th>$categoriesTranslator.tr($category)</th>
+            #end
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        #foreach($state in $states)
+        <tr data-state="$state.getName()">
             <td class="state-name">$state.getName()</td>
             #foreach($category in $categories)
-                #set( $tax = $state.getTaxForCategory($category))
+                #set( $tax = ($mathTools.round($state.getTaxForCategory($category).getBaseTax() * 100) * 100.)/100.)
                 #if(!$tax)
                     #set( $tax = "-")
                 #end
-                <td>$tax%</td>
+                #set( $valueWithoutTax = $state.getTaxForCategory($category).getValueWithoutTax())
+                #if($valueWithoutTax == 0)
+                    <td data-tax="$tax" data-val="0">$tax%</td>
+                #else
+                    <td data-tax="$tax" data-val="$valueWithoutTax">$tax% ( > $valueWithoutTax$)</td>
+                #end
             #end
-            <th class="edit-category">
-                <!--<a href="/state/$state.getName()">-->
-                   <button class="prettyButton" data-toggle="modal" data-target="#editStateModal">
-                   Edit
-                   </button>
-                <!--</a>-->
-            </th>
+            <td class="edit-category">
+               <button type="button" class="prettyButton" data-toggle="modal" data-target="#editTaxesModal" data-whatever="$state.getName()">
+                 Edit
+               </button>
+            </td>
         </tr>
         #end
+    </tbody>
     </table>
+    </div>
+</div>
 
-    <div class="modal fade" id="editStateModal" tabindex="-1" role="dialog" aria-labelledby="editStateModal" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="editStateModal">Edit</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+    <div class="modal fade" id="editTaxesModal" tabindex="-1" role="dialog" aria-labelledby="editTaxesModal" aria-hidden="true">
+       <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit taxes</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="editTaxesForm">
+            <input type="hidden" name="stateName" id="editStateNameIDHidd" value=""/>
+              #foreach($cat in $categories)
+              <div class="form-group form-row">
+                <label for="$cat" class="col-sm-4 col-form-label">$categoriesTranslator.tr($cat): </label>
+                <div class="col-sm-6">
+                    <input id="input_$cat" type="number" class="form-control" style="text-align:right;" name="$cat" min="0" value="0"/>
+                </div>
+                <div class="col-sm-2">
+                    <input id="input_valueWithoutTax$cat" type="number" class="form-control" style="text-align:right;" name="valueWithoutTax$cat" min="0" value="0"/>
+                </div>
               </div>
-              <div class="modal-body">
-                <form method="post" id="editStateForm">
-                  <div class="form-group">
-                    <label class="col-form-label" id="editStateNameID"></label>
-                    <input type="hidden" name="editStateName" id="editStateNameIDHidd" value=""/>
-                  </div>
-                  <div class="form-group">
-                    <label for="category-group" class="col-form-label" id="editCategoryNameID">Category: </label>
-                    <select name="editCategoryName" class="custom-select">
-                        #foreach($cat in $categories)
-                        <option value="$cat">$categoriesTranslator.tr($cat)</option>
-                        #end
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="tax-group" class="col-form-label">Tax:</label>
-                    <input type="number" name="editTax" style="width: 50%;" id="editTaxID" min="0" value="0"/>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button onclick="edit_tax_submit()" type="button" class="btn btn-primary" id="editSubmit">Submit</button>
-              </div>
-            </div>
+              #end
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="editTaxesSubmit">Confirm</button>
           </div>
         </div>
+      </div>
+    </div>
 
-        <script>
-                $('#editStateModal').on('show.bs.modal', function (event) {
-                  var button = $(event.relatedTarget) // Button that triggered the modal
-                  var id = button.data('whatever') // Extract info from data-* attributes
-                  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-                  var modal = $(this)
-                  var row = document.getElementById(id);
-                  var productName = row.cells[0].innerHTML;
-                  var categoryName = row.cells[1].innerHTML.substring(6);
-                  var basePriceName = row.cells[2].innerHTML;
+    <script>
+    $(document).ready(function () {
+        $('#editTaxesModal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget) // Button that triggered the modal
+          var idState = button.data('whatever') // Extract info from data-* attributes
+          var modal = $(this)
 
-                  modal.find('.modal-title').text('Edit ' + productName)
-                  modal.find('#editProductNameID').text('Product: ' + productName)
-                  modal.find('#editProductNameIDHidd').val(productName)
-                  modal.find('#editCategoryNameID').val(categoryName)
-                  modal.find('#editBasePriceID').val(basePriceName)
-                })
+          var row = $("#stateTable").find("[data-state='" + idState + "']");
+          var children = row.children();
 
-                function edit_product_submit() {
-                    document.getElementById("editStateForm").submit();
-                }
-            </script>
+          modal.find('.modal-title').text('Edit ' + idState);
+          modal.find('#editStateNameIDHidd').val(idState);
+          #foreach($category in $categories)
+            modal.find('#input_$category').attr('value', parseFloat(children.eq($foreach.count).data('tax')));
+
+            if(children.eq($foreach.count).data('val') != 0)
+                modal.find('#input_valueWithoutTax$category').val(parseFloat(children.eq($foreach.count).data('val')));
+            else
+                modal.find('#input_valueWithoutTax$category').val(0);
+          #end
+        });
+
+    $('#editTaxesSubmit').click(function(){
+        var formData = JSON.stringify($('#editTaxesForm').serializeArray());
+        $.ajax({
+            url: '/states',
+            type: 'put',
+            data: formData,
+            success: function(result) {
+                location.reload();
+            }
+        });
+      });
+    });
+    </script>
+
 #end
