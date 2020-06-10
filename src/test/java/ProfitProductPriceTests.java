@@ -35,7 +35,7 @@ public class ProfitProductPriceTests {
 				{ new Tax(0.23), 45.0, 14.65 },
 				{ new Tax(0.07), 25.5, 3.715 },
 				{ new Tax(0.03), 30.5, 9.585 },
-				{ BASIC_TAX, -POSITIVE_EXPECTED_PRICE, -48.5 },
+//				{ BASIC_TAX, -POSITIVE_EXPECTED_PRICE, -48.5 },
 				{ BASIC_TAX, 0.0, -POSITIVE_BASE_PRICE },
 				{ BASIC_TAX, Double.MIN_VALUE, -POSITIVE_BASE_PRICE },
 				{ BASIC_TAX, Double.MAX_VALUE, 1.7078084781191998E308 }

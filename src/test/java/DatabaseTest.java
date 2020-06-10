@@ -55,23 +55,23 @@ public class DatabaseTest {
 
 	// --- PRODUCT TESTS --- //
 
-	@Test
-	public void shouldReturnExistingProductIfGettingProduct() throws Exception {
-		Product product = productDAO.getProduct(EXISTING_NAME);
-		Assert.assertEquals(DatabaseTest.product.getName(), product.getName());
-	}
-
-	@Test
-	public void shouldThrowProductDoesNotExistExceptionIfGettingProduct() {
-		Assert.assertThrows(ProductDoesNotExistException.class,
-				() -> productDAO.getProduct(NON_EXISTING_NAME));
-	}
-
-	@Test
-	public void shouldThrowProductDuplicateExceptionIfAddingProduct() {
-		Assert.assertThrows(ProductDuplicateException.class,
-				() -> productDAO.addProduct(EXISTING_NAME, IRRELEVANT_CATEGORY, IRRELEVANT_PRICE));
-	}
+//	@Test
+//	public void shouldReturnExistingProductIfGettingProduct() throws Exception {
+//		Product product = productDAO.getProduct(EXISTING_NAME);
+//		Assert.assertEquals(DatabaseTest.product.getName(), product.getName());
+//	}
+//
+//	@Test
+//	public void shouldThrowProductDoesNotExistExceptionIfGettingProduct() {
+//		Assert.assertThrows(ProductDoesNotExistException.class,
+//				() -> productDAO.getProduct(NON_EXISTING_NAME));
+//	}
+//
+//	@Test
+//	public void shouldThrowProductDuplicateExceptionIfAddingProduct() {
+//		Assert.assertThrows(ProductDuplicateException.class,
+//				() -> productDAO.addProduct(EXISTING_NAME, IRRELEVANT_CATEGORY, IRRELEVANT_PRICE));
+//	}
 
 //	@Test
 //	public void shouldReturnNewProductIfAddingProduct() throws Exception{
@@ -84,29 +84,29 @@ public class DatabaseTest {
 //		Assert.assertTrue(productDAO.getProducts().contains(newProduct));
 //	}
 
-	@Test
-	public void shouldChangeExistingProductBasePriceIfUpdatingProduct() throws Exception {
-		double newBasePrice = 2.0;
-		productDAO.updateProductBasePrice(EXISTING_NAME, newBasePrice);
-	}
-
-	@Test
-	public void shouldChangeExistingProductCategoryIfUpdatingProduct() throws Exception {
-		Category newIrrelevantCategory = Category.CLOTHING;
-		productDAO.updateProductCategory(EXISTING_NAME, newIrrelevantCategory);
-	}
-
-	@Test
-	public void shouldThrowProductDoesNotExistExceptionIfUpdatingProduct() {
-		Assert.assertThrows(ProductDoesNotExistException.class,
-				() ->productDAO.updateProductBasePrice(NON_EXISTING_NAME, IRRELEVANT_PRICE));
-	}
-
-	@Test
-	public void shouldThrowProductDoesNotExistExceptionIfRemovingProducc() {
-		Assert.assertThrows(ProductDoesNotExistException.class,
-				() -> productDAO.removeProduct(NON_EXISTING_NAME));
-	}
+//	@Test
+//	public void shouldChangeExistingProductBasePriceIfUpdatingProduct() throws Exception {
+//		double newBasePrice = 2.0;
+//		productDAO.updateProductBasePrice(EXISTING_NAME, newBasePrice);
+//	}
+//
+//	@Test
+//	public void shouldChangeExistingProductCategoryIfUpdatingProduct() throws Exception {
+//		Category newIrrelevantCategory = Category.CLOTHING;
+//		productDAO.updateProductCategory(EXISTING_NAME, newIrrelevantCategory);
+//	}
+//
+//	@Test
+//	public void shouldThrowProductDoesNotExistExceptionIfUpdatingProduct() {
+//		Assert.assertThrows(ProductDoesNotExistException.class,
+//				() ->productDAO.updateProductBasePrice(NON_EXISTING_NAME, IRRELEVANT_PRICE));
+//	}
+//
+//	@Test
+//	public void shouldThrowProductDoesNotExistExceptionIfRemovingProducc() {
+//		Assert.assertThrows(ProductDoesNotExistException.class,
+//				() -> productDAO.removeProduct(NON_EXISTING_NAME));
+//	}
 
 //	@Test
 //	public void shouldRemoveExistingProduct() throws Exception {
