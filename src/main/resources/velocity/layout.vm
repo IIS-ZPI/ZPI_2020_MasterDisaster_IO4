@@ -23,7 +23,7 @@
                     <a href="/" class="nav-item nav-link active">Tax calculator</a>
                     <a href="/products" class="nav-item nav-link">Products</a>
                     <a href="/states" class="nav-item nav-link">States</a>
-		    <a href="/about" class="nav-item nav-link">About</a>
+		            <a href="/about" class="nav-item nav-link">About</a>
                 </div>
             </div>
         </nav>

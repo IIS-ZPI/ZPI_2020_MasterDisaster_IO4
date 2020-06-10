@@ -127,8 +127,8 @@ public class HTTPRequestComputeTaxTest {
 	private Map<String, Object> generateModel(USState state, Product product, double amount){
 		Map<String, Object> model = ViewUtil.baseModel(ctx);
 		model.put("title", "CTC: Profit");
-		model.put("profitForOnePiece", String.valueOf(state.computeProfit(product)));
-		model.put("profitForAmount", String.valueOf(state.computeProfit(product) * amount));
+		model.put("profitForOnePiece", String.valueOf(state.computeProfit(product, amount)));
+		model.put("profitForAmount", String.valueOf(state.computeProfit(product, amount) * amount));
 		return model;
 	}
 }

@@ -28,8 +28,10 @@ public class ComputeTaxController {
 			product.setExpectedPrice(expected_price);
 			if (state.isPresent()) {
 				model.put("title", "CTC: Profit");
-				model.put("profitForOnePiece", String.valueOf(state.get().computeProfit(product)));
-				model.put("profitForAmount", String.valueOf(state.get().computeProfit(product) * amount));
+				model.put("profitForOnePiece", String.format("%.2f", (state.get().computeProfit(product, amount))));
+				model.put("profitForAmount", String.format("%.2f", (state.get().computeProfit(product, amount) * amount)));
+				model.put("product", product.getName());
+				model.put("state", state.get().getName());
 
 				ctx.render(Paths.Template.SINGLE_RESULT, model);
 				ctx.status(HttpStatus.OK_200);

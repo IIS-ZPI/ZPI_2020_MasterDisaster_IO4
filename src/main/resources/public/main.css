@@ -3,6 +3,7 @@
 @import "button_input.css";
 @import "table.css";
 
+
 * {
     margin: 0;
     padding: 10px;
@@ -164,7 +165,7 @@ input:focus ~ label, textarea:focus ~ label, input:valid ~ label, textarea:valid
 .styled-input {
     float: left;
     width: 293px;
-    margin: 1%;
+    margin: 1rem 0;
     position: relative;
     border-radius: 4px;
 }
@@ -220,8 +221,7 @@ textarea {
 .input-container {
     width: 650px;
     max-width: 100%;
-    margin: 1px auto 1px auto;
-    'margin: 1% 50% 50% auto;
+    margin: 20px auto 25px auto;
 }
 
 .submit-btn {

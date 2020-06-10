@@ -16,34 +16,44 @@
     </h4>
     <h2>If you have any questions feel free to contact us!
     </h2>
-    <div class="contact">
+    <div class="container">
     	<div class="row input-container">
     			<div class="col-xs-12">
     				<div class="styled-input wide">
-    					<input type="text" required />
+    					<input type="text" id="text1" required />
     					<label>Name</label>
     				</div>
     			</div>
     			<div class="col-md-6 col-sm-12">
     				<div class="styled-input">
-    					<input type="text" required />
+    					<input type="text" id="text2" required />
     					<label>Email</label>
     				</div>
     			</div>
     			<div class="col-md-6 col-sm-12">
     				<div class="styled-input" style="float:right;">
-    					<input type="text" required />
+    					<input type="text" id="text3" required />
     					<label>Phone Number</label>
     				</div>
     			</div>
     			<div class="col-xs-12">
     				<div class="styled-input wide">
-    					<textarea required></textarea>
+    					<textarea required id="text4"></textarea>
     					<label>Message</label>
     				</div>
     			</div>
     			<div class="col-xs-12">
-    				<div class="btn-lrg submit-btn">Send Message</div>
+    			    <button type="button" onclick="ClearFields();">Submit</button>
+    			    <script>
+    			    function ClearFields() {
+
+                         document.getElementById("text1").value = "";
+                         document.getElementById("text2").value = "";
+                         document.getElementById("text3").value = "";
+                         document.getElementById("text4").value = "";
+                    }
+    			    </script>
+    				<!--<div class="btn-lrg submit-btn">Send Message</div>-->
     			</div>
     	</div>
     </div>
