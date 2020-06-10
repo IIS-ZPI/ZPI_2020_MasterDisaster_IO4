@@ -5,13 +5,9 @@ import zpi.category.Category;
 import zpi.db.Database;
 import zpi.product.MSSQLProductDAO;
 import zpi.product.Product;
-import zpi.product.ProductDoesNotExistException;
 import zpi.product.ProductDuplicateException;
 import zpi.state.MSSQUSStateDAO;
 import zpi.state.USState;
-
-import java.util.Optional;
-
 
 public class DatabaseTest {
 	private static final String[] passToDatabase = new String[]{"--HOSTNAME", "masterdisaster.database.windows.net",
@@ -44,7 +40,7 @@ public class DatabaseTest {
 	@BeforeClass
 	public static void init(){
 		database.createDBConnectionFromCommandLine(passToDatabase);
-		database.initializeTables();
+		//database.initializeTables();
 
 		productDAO = new MSSQLProductDAO(database);
 		stateDAO = new MSSQUSStateDAO(database);
@@ -117,45 +113,45 @@ public class DatabaseTest {
 //	}
 
 	// --- STATE TESTS --- //
-
-	@Test
-	public void shouldReturnExistingState() {
-		Optional<USState> state = stateDAO.getUSStateByName(EXISTING_STATE_NAME);
-		Assert.assertTrue(state.isPresent());
-		Assert.assertEquals(DatabaseTest.existingState.getName(), state.get().getName());
-	}
-
-	@Test
-	public void shouldReturnEmptyOptionalIfGettingNonExistingState() {
-		Optional<USState> state = stateDAO.getUSStateByName(NON_EXISTING_NAME);
-		Assert.assertTrue(state.isEmpty());
-	}
-
-	@Test
-	public void shouldReturnEmptyOptionalIfGettingNullState() {
-		Optional<USState> state = stateDAO.getUSStateByName(null);
-		Assert.assertTrue(state.isEmpty());
-	}
-
-	@Test
-	public void shouldReturnEmptyOptionalIfGettingEmptyState() {
-		Optional<USState> state = stateDAO.getUSStateByName("");
-		Assert.assertTrue(state.isEmpty());
-	}
-
-	@Test
-	public void shouldEditExistingStateWithNewBaseTax() {
-		double newTaxValue = 0.23;
-		stateDAO.editCategoryBaseTax(existingState, IRRELEVANT_CATEGORY, newTaxValue);
-		existingState = stateDAO.getUSStateByName(existingState.getName()).get();
-		Assert.assertEquals(newTaxValue, existingState.getTaxForCategory(IRRELEVANT_CATEGORY).getBaseTax(), 0.0);
-	}
-
-	@Test
-	public void shouldEditExistingStateWithNewValueWithoutTax() {
-		double newValueWithoutTax = 15.5;
-		stateDAO.editCategoryValueWithoutTax(existingState, IRRELEVANT_CATEGORY, newValueWithoutTax);
-		existingState = stateDAO.getUSStateByName(existingState.getName()).get();
-		Assert.assertEquals(newValueWithoutTax, existingState.getTaxForCategory(IRRELEVANT_CATEGORY).getValueWithoutTax(), 0.0);
-	}
+//
+//	@Test
+//	public void shouldReturnExistingState() {
+//		Optional<USState> state = stateDAO.getUSStateByName(EXISTING_STATE_NAME);
+//		Assert.assertTrue(state.isPresent());
+//		Assert.assertEquals(DatabaseTest.existingState.getName(), state.get().getName());
+//	}
+//
+//	@Test
+//	public void shouldReturnEmptyOptionalIfGettingNonExistingState() {
+//		Optional<USState> state = stateDAO.getUSStateByName(NON_EXISTING_NAME);
+//		Assert.assertTrue(state.isEmpty());
+//	}
+//
+//	@Test
+//	public void shouldReturnEmptyOptionalIfGettingNullState() {
+//		Optional<USState> state = stateDAO.getUSStateByName(null);
+//		Assert.assertTrue(state.isEmpty());
+//	}
+//
+//	@Test
+//	public void shouldReturnEmptyOptionalIfGettingEmptyState() {
+//		Optional<USState> state = stateDAO.getUSStateByName("");
+//		Assert.assertTrue(state.isEmpty());
+//	}
+//
+//	@Test
+//	public void shouldEditExistingStateWithNewBaseTax() {
+//		double newTaxValue = 0.23;
+//		stateDAO.editCategoryBaseTax(existingState, IRRELEVANT_CATEGORY, newTaxValue);
+//		existingState = stateDAO.getUSStateByName(existingState.getName()).get();
+//		Assert.assertEquals(newTaxValue, existingState.getTaxForCategory(IRRELEVANT_CATEGORY).getBaseTax(), 0.0);
+//	}
+//
+//	@Test
+//	public void shouldEditExistingStateWithNewValueWithoutTax() {
+//		double newValueWithoutTax = 15.5;
+//		stateDAO.editCategoryValueWithoutTax(existingState, IRRELEVANT_CATEGORY, newValueWithoutTax);
+//		existingState = stateDAO.getUSStateByName(existingState.getName()).get();
+//		Assert.assertEquals(newValueWithoutTax, existingState.getTaxForCategory(IRRELEVANT_CATEGORY).getValueWithoutTax(), 0.0);
+//	}
 }
