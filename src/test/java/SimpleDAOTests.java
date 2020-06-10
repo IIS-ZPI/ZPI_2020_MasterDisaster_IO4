@@ -30,7 +30,7 @@ public class SimpleDAOTests {
 		stateDAO = new SimpleUSStateDAO();
 		productDAO = new SimpleProductDAO();
 
-		state = new USState(EXISTING_NAME);
+		state = new USState("Alabama");
 
 		product = new Product(EXISTING_NAME);
 		product.setCategory(IRRELEVANT_CATEGORY);
@@ -40,7 +40,6 @@ public class SimpleDAOTests {
 	@Before
 	public void clean(){
 		productDAO.getProducts().clear();
-		stateDAO.getStates().clear();
 	}
 
 	private void addTestingProduct() {
@@ -51,9 +50,6 @@ public class SimpleDAOTests {
 		}
 	}
 
-	private void addTestingState(){
-		stateDAO.addUSState(EXISTING_NAME);
-	}
 
 	// --- PRODUCT TESTS --- //
 
@@ -137,35 +133,26 @@ public class SimpleDAOTests {
 
 	@Test
 	public void checkIfStateNameExists() {
-		addTestingState();
-		Optional<USState> state = stateDAO.getUSStateByName(EXISTING_NAME);
-		Assert.assertEquals(SimpleDAOTests.state.getName(), state.orElse(null).getName());
+		Optional<USState> state = stateDAO.getUSStateByName("Alabama");
+		Assert.assertTrue(state.isPresent());
+		Assert.assertEquals(SimpleDAOTests.state.getName(), state.get().getName());
 	}
 
 	@Test
 	public void checkIfStateNameDoesNotExist() {
-		addTestingState();
 		Optional<USState> state = stateDAO.getUSStateByName(NON_EXISTING_NAME);
 		Assert.assertNull(state.orElse(null));
 	}
 
 	@Test
 	public void checkIfStateNameIsNull() {
-		addTestingState();
-		Assert.assertThrows(NullPointerException.class, () -> stateDAO.getUSStateByName(null));
+		Assert.assertThrows(NullPointerException.class,
+				() -> stateDAO.getUSStateByName(null));
 	}
 
 	@Test
 	public void checkIfStateNameIsEmpty() {
-		addTestingState();
 		Optional<USState> state = stateDAO.getUSStateByName("");
 		Assert.assertNull(state.orElse(null));
-	}
-
-	@Test
-	public void checkIfCanEditStateTax() {
-		double taxRatio = 0.23;
-		stateDAO.editCategoryTax(state, IRRELEVANT_CATEGORY, taxRatio);
-		Assert.assertEquals(taxRatio, state.getTaxForCategory(IRRELEVANT_CATEGORY), 0.0);
 	}
 }

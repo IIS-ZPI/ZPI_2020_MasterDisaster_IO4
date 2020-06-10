@@ -13,7 +13,7 @@ button {
     background: #29a19c;
 }
 
-input {
+.bleu_input {
     display: block;
     margin: auto;
     width: 10%;
@@ -31,12 +31,12 @@ input {
 
 }
 
-input[type="number"] {
+.bleu_input[type="number"] {
   -webkit-appearance: textfield;
      -moz-appearance: textfield;
           appearance: textfield;
 }
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+.bleu_input[type=number]::-webkit-inner-spin-button,
+.bleu_input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }

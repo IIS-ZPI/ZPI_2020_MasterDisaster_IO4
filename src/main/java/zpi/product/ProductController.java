@@ -2,8 +2,6 @@ package zpi.product;
 
 import io.javalin.http.Handler;
 import org.eclipse.jetty.http.HttpStatus;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import zpi.category.Category;
 import zpi.category.CategoryTransalator;
 import zpi.dao.DAOFactory;

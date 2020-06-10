@@ -1,15 +1,13 @@
 /*Menu*/
-ul{
+#menu{
 	display: flex;
 	width: 100%;
-	height: 15vh;
 	margin: auto;
-	max-width: 1000px;
 	justify-content: space-between;
 	text-align: center;
 }
-li {
-	padding: 1rem 2rem 1.15rem;
+#menu a {
+	padding: 1rem 6rem 1.15rem;
   text-transform: uppercase;
   cursor: pointer;
   color: #ebebeb;
@@ -17,12 +15,7 @@ li {
 	margin: auto;
 }
 
-li > a {
-    text-decoration: none;
-    color: #ebebeb;
-}
-
-li:hover {
+#menu a:hover {
   background-image: url('https://cdn.discordapp.com/attachments/435381018699235349/705889130868899900/button.png');
   background-size: 100% 100%;
   color: #27262c;
@@ -31,12 +24,7 @@ li:hover {
 	font-weight: bold;
 }
 
-li:hover > a {
-    text-decoration: none;
-    color: #27262c;
-}
-
-li:active {
+#menu a:active {
   transform: translateY(4px);
 }
 

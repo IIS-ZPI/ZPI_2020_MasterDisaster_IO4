@@ -2,14 +2,18 @@
 #@mainLayout()
     <div class="form-container">
         <form method="post">
+            <h4>State: </h4>
+            <h4>$state</h4>
+            <h4>Product: </h4>
+            <h4>$product</h4>
             <h4>Profit for 1 piece of the product: </h4>
-            <h4>$profitForOnePiece</h4>
+            <h4>$profitForOnePiece$</h4>
             <h4>Profit for given amount of the product: </h4>
-            <h4>$profitForAmount</h4>
+            <h4>$profitForAmount$</h4>
 
         </form>
         <a href="/">
-            <button>Back</button>
+            <button>Back to calculator</button>
         </a>
     </div>
 #end

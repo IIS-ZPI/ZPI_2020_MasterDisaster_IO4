@@ -21,14 +21,15 @@ public class ComputeTaxController {
 			product = DAOFactory.getIProductDAO().getProduct(ctx.queryParam("product"));
 			var state = DAOFactory.getIUSStateDAO().getUSStateByName(ctx.queryParam("state"));
 			double amount = Double.parseDouble(ctx.queryParam("amount"));
-			double base_price = Double.parseDouble(ctx.queryParam("base_price"));
 			double expected_price = Double.parseDouble(ctx.queryParam("expected_price"));
 			
-			product.setBasePrice(base_price);
 			product.setExpectedPrice(expected_price);
 			if (state.isPresent()) {
-				model.put("profitForOnePiece", String.valueOf(state.get().computeProfit(product)));
-				model.put("profitForAmount", String.valueOf(state.get().computeProfit(product) * amount));
+				model.put("title", "CTC: Profit");
+				model.put("profitForOnePiece", String.format("%.2f", (state.get().computeProfit(product, amount))));
+				model.put("profitForAmount", String.format("%.2f", (state.get().computeProfit(product, amount) * amount)));
+				model.put("product", product.getName());
+				model.put("state", state.get().getName());
 
 				ctx.render(Paths.Template.SINGLE_RESULT, model);
 				ctx.status(HttpStatus.OK_200);
@@ -38,6 +39,5 @@ public class ComputeTaxController {
 		}catch (ProductDoesNotExistException e){
 			ctx.status(HttpStatus.BAD_REQUEST_400);
 		}
-		
 	};
 }

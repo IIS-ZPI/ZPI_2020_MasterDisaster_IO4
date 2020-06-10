@@ -1,0 +1,62 @@
+#parse("/velocity/layout.vm")
+#@mainLayout()
+<div class="form-container">
+    <h4></h4>
+    <h4>We are a small company with our mission to make your
+        life a little bit easier. We created Tax Calculator
+        to help you in estimating your income and to make
+        your decisions in business a little bit easier. Taxes
+        in USA can be a little bit tricky and time-consuming
+        to evaluate and calculate properly and even the smallest
+        mistake can be extremely expensive in the future.
+    </h4>
+    <h4>This is a problem which we wish to solve for you. We
+        present to you web-application that is fast, reliable and pleasant
+        to use and will save you a lot of stress and uncertainty.
+    </h4>
+    <h2>If you have any questions feel free to contact us!
+    </h2>
+    <div class="container">
+    	<div class="row input-container">
+    			<div class="col-xs-12">
+    				<div class="styled-input wide">
+    					<input type="text" id="text1" required />
+    					<label>Name</label>
+    				</div>
+    			</div>
+    			<div class="col-md-6 col-sm-12">
+    				<div class="styled-input">
+    					<input type="text" id="text2" required />
+    					<label>Email</label>
+    				</div>
+    			</div>
+    			<div class="col-md-6 col-sm-12">
+    				<div class="styled-input" style="float:right;">
+    					<input type="text" id="text3" required />
+    					<label>Phone Number</label>
+    				</div>
+    			</div>
+    			<div class="col-xs-12">
+    				<div class="styled-input wide">
+    					<textarea required id="text4"></textarea>
+    					<label>Message</label>
+    				</div>
+    			</div>
+    			<div class="col-xs-12">
+    			    <button type="button" onclick="ClearFields();">Submit</button>
+    			    <script>
+    			    function ClearFields() {
+
+                         document.getElementById("text1").value = "";
+                         document.getElementById("text2").value = "";
+                         document.getElementById("text3").value = "";
+                         document.getElementById("text4").value = "";
+                    }
+    			    </script>
+    				<!--<div class="btn-lrg submit-btn">Send Message</div>-->
+    			</div>
+    	</div>
+    </div>
+</div>
+
+#end
