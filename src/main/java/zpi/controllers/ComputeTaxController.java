@@ -21,10 +21,8 @@ public class ComputeTaxController {
 			product = DAOFactory.getIProductDAO().getProduct(ctx.queryParam("product"));
 			var state = DAOFactory.getIUSStateDAO().getUSStateByName(ctx.queryParam("state"));
 			double amount = Double.parseDouble(ctx.queryParam("amount"));
-			double base_price = Double.parseDouble(ctx.queryParam("base_price"));
 			double expected_price = Double.parseDouble(ctx.queryParam("expected_price"));
 			
-			product.setBasePrice(base_price);
 			product.setExpectedPrice(expected_price);
 			if (state.isPresent()) {
 				model.put("title", "CTC: Profit");
