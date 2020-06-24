@@ -10,7 +10,7 @@
 	padding: 1rem 6rem 1.15rem;
   text-transform: uppercase;
   cursor: pointer;
-  color: #ebebeb;
+  color: #ff5927;
 	min-width: 80px;
 	margin: auto;
 }
@@ -18,7 +18,7 @@
 #menu a:hover {
   background-image: url('https://cdn.discordapp.com/attachments/435381018699235349/705889130868899900/button.png');
   background-size: 100% 100%;
-  color: #27262c;
+  color: #ebebeb;
   animation: spring 300ms ease-out;
   text-shadow: 0 -1px 0 #29a19c;
 	font-weight: bold;
