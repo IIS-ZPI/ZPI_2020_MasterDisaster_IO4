@@ -10,7 +10,7 @@ button {
     border-radius: 3px;
     font: Arial, Courier, monospace;
     color: #222831;
-    background: #29a19c;
+    background: #ff5927;
 }
 
 .bleu_input {
@@ -27,7 +27,7 @@ button {
     color: #222831;
     -o-text-overflow: clip;
     text-overflow: clip;
-    background: #29a19c;
+    background: #ff5927;
 
 }
 
